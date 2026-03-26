@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rules of the Road — Player's Summary</title>
+<title>Player's Summary</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -22,6 +22,7 @@
     --gold-light: #9a7a3c;
     --rule-line:  #a8998080;
     --example-border: #9a8a7060;
+    --teal:       #1a4a4a;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,7 +33,7 @@
       radial-gradient(ellipse 60% 80% at 15% 40%, #2a2018 0%, transparent 70%),
       radial-gradient(ellipse 50% 60% at 85% 60%, #14100a 0%, transparent 70%);
     min-height: 100vh;
-    padding: 50px 24px 80px;
+    padding: 36px 24px 60px;
     font-family: 'Crimson Text', Georgia, serif;
     display: flex;
     justify-content: center;
@@ -46,7 +47,7 @@
     background-image:
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23f)' opacity='0.06'/%3E%3C/svg%3E"),
       linear-gradient(175deg, #e2ddd2 0%, #d8d2c4 25%, #d0c9ba 55%, #d6cfc0 80%, #ddd7c8 100%);
-    padding: 72px 80px 80px;
+    padding: 48px 72px 72px;
     box-shadow:
       0 0 0 1px #6a5a4a,
       0 0 0 4px #3a2e20,
@@ -71,49 +72,43 @@
       radial-gradient(ellipse 140px 140px at 0 100%,    rgba(55,32,8,0.18)  0%, transparent 65%);
   }
 
-  .frame { position: absolute; inset: 18px; pointer-events: none; border: 1px solid #8a7a6880; }
+  .frame { position: absolute; inset: 14px; pointer-events: none; border: 1px solid #8a7a6880; }
   .frame::before { content: ''; position: absolute; inset: 5px; border: 0.5px solid #8a7a6840; }
 
   .flourish { position: absolute; width: 24px; height: 24px; color: var(--gold); opacity: 0.5; font-size: 20px; line-height: 1; pointer-events: none; }
-  .flourish.tl { top: 12px; left: 13px; }
-  .flourish.tr { top: 12px; right: 13px; transform: scaleX(-1); }
-  .flourish.bl { bottom: 12px; left: 13px; transform: scaleY(-1); }
-  .flourish.br { bottom: 12px; right: 13px; transform: scale(-1); }
+  .flourish.tl { top: 9px; left: 10px; }
+  .flourish.tr { top: 9px; right: 10px; transform: scaleX(-1); }
+  .flourish.bl { bottom: 9px; left: 10px; transform: scaleY(-1); }
+  .flourish.br { bottom: 9px; right: 10px; transform: scale(-1); }
 
-  .title-block { text-align: center; margin-bottom: 48px; }
-  .eyebrow { font-family: 'Cinzel', serif; font-size: 8.5px; letter-spacing: 0.42em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
-  h1 { font-family: 'Cinzel Decorative', serif; font-size: 28px; font-weight: 700; color: var(--ink); letter-spacing: 0.02em; line-height: 1.2; margin-bottom: 8px; }
-  .title-sub { font-family: 'Crimson Text', serif; font-style: italic; font-size: 15px; color: var(--ink-faint); margin-bottom: 20px; }
+  /* ── TITLE ── */
+  .title-block { text-align: center; margin-bottom: 36px; padding-bottom: 28px; border-bottom: 1px solid var(--rule-line); }
+  .eyebrow { font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.44em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  h1 { font-family: 'Cinzel Decorative', serif; font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: 0.02em; line-height: 1.2; margin-bottom: 6px; }
+  .title-sub { font-family: 'Crimson Text', serif; font-style: italic; font-size: 14px; color: var(--ink-faint); margin-bottom: 14px; }
   .ornament-rule { display: flex; align-items: center; gap: 14px; justify-content: center; }
-  .ornament-rule::before, .ornament-rule::after { content: ''; flex: 1; max-width: 160px; height: 1px; background: linear-gradient(to right, transparent, var(--parch-edge), transparent); }
-  .ornament-rule span { color: var(--gold); opacity: 0.6; font-size: 14px; letter-spacing: 0.2em; }
+  .ornament-rule::before, .ornament-rule::after { content: ''; flex: 1; max-width: 120px; height: 1px; background: linear-gradient(to right, transparent, var(--parch-edge), transparent); }
+  .ornament-rule span { color: var(--gold); opacity: 0.6; font-size: 13px; letter-spacing: 0.2em; }
 
-  h2 { font-family: 'Cinzel', serif; font-size: 11.5px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--rule-line); display: flex; align-items: center; gap: 10px; }
+  /* ── HEADINGS ── */
+  h2 { font-family: 'Cinzel', serif; font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--rule-line); display: flex; align-items: center; gap: 10px; }
   h2 svg { opacity: 0.55; flex-shrink: 0; }
-  h3 { font-family: 'Cinzel', serif; font-size: 9.5px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-mid); margin: 18px 0 6px; }
+  h3 { font-family: 'Cinzel', serif; font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-mid); margin: 16px 0 6px; }
 
   p { font-size: 15px; line-height: 1.7; color: var(--ink-body); margin-bottom: 10px; }
   strong { color: var(--ink); font-weight: 600; }
   em { color: var(--ink-mid); }
 
+  /* ── EXAMPLE BOX ── */
   .example {
-    position: relative;
-    background: rgba(100,80,50,0.06);
-    border: 1px solid var(--example-border);
-    border-left: 2.5px solid var(--parch-dark);
-    padding: 12px 16px 12px 20px;
-    margin: 14px 0;
-    font-style: italic;
-    font-size: 13.8px;
-    color: var(--ink-mid);
-    line-height: 1.65;
+    position: relative; background: rgba(100,80,50,0.06); border: 1px solid var(--example-border);
+    border-left: 2.5px solid var(--parch-dark); padding: 12px 16px 12px 20px; margin: 14px 0;
+    font-style: italic; font-size: 13.8px; color: var(--ink-mid); line-height: 1.65;
   }
   .example::before {
-    content: 'Example';
-    position: absolute; top: -1px; left: 18px;
-    font-family: 'Cinzel', serif; font-style: normal;
-    font-size: 7.5px; letter-spacing: 0.25em; text-transform: uppercase;
-    color: var(--gold); background: var(--parch);
+    content: 'Example'; position: absolute; top: -1px; left: 18px;
+    font-family: 'Cinzel', serif; font-style: normal; font-size: 7.5px; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--gold); background: var(--parch);
     padding: 0 6px; transform: translateY(-50%); line-height: 1;
   }
   .example strong { color: var(--ink); font-style: normal; }
@@ -124,53 +119,94 @@
     border-top: 1px solid var(--example-border); padding-top: 7px; width: 100%;
   }
 
+  /* ── LAYOUT ── */
   .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 44px; margin-top: 4px; }
-  .section { margin-bottom: 36px; }
-
-  .divider { display: flex; align-items: center; gap: 16px; margin: 38px 0 34px; }
+  .section { margin-bottom: 32px; }
+  .divider { display: flex; align-items: center; gap: 16px; margin: 30px 0 28px; }
   .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--rule-line), transparent); }
   .divider span { color: var(--gold); opacity: 0.45; font-size: 13px; letter-spacing: 0.25em; }
 
+  /* ── TABLES ── */
   .outcome-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13.5px; }
   .outcome-table tr { border-bottom: 1px solid rgba(100,80,50,0.13); }
   .outcome-table tr:last-child { border-bottom: none; }
   .outcome-table td { padding: 6px 8px; vertical-align: top; color: var(--ink-body); line-height: 1.5; }
   .outcome-table td:first-child { font-family: 'Cinzel', serif; font-size: 10px; font-weight: 600; white-space: nowrap; color: var(--red); padding-right: 12px; min-width: 72px; }
 
+  /* ── DICE ── */
   .die { display: inline-block; font-family: 'Cinzel', serif; font-size: 10.5px; font-weight: 600; color: var(--red-light); background: rgba(107,30,20,0.07); border: 1px solid rgba(107,30,20,0.22); border-radius: 2px; padding: 0px 5px; margin: 0 1px; }
   .die.fate { color: var(--gold-light); background: rgba(120,96,48,0.08); border-color: rgba(120,96,48,0.28); }
 
-  /* Action lists */
-  .action-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
-  .action-card {
-    background: rgba(100,80,50,0.06);
-    border: 1px solid rgba(100,80,50,0.16);
-    padding: 11px 14px; border-radius: 2px;
+  /* ── ACTIONS INLINE SPLIT LIST ── */
+  .action-split {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 0 28px;
+    margin: 12px 0 16px;
+    align-items: start;
   }
-  .action-card h4 { font-family: 'Cinzel', serif; font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; }
-  .action-card ul { list-style: none; padding: 0; columns: 2; column-gap: 10px; }
-  .action-card ul.single-col { columns: 1; }
-  .action-card li { font-size: 13px; color: var(--ink-body); line-height: 1.6; padding-left: 11px; position: relative; break-inside: avoid; }
-  .action-card li::before { content: '–'; position: absolute; left: 0; color: var(--parch-edge); }
+  .action-split .rule-col { background: rgba(168,153,128,0.4); }
+  .action-split h4 {
+    font-family: 'Cinzel', serif; font-size: 8.5px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-mid);
+    margin-bottom: 8px;
+  }
+  .action-split ul { list-style: none; padding: 0; }
+  .action-split li {
+    font-size: 14px; color: var(--ink-body); line-height: 1.65;
+    padding-left: 13px; position: relative; margin-bottom: 1px;
+  }
+  .action-split li::before { content: '–'; position: absolute; left: 0; color: var(--parch-edge); }
+  .action-split li em { font-style: normal; font-size: 12.5px; color: var(--ink-faint); }
 
-  /* Defend cards */
+  /* ── DEFEND CARDS ── */
   .defend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
   .defend-card { background: rgba(100,80,50,0.06); border: 1px solid rgba(100,80,50,0.16); padding: 11px 14px; border-radius: 2px; }
   .defend-card h4 { font-family: 'Cinzel', serif; font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); margin-bottom: 5px; }
   .defend-card p { font-size: 13px; color: var(--ink-body); margin: 0; line-height: 1.6; }
 
-  .fail-section { background: rgba(107,30,20,0.04); border: 1px solid rgba(107,30,20,0.14); border-radius: 2px; padding: 16px 20px; margin-top: 18px; }
-  .fail-section h3 { margin-top: 0; color: var(--red); font-size: 10px; }
-
+  /* ── INJURY ── */
   .injury-row { display: flex; gap: 10px; margin: 10px 0 6px; }
   .injury-pip { width: 30px; height: 30px; border: 1.5px solid var(--red); border-radius: 50%; opacity: 0.45; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', serif; font-size: 9px; color: var(--red); }
   .injury-pip.fatal { border-style: dashed; opacity: 0.28; }
 
-  .footer { text-align: center; margin-top: 44px; font-family: 'Crimson Text', serif; font-style: italic; font-size: 12.5px; color: var(--ink-faint); opacity: 0.65; letter-spacing: 0.06em; }
-
   ul.plain { list-style: none; padding: 0; margin: 8px 0; }
   ul.plain li { font-size: 14.5px; color: var(--ink-body); line-height: 1.65; padding-left: 16px; position: relative; margin-bottom: 4px; }
   ul.plain li::before { content: '✦'; position: absolute; left: 0; font-size: 7px; top: 5px; color: var(--gold); opacity: 0.65; }
+
+  /* ── COMBAT EFFECTS ── */
+  .effect-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
+  .effect-card { background: rgba(100,80,50,0.05); border: 1px solid rgba(100,80,50,0.16); padding: 10px 13px; border-radius: 2px; }
+  .effect-card h4 { font-family: 'Cinzel', serif; font-size: 8.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); margin-bottom: 4px; }
+  .effect-card p { font-size: 13px; color: var(--ink-body); margin: 0; line-height: 1.55; }
+  .effect-card.special { border-color: rgba(122,96,48,0.35); background: rgba(122,96,48,0.06); }
+  .effect-card.special h4 { color: var(--gold); }
+  .effect-card.major { border-color: rgba(107,30,20,0.30); background: rgba(107,30,20,0.05); }
+
+  .major-label { font-family: 'Cinzel', serif; font-size: 7.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); opacity: 0.8; margin: 16px 0 8px; display: block; }
+
+  .talent-note {
+    background: rgba(26,74,74,0.07); border: 1px solid rgba(26,74,74,0.22);
+    border-left: 2.5px solid rgba(26,74,74,0.45); padding: 9px 14px; margin-top: 12px;
+    font-size: 13.5px; color: var(--ink-mid); font-style: italic; line-height: 1.6;
+  }
+  .talent-note strong { color: var(--teal); font-style: normal; }
+
+  /* ── GAMEPLAY LOOP ── */
+  .phase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .phase-card { border: 1px solid rgba(100,80,50,0.22); padding: 14px 16px; border-radius: 2px; background: rgba(100,80,50,0.04); }
+  .phase-card::before { content: attr(data-phase); font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); opacity: 0.75; display: block; margin-bottom: 6px; }
+  .phase-card h4 { font-family: 'Cinzel', serif; font-size: 10.5px; font-weight: 600; color: var(--ink); margin-bottom: 7px; }
+  .phase-card .timing { font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.1em; color: var(--ink-faint); margin-bottom: 8px; display: block; border-bottom: 1px solid var(--rule-line); padding-bottom: 6px; }
+  .phase-card ul { list-style: none; padding: 0; }
+  .phase-card ul li { font-size: 13px; color: var(--ink-body); line-height: 1.6; padding-left: 12px; position: relative; }
+  .phase-card ul li::before { content: '–'; position: absolute; left: 0; color: var(--parch-edge); }
+
+  .adv-box { background: rgba(122,96,48,0.06); border: 1px solid rgba(122,96,48,0.25); padding: 14px 18px; margin-top: 14px; }
+  .adv-box h3 { margin-top: 0; }
+  .adv-box p { margin-bottom: 0; font-size: 14px; line-height: 1.7; }
+
+  .footer { text-align: center; margin-top: 40px; font-family: 'Crimson Text', serif; font-style: italic; font-size: 12.5px; color: var(--ink-faint); opacity: 0.65; letter-spacing: 0.06em; }
 </style>
 </head>
 <body>
@@ -181,12 +217,51 @@
   <span class="flourish bl">✦</span>
   <span class="flourish br">✦</span>
 
+  <!-- TITLE -->
   <div class="title-block">
-    <div class="eyebrow">Adventurer's Companion</div>
-    <h1>Rules of the Road</h1>
-    <div class="title-sub">A summary for the bold and the reckless</div>
+    <div class="eyebrow">Adventurer's Companion · Havenport Expeditionary Guild</div>
+    <h1>Player's Summary</h1>
     <div class="ornament-rule"><span>⁂</span></div>
   </div>
+
+  <!-- GAMEPLAY LOOP -->
+  <div class="section">
+    <h2>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="#6b1e14" stroke-width="1.2"/><path d="M7 4v3.5l2 1.5" stroke="#6b1e14" stroke-width="1.1" stroke-linecap="round"/></svg>
+      The Core Game Loop
+    </h2>
+
+    <p>The game is divided into two repeating phases. <strong>Adventures</strong> are hired missions into the uncharted continent. <strong>Downtime</strong> is the recovery, preparation, and growth between them. Every cycle begins and ends at Havenport, the last outpost of civilisation before the wilds.</p>
+
+    <div class="phase-grid">
+      <div class="phase-card" data-phase="Phase I">
+        <h4>Downtime</h4>
+        <span class="timing">~2 weeks real time · months in-game</span>
+        <ul>
+		<li>Characters recover from injuries sustained on the last adventure and advance skills and purchase new talents</li>
+		<li>Characters perform various downtime activities</li>
+          <li>GMs post expeditions; players post looking-for-group notices</li>          <li>Party and GM agree on a schedule and begin</li>
+
+        </ul>
+      </div>
+      <div class="phase-card" data-phase="Phase II">
+        <h4>Adventure</h4>
+        <span class="timing">~1 month real time · days in-game</span>
+        <ul>
+          <li>One or more sessions with the same party and GM</li>
+          <li>Explore the continent, complete the mission, survive</li>
+          <li>Ends when all players return to Havenport</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="adv-box">
+      <h3>Advancement</h3>
+      <p>Skills improve during Downtime. Your choices <em>during</em> an adventure unlock <strong>Talents</strong> — permanent abilities that make your character more effective both in and out of combat. Talents are the primary way characters grow in power and identity over time.</p>
+    </div>
+  </div>
+
+  <div class="divider"><span>· · ·</span></div>
 
   <!-- SKILL ROLLS -->
   <div class="section">
@@ -212,45 +287,16 @@
     </div>
 
     <div class="example">
-      Your character must leap a crumbling stone bridge. Jumping uses <strong>Agility (d8)</strong>. The GM requires <strong>2 successes</strong>, so you add 2 Fate dice. An ally on the far side is ready to catch you — the GM grants <strong>Advantage</strong>, shrinking the Fate dice to <span class="die fate">d8</span>.<br><br>
-      You roll your d8 and two d8s, getting <strong>3, 5, and 7</strong>. Jumping Skill Level is <strong>4</strong>. Only the 3 qualifies.
-      <span class="result">1 success. You needed 2. You fail by one.</span>
+      Your character must leap a crumbling stone bridge. Jumping uses <strong>Agility (d8)</strong>. The GM requires <strong>2 successes</strong>, so you add 2 Fate dice. <br><br>
+      You roll your d8 and two d10s, getting <strong>3, 5, and 7</strong>. Jumping Skill Level is <strong>4</strong>. Only the 3 counts as a success.
+      <span class="result">1 success. Needed 2. You fall short — the GM decides how that plays out.</span>
     </div>
 
     <h3>Advantage &amp; Disadvantage</h3>
     <p>Favourable conditions may earn <strong>Advantage</strong>, shrinking Fate dice to <span class="die fate">d8</span>. Unfavourable conditions bring <strong>Disadvantage</strong>, inflating them to <span class="die fate">d12</span>.</p>
 
-
-    <!-- FAILING BY ONE -->
-    <div class="fail-section">
-      <h3>↳ Failing by One</h3>
-      <p>Fall exactly one success short and you are not finished. Choose one:</p>
-      <table class="outcome-table">
-        <tr>
-          <td>Push the Roll</td>
-          <td>Reroll one failed die and describe the desperate effort your character makes. Fail again after Pushing and the consequences are far worse than a clean failure.</td>
-        </tr>
-        <tr>
-          <td>Succeed at a Cost</td>
-          <td>You get what you wanted, but the GM names a price. A lost weapon, a raised alarm, an opened wound. You decide if it is worth paying.</td>
-        </tr>
-        <tr>
-          <td>Accept Failure</td>
-          <td>Take the standard consequences and move on.</td>
-        </tr>
-      </table>
-
-      <div class="example">
-        You fail by one on the bridge jump. You ask for a Consequence. The GM rules: <strong>you make the jump, but land hard and drop your weapon into the chasm.</strong>
-        <span class="result">Across — but unarmed.</span>
-      </div>
-      <div class="example">
-        Instead you <strong>Push:</strong> bracing your boots against the last stone, you hurl yourself forward. You reroll the d8 that showed 5 — it comes up <strong>2</strong>.
-        <span class="result">Two successes. Made it.</span>
-      </div>
-    </div>
-	  <h3>Helping &amp; Group Rolls</h3>
-    <p>For most tasks one player rolls on behalf of the group. Others can <strong>lend their Attribute die</strong> to the roll if they can justify the help. Some situations require everyone to roll individually — leaping a chasm, swimming a vortex. Failure is then personal.</p>
+    <h3>Helping &amp; Group Rolls</h3>
+    <p>For most tasks one player rolls on behalf of the group; the others can lend their Attribute die if they can justify the help. When survival is individual — crossing a chasm, staying afloat in a vortex — everyone rolls, and failure is personal.</p>
 
     <h3>Skill Advancement</h3>
     <p>Roll a <strong>natural 1</strong> on any skill check to earn Skill XP. Enough XP and the skill advances one level.</p>
@@ -265,88 +311,112 @@
       Combat
     </h2>
 
-    <p>Combat uses a similar roll-under mechanic but with a fixed <strong>Target Number</strong>. The Target number is usually <strong>4</strong> for both players and enemies. In combat, you roll your <strong>two weapon Attribute dice</strong> plus <strong>two Fate dice</strong> and count results at or below the Target as successes.</p>
+    <p>Combat uses the same roll-under mechanic, but with a fixed <strong>Target Number of 4</strong> for both players and enemies. Roll your <strong>two weapon Attribute dice</strong> plus <strong>two Fate dice</strong> and count results at or below the Target as successes.</p>
 
     <h3>Actions</h3>
-    <p>On your turn you can perform <strong>one Slow action and one Fast action,</strong> or <strong>two Fast actions.</strong> Helping another character perform an action costs you one action of the same type — and you must declare it before any dice are rolled.</p>
+    <p>On your turn you can take <strong>one Slow and one Fast action</strong>, or <strong>two Fast actions</strong>. Helping another character costs one action of the same speed — declared before any dice are rolled.</p>
 
-    <div class="action-cols">
-      <div class="action-card">
+    <div class="action-split">
+      <div>
         <h4>Slow Actions</h4>
-        <ul class="single-col">
-          <li>Attack with a weapon</li>
-          <li>Unarmed attack</li>
-          <li>Grapple</li>
-          <li>Persuade</li>
-          <li>Taunt</li>
+        <ul>
+          <li>Attack</li>
           <li>Cast a spell</li>
           <li>Flee</li>
         </ul>
       </div>
-      <div class="action-card">
+      <div class="rule-col"></div>
+      <div>
         <h4>Fast Actions</h4>
-        <ul class="single-col">
-          <li>Draw weapon</li>
-          <li>Get up</li>
-          <li>Feint</li>
-          <li>Move</li>
-          <li>Disengage</li>
-          <li>Reload</li>
+        <ul>
+          <li>Manoeuvre <em>(Move, Rise, Withdraw)</em></li>
+          <li>Ready weapon <em>(Draw, Reload)</em></li>
           <li>Aim</li>
           <li>Use item</li>
         </ul>
       </div>
     </div>
 
-    <p style="font-size: 13.5px; color: var(--ink-mid);">Outside your turn you may also <strong>Parry</strong> or <strong>Avoid</strong> incoming attacks — see below.</p>
+    <p style="font-size: 13.5px; color: var(--ink-mid);">Outside your turn you may also <strong>Contest</strong> or <strong>Avoid</strong> incoming attacks — see below.</p>
 
-    <h3>Parry vs Avoid</h3>
+    <h3>Contest vs Avoid</h3>
     <p>When attacked, declare your response before any dice are rolled.</p>
 
     <div class="defend-grid">
       <div class="defend-card">
-        <h4>Parry</h4>
-        <p>Weapon or shield meets the blow. Both sides roll. Your successes cancel the attacker's — and if you come out ahead, you deal damage and apply combat effects right back. Requires a weapon capable of parrying or a shield. Once per round.</p>
+        <h4>Contest</h4>
+        <p>Weapon or shield meets the blow. Both sides roll. Your successes cancel the attacker's — and if you come out ahead, you deal damage and may apply combat effects right back. Requires a weapon capable of parrying, or a shield. Once per round.</p>
       </div>
       <div class="defend-card">
         <h4>Avoid</h4>
-        <p>You get clear of the attack. Your successes cancel the attacker's, but that is all — no counter-damage, no effects. Requires room to move. Unlimited, but each Avoid after the first may carry a penalty.</p>
+        <p>You get clear of the attack. Your successes cancel the attacker's, but you deal no damage back and cannot apply effects. Unlimited uses, but each Avoid after the first is made at a penalty.</p>
       </div>
     </div>
 
-    <h3>Attack Outcomes</h3>
-    <p>Subtract defender successes from attacker successes. The net result:</p>
+    <h3>Contest Outcomes</h3>
+    <p>Subtract defender successes from attacker successes. The net result determines what happens:</p>
 
     <div class="columns" style="margin-top: 10px;">
       <div>
         <table class="outcome-table">
           <tr><td>Net 0</td><td>Locked blades. Both roll Primary Attribute; the lower die wins +1.</td></tr>
-          <tr><td>Def +1</td><td>Defender deals damage back. (Parry only)</td></tr>
-          <tr><td>Att +1</td><td>Partial hit. Roll weapon damage once.</td></tr>
-          <tr><td>Def +2</td><td>Attacker overextends. Defender rolls damage once and applies a combat effect. (Parry only)</td></tr>
-          <tr><td>Att +2</td><td>Solid hit. Roll damage twice and pick a combat effect.</td></tr>
-          <tr><td>Att +3</td><td>Decisive hit. Roll damage twice and choose a Major combat effect.</td></tr>
+          <tr><td>Def +1</td><td>Defender rolls weapon damage once.</td></tr>
+          <tr><td>Att +1</td><td>Attacker rolls weapon damage once.</td></tr>
+          <tr><td>Def +2/+3</td><td>Defender rolls damage once and applies a combat effect.</td></tr>
+          <tr><td>Att +2</td><td>Attacker rolls damage twice and applies a combat effect.</td></tr>
+          <tr><td>Att +3</td><td>Attacker rolls damage twice and applies two combat effects, one of which may be a Major effect.</td></tr>
         </table>
       </div>
       <div>
         <div class="example" style="margin-top: 0;">
-          You attack with a shortsword (<strong>Strength d8, Finesse d10</strong>). You roll <strong>2, 7, 4, 9</strong>. Target Number 4 — the 2 and 4 count. <strong>2 attacker successes.</strong><br><br>
-          Your opponent <strong>Avoids</strong> and rolls 1 success. Net: Attacker +1.
+          You attack with a shortsword (<strong>Strength d8, Finesse d10</strong>). You roll <strong>2, 7, 4, 9</strong>. Target 4 — the 2 and 4 count. <strong>2 attacker successes.</strong><br><br>
+          Your opponent <strong>Contests</strong> and rolls 1 success. Net: Attacker +1.
           <span class="result">Partial hit. Roll 1d6 damage.</span>
         </div>
         <div class="example">
-          Same attack, but your opponent <strong>Parries</strong> and rolls 2 successes. Net: 0.
-          <span class="result">Locked blades. Both roll Primary Attribute.</span>
+          Same attack, but opponent <strong>Avoids</strong> and rolls 2 successes. Net: 0.
+          <span class="result">All damage negated.</span>
         </div>
       </div>
     </div>
 
-    <h3>Passive Saves</h3>
-    <p>Some effects trigger an automatic saving roll in <strong>Fortitude, Evasion</strong> or <strong>Willpower.</strong> Roll the relevant attribute plus Fate dice against your Save score. Each success reduces the effect by one.</p>
+    <!-- COMBAT EFFECTS -->
+    <h3>Combat Effects</h3>
+    <p>When your net successes earn a combat effect, choose one from the options below. Effects apply immediately after damage is resolved.</p>
 
-    <div class="example">
-      An enemy casts <strong>Lightning Bolt</strong> with 3 successes, dealing <strong>1d8 per success.</strong> You roll Agility and 2 Fate dice against your Evasion score and get <strong>2 successes.</strong>
-      <span class="result">The bolt deals 1d8 instead of 3d8.</span>
+    <div class="effect-grid">
+      <div class="effect-card">
+        <h4>Shove</h4>
+        <p>Drive your opponent back a short distance in a direction you choose.</p>
+      </div>
+      <div class="effect-card">
+        <h4>Grapple</h4>
+        <p>Seize and restrain your opponent. A grappled target cannot move and suffers Disadvantage on attacks that don't target you. Either party may attempt to break free on their turn.</p>
+      </div>
+      <div class="effect-card">
+        <h4>Manoeuvre</h4>
+        <p>Reposition during the exchange — rise from prone, withdraw from reach, or shift to a better position. Free in place of a Fast action on your next turn.</p>
+      </div>
+      <div class="effect-card special">
+        <h4>Compel Surrender ✦</h4>
+        <p>Force the surrender of a cornered or disadvantaged opponent — one who is disarmed, prone, gravely wounded, or otherwise at your mercy. No damage is dealt; only the threat. Cannot be used on mindless creatures.</p>
+      </div>
+    </div>
+
+    <span class="major-label">Major Combat Effects — requires Att +3</span>
+    <div class="effect-grid">
+      <div class="effect-card major">
+        <h4>Bypass Armour</h4>
+        <p>Your strike finds a gap in the target's defences. Ignore their armour value entirely for this hit.</p>
+      </div>
+      <div class="effect-card major">
+        <h4>Disarm</h4>
+        <p>Knock, wrench, or cut the weapon from your opponent's grip. They must spend a Fast action to retrieve it.</p>
+      </div>
+    </div>
+
+    <div class="talent-note">
+      <strong>Talents unlock additional combat options.</strong> As your character advances, talents may grant access to new effects and techniques unavailable to untrained fighters.
     </div>
   </div>
 
@@ -359,34 +429,21 @@
       Wounds &amp; Injuries
     </h2>
 
-    <p>Every character can absorb Wounds equal to their <strong>Toughness.</strong> Once their Wounds exceed their Toughness, they suffer an <strong>Injury</strong> and Wounds reset to 0. If a single hit deals damage exceeding your Toughness, you suffer <strong>2 Injuries</strong> instead.</p>
+    <p>Every character can absorb Wounds equal to their <strong>Toughness.</strong> Once their Wounds exceed their Toughness, they suffer an <strong>Injury</strong> and Wounds reset to 0. A single hit dealing more than your Toughness in damage inflicts <strong>2 Injuries</strong> instead.</p>
 
     <div class="columns">
       <div>
         <h3>Taking Damage</h3>
         <table class="outcome-table">
-          <tr>
-            <td>Wounds ≤ Toughness</td>
-            <td>Mark the wounds.</td>
-          </tr>
-          <tr>
-            <td>Wounds exceed Toughness</td>
-            <td><strong>1 Injury.</strong> Wounds reset to 0.</td>
-          </tr>
-          <tr>
-            <td>Damage &gt; Toughness</td>
-            <td><strong>2 Injuries.</strong> Wounds reset to 0.</td>
-          </tr>
-          <tr>
-            <td>Damage &gt; 2× Toughness</td>
-            <td><strong>2 Injuries</strong> and immediately at Death's Door.</td>
-          </tr>
+          <tr><td>Wounds ≤ Toughness</td><td>Mark the wounds.</td></tr>
+          <tr><td>Wounds exceed Toughness</td><td><strong>1 Injury.</strong> Wounds reset to 0.</td></tr>
+          <tr><td>Damage &gt; Toughness</td><td><strong>2 Injuries.</strong> Wounds reset to 0.</td></tr>
+          <tr><td>Damage &gt; 2× Toughness</td><td><strong>2 Injuries</strong> and immediately at Death's Door.</td></tr>
         </table>
       </div>
-
       <div>
         <h3>Injuries</h3>
-        <p>Each Injury sends you to the <strong>Injury Table.</strong> Effects such as a lost reaction or an Attribute die inflated to <span class="die">d20</span> last until the adventure ends. They cannot be healed mid-adventure except by rare magic. Wounds can be treated between fights.</p>
+        <p>Each Injury sends you to the <strong>Injury Table.</strong> Effects — such as a lost reaction or an Attribute die inflated to <span class="die">d20</span> — persist until the adventure ends. They cannot be healed mid-adventure except by rare magic. Wounds can be treated between fights.</p>
         <div class="injury-row">
           <div class="injury-pip">I</div>
           <div class="injury-pip">II</div>
@@ -395,18 +452,9 @@
         <p style="font-size: 13px; color: var(--ink-faint);">A <strong>third Injury</strong> puts you at Death's Door.</p>
       </div>
     </div>
-
-    <div class="example">
-      You are already Injured. Your Strength is normally <span class="die">d10</span>, but the injury inflates it to <span class="die">d20</span>. You try to pry open a jammed door — 1 success required, 1 Fate die (<span class="die fate">d10</span>). Might Skill Level <strong>4.</strong><br><br>
-      You roll an <strong>11</strong> and a <strong>6.</strong> Neither is at or below 4. Zero successes — fail by one.<br><br>
-      You <strong>Push:</strong> bracing your boots against the wall, you heave with everything you have. Reroll the d10. It comes up <strong>3.</strong>
-      <span class="result">One success. The door opens.</span>
-    </div>
   </div>
 
-  <div class="footer">
-    May fortune favour the prepared — and the dice be ever small.
-  </div>
+  <div class="footer">Return to Havenport. Rest. Prepare.</div>
 </div>
 </body>
 </html>
