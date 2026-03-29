@@ -86,7 +86,7 @@
 
     <div class="identity-row">
       <div class="field-group"><div class="fl">Character Name</div><input class="fi" type="text" placeholder="—"></div>
-      <div class="field-group"><div class="fl">Origin / Race</div><input class="fi" type="text" placeholder="—"></div>
+      <div class="field-group"><div class="fl">Origin</div><input class="fi" type="text" placeholder="—"></div>
     </div>
 
     <div class="strip-label">Attributes</div>
@@ -122,7 +122,7 @@ const SVG=`<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/sv
 ['c1','c2','c3','c4'].forEach(id=>document.getElementById(id).innerHTML=SVG);
 
 // Attribute strip
-['STR','AGI','FIN','CON','MAGIC','WITS'].forEach(a=>{
+['MIGHT','SWIFT','EDGE','HEART','MIND'].forEach(a=>{
   const cell=document.createElement('div');cell.className='attr-cell';
   cell.innerHTML=`<div class="attr-abbr">${a}</div>`;
   const inp=document.createElement('input');inp.className='attr-die';inp.type='text';inp.placeholder='d—';inp.maxLength=4;
@@ -130,8 +130,8 @@ const SVG=`<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/sv
 });
 
 // Basic Skills — 16 skills in two columns of 8
-['Athletics','Acrobatics','Brawn','Endurance','Stealth','Navigation','Survival','Perception',
- 'Animal Handling','Lore','Medicine','Sleight of Hand','Insight','Deception','Persuasion','Presence'
+['Athletics','Brawn','Stealth','Survival','Animals','Medicine','Nature','Insight',
+ 'Manipulate','Navigation','Awareness','Investigation','Lore','Sleight of Hand','Presence','Perform'
 ].forEach(name=>{
   const row=document.createElement('div');row.className='skill-row';
   const nm=document.createElement('div');nm.className='skill-name';nm.textContent=name;
