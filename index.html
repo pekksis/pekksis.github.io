@@ -276,27 +276,26 @@
       <div>
         <h3>Step 1 — Build Your Pool</h3>
         <ul class="plain">
-          <li><strong>Attribute Die</strong> — reflects raw capability, set by the skill's linked attribute. Ranges from <span class="die">d12</span> (weakest) to <span class="die">2d8</span> (exceptional).</li>
-          <li><strong>Fate Dice</strong> — one per success the GM requires. Default: <span class="die fate">d10</span> each.</li>
+          <li><strong>Attribute Die</strong> — reflects raw capability, set by the skill's linked attribute. Ranges from <span class="die">d12</span> (weakest) to <span class="die">2d6</span> (godly). Rolls use two dice, either from the same attribute or a combination of two.</li>
+          <li>2 <strong>Fate Dice</strong>. Default: <span class="die fate">d10</span> each.</li>
         </ul>
       </div>
       <div>
         <h3>Step 2 — Count Successes</h3>
-        <p>This is a <strong>roll-under</strong> system. Smaller numbers win, and smaller dice are better. Any die at or below your <strong>Skill Level</strong> counts as one success. Meet the required number and you succeed.</p>
+        <p>This is a <strong>roll-under</strong> system. Smaller numbers win, and smaller dice are better. Any die at or below your <strong>Skill Level</strong> counts as one success. Meet the required number and you succeed. A <b>natural 1</b> counts as two successes.</p>
       </div>
     </div>
 
     <div class="example">
-      Your character must leap a crumbling stone bridge. Jumping uses <strong>Agility (d8)</strong>. The GM requires <strong>2 successes</strong>, so you add 2 Fate dice. <br><br>
-      You roll your d8 and two d10s, getting <strong>3, 5, and 7</strong>. Jumping Skill Level is <strong>4</strong>. Only the 3 counts as a success.
-      <span class="result">1 success. Needed 2. You fall short — the GM decides how that plays out.</span>
-    </div>
+      Your character must leap a crumbling stone bridge. The GM rules a <strong>SWIFT (d8)</strong> check against <strong>Athletics</strong>, with <strong>2 successes</strong> required to clear the gap and one success to make it across with a cost.<br><br>
+      You roll your two d8s and two d10s, getting <strong>5, 3, 5, and 7</strong>. Since your Athletics Skill Level is <strong>4</strong>, only the 3 counts as a success.
+      <span class="result">1 success (2 needed). The GM rules that you make it across, but your sword clatters down into the chasm.</span>    </div>
 
     <h3>Advantage &amp; Disadvantage</h3>
     <p>Favourable conditions may earn <strong>Advantage</strong>, shrinking Fate dice to <span class="die fate">d8</span>. Unfavourable conditions bring <strong>Disadvantage</strong>, inflating them to <span class="die fate">d12</span>.</p>
 
     <h3>Helping &amp; Group Rolls</h3>
-    <p>For most tasks one player rolls on behalf of the group; the others can lend their Attribute die if they can justify the help. When survival is individual — crossing a chasm, staying afloat in a vortex — everyone rolls, and failure is personal.</p>
+    <p>One character usually rolls for the group; others may add their Attribute die if they can justify helping. When survival is individual, such as crossing a chasm, or staying afloat in a vortex, everyone rolls and failure is personal.</p>
 
     <h3>Skill Advancement</h3>
     <p>Roll a <strong>natural 1</strong> on any skill check to earn Skill XP. Enough XP and the skill advances one level.</p>
@@ -349,7 +348,7 @@
       </div>
       <div class="defend-card">
         <h4>Avoid</h4>
-        <p>You get clear of the attack. Your successes cancel the attacker's, but you deal no damage back and cannot apply effects. Unlimited uses, but each Avoid after the first is made at a penalty.</p>
+        <p>You get clear of the attack. Your successes cancel the attacker's, but you deal no damage back and cannot apply effects. Unlimited uses, but each Avoid after the first is made at a penalty. Unless you are wielding a shield, you must have a square where you can retreat to.</p>
       </div>
     </div>
 
@@ -360,25 +359,28 @@
       <div>
         <table class="outcome-table">
           <tr><td>Net 0</td><td>Locked blades. Both roll Primary Attribute; the lower die wins +1.</td></tr>
+		  <tr><td>Att +1</td><td>Attacker rolls weapon damage once.</td></tr>
           <tr><td>Def +1</td><td>Defender rolls weapon damage once.</td></tr>
-          <tr><td>Att +1</td><td>Attacker rolls weapon damage once.</td></tr>
-          <tr><td>Def +2/+3</td><td>Defender rolls damage twice and applies a combat effect.</td></tr>
-          <tr><td>Att +2</td><td>Attacker rolls damage twice and applies a combat effect.</td></tr>
-          <tr><td>Att +3</td><td>Attacker rolls damage twice and applies two combat effects, one of which may be a Major effect.</td></tr>
+		  <tr><td>Att +2</td><td>Attacker rolls weapon damage once and applies a combat effect.</td></tr>
+          <tr><td>Def +2</td><td>Defender rolls weapon damage once and applies a combat effect.</td></tr>
+          <tr><td>Att +3</td><td>Attacker rolls weapon damage twice and applies a combat effect. May use Major Effect</td></tr>
+		  <tr><td>Att +4</td><td>Attacker rolls weapon damage twice and applies two combat effects.</td></tr>
         </table>
       </div>
       <div>
         <div class="example" style="margin-top: 0;">
-          You attack with a shortsword (<strong>Strength d8, Finesse d10</strong>). You roll <strong>2, 7, 4, 9</strong>. Target 4 — the 2 and 4 count. <strong>2 attacker successes.</strong><br><br>
+          You attack with a shortsword (<strong>MIGHT d8, EDGE d10</strong>). You roll <strong>2, 7, 4, 9</strong>. Target 4 — the 2 and 4 count. <strong>2 attacker successes.</strong><br><br>
           Your opponent <strong>Contests</strong> and rolls 1 success. Net: Attacker +1.
           <span class="result">Partial hit. Roll 1d6 damage.</span>
         </div>
         <div class="example">
-          Same attack, but opponent <strong>Avoids</strong> and rolls 2 successes. Net: 0.
+          Same attack, but opponent <strong>Avoids</strong> and rolls 3 successes. Net: -1.
           <span class="result">All damage negated.</span>
         </div>
       </div>
     </div>
+    <h3>Armor</h3>
+    <p>Armor reduces damage from the incoming hit. Armor has three tiers; Light, Medium, and Heavy. Heavier armor reduces more damage but makes you less agile, making your Avoid rolls and some skill rolls more difficult.</p>
 
     <!-- COMBAT EFFECTS -->
     <h3>Combat Effects</h3>
@@ -395,11 +397,11 @@
       </div>
       <div class="effect-card">
         <h4>Manoeuvre</h4>
-        <p>Reposition during the exchange — rise from prone, withdraw from reach, or shift to a better position. Free in place of a Fast action on your next turn.</p>
+        <p>Reposition during the exchange — rise from prone, withdraw from reach, or shift to a better position.</p>
       </div>
       <div class="effect-card special">
         <h4>Compel Surrender ✦</h4>
-        <p>Force the surrender of a cornered or disadvantaged opponent — one who is disarmed, prone, gravely wounded, or otherwise at your mercy. No damage is dealt; only the threat. Cannot be used on mindless creatures.</p>
+        <p>Attempt to force the surrender of a cornered or disadvantaged opponent — one who is disarmed, prone, gravely wounded, or otherwise at your mercy. No damage is dealt. Cannot be used on mindless creatures.</p>
       </div>
     </div>
 
@@ -454,7 +456,6 @@
     </div>
   </div>
 
-  <div class="footer">Return to Havenport. Rest. Prepare.</div>
 </div>
 </body>
 </html>
