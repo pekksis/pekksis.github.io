@@ -9,7 +9,7 @@
   :root{--ink:#1a1614;--parchment:#f5f3f0;--gold:#6b5d4f;--rust:#5c2e1a;--blood:#6e1a1a;}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{background:#2a2520;background-image:repeating-linear-gradient(45deg,transparent,transparent 35px,rgba(0,0,0,.04) 35px,rgba(0,0,0,.04) 70px);font-family:'Crimson Text',serif;color:var(--ink);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start;}
-  .sheet{background:var(--parchment);width:940px;max-width:100%;border:3px solid var(--rust);box-shadow:0 0 0 6px var(--parchment),0 0 0 9px var(--rust),0 20px 60px rgba(0,0,0,.4);position:relative;overflow:hidden;}
+  .sheet{background:var(--parchment);width:780px;max-width:100%;border:3px solid var(--rust);box-shadow:0 0 0 6px var(--parchment),0 0 0 9px var(--rust),0 20px 60px rgba(0,0,0,.4);position:relative;overflow:hidden;}
   .sheet::before{content:'';position:absolute;inset:12px;border:1px solid rgba(92,46,26,.3);pointer-events:none;z-index:0;}
   .corner{position:absolute;width:50px;height:50px;z-index:2;opacity:.5;}.corner svg{width:100%;height:100%;}
   .corner-tl{top:8px;left:8px;}.corner-tr{top:8px;right:8px;transform:scaleX(-1);}.corner-bl{bottom:8px;left:8px;transform:scaleY(-1);}.corner-br{bottom:8px;right:8px;transform:scale(-1);}
@@ -77,6 +77,16 @@
   .tech-item{border-bottom:1px dotted rgba(92,46,26,.2);padding:5px 0;}
   .ti{border:none;background:transparent;font-family:'Crimson Text',serif;font-size:14px;color:var(--ink);padding:0;outline:none;width:100%;}
 
+  /* d20 tracker — inline in wounds */
+  .die-slot{display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .die-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--rust);opacity:.7;}
+  .die-outline{position:relative;width:80px;height:80px;}
+  .die-outline svg{width:80px;height:80px;}
+  .die-val{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:24px;font-weight:700;color:var(--blood);border:none;background:transparent;outline:none;width:100%;text-align:center;padding:0;}
+  .die-max{display:flex;align-items:center;gap:5px;}
+  .die-max-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(92,46,26,.45);}
+  .die-max-val{font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--ink);width:28px;text-align:center;border:none;border-bottom:1px solid rgba(92,46,26,.3);background:transparent;outline:none;padding:0;}
+
   .hint{font-size:10px;font-style:italic;color:var(--rust);margin-top:7px;opacity:.7;}
 
   @media print{
@@ -114,13 +124,15 @@
       <div class="field-group"><div class="fl">Character Name</div><input class="fi" type="text" placeholder="—"></div>
     </div>
 
-    <!-- Wounds & Injuries — full width -->
+    <!-- Wounds & Injuries — wounds+hexagons top, injuries full width below -->
     <div class="sec wounds-full">
       <div class="st">Wounds &amp; Injuries</div>
       <div style="height:8px"></div>
-      <div class="wounds-inner">
 
-        <!-- Left: track + stats -->
+      <!-- Top row: wound track | energy+mana -->
+      <div style="display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start;margin-bottom:16px;">
+
+        <!-- Wound track + stats -->
         <div>
           <div class="tl">Current Wounds</div>
           <div class="wounds-track" id="wounds-track"></div>
@@ -137,30 +149,60 @@
           <div class="hint" style="margin-top:8px">Major → +1 Injury &nbsp;·&nbsp; Severe → +2 &nbsp;·&nbsp; Lethal → Death's Door</div>
         </div>
 
-        <!-- Right: injuries -->
-        <div>
-          <div class="tl" style="margin-bottom:10px">Injuries</div>
-          <div class="injury-entry">
-            <div class="ib" onclick="this.classList.toggle('filled')">I</div>
-            <div class="injury-desc">
-              <div class="injury-label">Effect</div>
-              <input class="injury-input" type="text" placeholder="Describe effect...">
+        <!-- Energy + Mana hexagons -->
+        <div style="display:flex;gap:32px;align-items:flex-start;padding-left:16px;border-left:1px dashed rgba(92,46,26,.2);">
+          <div class="die-slot">
+            <div class="die-label">Energy</div>
+            <div class="die-outline">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="32,3 61,19 61,45 32,61 3,45 3,19" stroke="rgba(92,46,26,.5)" stroke-width="1.5" fill="none"/>
+              </svg>
+              <input class="die-val" type="text" maxlength="2">
+            </div>
+            <div class="die-max">
+              <span class="die-max-label">Max</span>
+              <input class="die-max-val" type="text" maxlength="2">
             </div>
           </div>
-          <div class="injury-entry">
-            <div class="ib" onclick="this.classList.toggle('filled')">II</div>
-            <div class="injury-desc">
-              <div class="injury-label">Effect</div>
-              <input class="injury-input" type="text" placeholder="Describe effect...">
+          <div class="die-slot">
+            <div class="die-label">Mana</div>
+            <div class="die-outline">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="32,3 61,19 61,45 32,61 3,45 3,19" stroke="rgba(92,46,26,.5)" stroke-width="1.5" fill="none"/>
+              </svg>
+              <input class="die-val" type="text" maxlength="2">
             </div>
-          </div>
-          <div class="deaths-door">
-            <span class="deaths-door-icon">☠</span>
-            <span class="deaths-door-text">3 Injuries — Death's Door</span>
+            <div class="die-max">
+              <span class="die-max-label">Max</span>
+              <input class="die-max-val" type="text" maxlength="2">
+            </div>
           </div>
         </div>
 
       </div>
+
+      <!-- Injuries — full width below -->
+      <div style="border-top:1px dashed rgba(92,46,26,.2);padding-top:12px;display:grid;grid-template-columns:1fr 1fr auto;gap:16px;align-items:center;">
+        <div class="injury-entry" style="margin-bottom:0">
+          <div class="ib" onclick="this.classList.toggle('filled')">I</div>
+          <div class="injury-desc">
+            <div class="injury-label">Effect</div>
+            <input class="injury-input" type="text" placeholder="Describe effect...">
+          </div>
+        </div>
+        <div class="injury-entry" style="margin-bottom:0">
+          <div class="ib" onclick="this.classList.toggle('filled')">II</div>
+          <div class="injury-desc">
+            <div class="injury-label">Effect</div>
+            <input class="injury-input" type="text" placeholder="Describe effect...">
+          </div>
+        </div>
+        <div class="deaths-door" style="margin-top:0;padding-top:0;border-top:none;white-space:nowrap;">
+          <span class="deaths-door-icon">☠</span>
+          <span class="deaths-door-text">2 Injuries — Death's Door</span>
+        </div>
+      </div>
+
     </div>
 
     <!-- Armor & Weapons — two equal columns -->
@@ -170,9 +212,8 @@
         <div style="height:8px"></div>
         <div class="equip-row"><span class="el">Armor</span><input class="fi" type="text" placeholder="—"><span class="el">Prot.</span><input class="fi" type="text" placeholder="—" style="width:40px"></div>
         <div class="equip-row" style="grid-template-columns:auto 1fr"><span class="el">Shield</span><input class="fi" type="text" placeholder="—"></div>
-        <!-- filler rows to match weapons height -->
-        <div class="equip-row" style="grid-template-columns:auto 1fr;opacity:.3"><span class="el">—</span><input class="fi" type="text" placeholder="—" style="pointer-events:none"></div>
-        <div class="equip-row" style="grid-template-columns:auto 1fr;opacity:.3;border-bottom:none"><span class="el">—</span><input class="fi" type="text" placeholder="—" style="pointer-events:none"></div>
+        <div class="equip-row" style="grid-template-columns:auto 1fr;opacity:.25"><span class="el">—</span><input class="fi" type="text" placeholder="—" style="pointer-events:none"></div>
+        <div class="equip-row" style="grid-template-columns:auto 1fr;opacity:.25;border-bottom:none"><span class="el">—</span><input class="fi" type="text" placeholder="—" style="pointer-events:none"></div>
       </div>
       <div class="sec" style="margin-bottom:0">
         <div class="st">Weapons</div>
@@ -181,7 +222,7 @@
       </div>
     </div>
 
-    <!-- Techniques & Spell Domains — single column full width -->
+    <!-- Techniques & Spell Domains -->
     <div class="sec">
       <div class="st">Techniques &amp; Spell Domains</div>
       <div style="height:8px"></div>
@@ -205,7 +246,7 @@ const SVG=`<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/sv
 ['c1','c2','c3','c4'].forEach(id=>document.getElementById(id).innerHTML=SVG);
 
 // Attribute strip
-['STR','AGI','FIN','CON','MAGIC','WITS'].forEach(a=>{
+['MIGHT','SWIFT','EDGE','HEART','MIND'].forEach(a=>{
   const cell=document.createElement('div');cell.className='attr-cell';
   cell.innerHTML=`<div class="attr-abbr">${a}</div>`;
   const inp=document.createElement('input');inp.className='attr-die-ref';inp.type='text';inp.placeholder='d—';inp.maxLength=4;
@@ -214,8 +255,7 @@ const SVG=`<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/sv
 
 // Wounds track — 4 solid + 6 faded
 const wt=document.getElementById('wounds-track');
-for(let i=0;i<8;i++){const b=document.createElement('div');b.className='wb';b.onclick=()=>b.classList.toggle('filled');wt.appendChild(b);}
-for(let i=0;i<5;i++){const b=document.createElement('div');b.className='wb wb-faded';b.onclick=()=>b.classList.toggle('filled');wt.appendChild(b);}
+for(let i=0;i<10;i++){const b=document.createElement('div');b.className='wb wb-faded';b.onclick=()=>b.classList.toggle('filled');wt.appendChild(b);}
 
 // Weapons — 4 rows
 const wc=document.getElementById('weapons-container');
