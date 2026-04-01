@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Combat Simulator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --ink-mid: #3d2f24;
+    --ink-light: #6b5344;
+    --parchment: #f4ede0;
+    --parchment-dark: #e8dcc8;
+    --parchment-darker: #d9c9ae;
+    --border: #b8986a;
+    --border-light: #d4b98a;
+    --accent-red: #8b1a1a;
+    --accent-red-light: #c0392b;
+    --accent-blue: #1a3d5c;
+    --accent-blue-light: #2980b9;
+    --accent-gold: #c9920a;
+    --success: #2d5a27;
+    --atk-color: #7a1a1a;
+    --def-color: #1a3a5c;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Crimson Text', Georgia, serif;
+    background-color: #2a1f14;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(0,0,0,0.03) 40px, rgba(0,0,0,0.03) 41px),
+      repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0,0,0,0.03) 40px, rgba(0,0,0,0.03) 41px);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    color: var(--ink);
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--parchment);
+    text-align: center;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+
+  .subtitle {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    color: var(--border);
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    letter-spacing: 0.04em;
+  }
+
+  .parchment-panel {
+    background: var(--parchment);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1.25rem 1.5rem;
+    position: relative;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 0 40px rgba(184,152,106,0.15);
+  }
+
+  .parchment-panel::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .fighters-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  @media (max-width: 600px) {
+    .fighters-grid { grid-template-columns: 1fr; }
+  }
+
+  .fighter-panel {
+    background: var(--parchment);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1.25rem;
+    position: relative;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3), inset 0 0 30px rgba(184,152,106,0.1);
+  }
+
+  .fighter-panel::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  .fighter-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .fighter-crest {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .atk-crest { background: var(--atk-color); color: #f4ede0; }
+  .def-crest { background: var(--def-color); color: #f4ede0; }
+
+  .fighter-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .atk-title { color: var(--atk-color); }
+  .def-title { color: var(--def-color); }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .form-field label {
+    font-size: 0.72rem;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.08em;
+    color: var(--ink-light);
+    text-transform: uppercase;
+  }
+
+  select, input[type="number"] {
+    font-family: 'Crimson Text', serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: var(--parchment-dark);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 4px 7px;
+    width: 100%;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236b5344'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 7px center;
+    padding-right: 22px;
+  }
+
+  input[type="number"] {
+    background-image: none;
+    padding-right: 7px;
+    -moz-appearance: textfield;
+  }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+  select:focus, input[type="number"]:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 0.75rem 0;
+  }
+
+  .section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .controls-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  .rounds-field {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 22px;
+    border-radius: 2px;
+    cursor: pointer;
+    border: 1px solid;
+    transition: all 0.15s;
+  }
+
+  .btn-run {
+    background: var(--ink-mid);
+    color: var(--parchment);
+    border-color: var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .btn-run:hover { background: var(--ink); box-shadow: 0 3px 12px rgba(0,0,0,0.4); }
+  .btn-run:active { transform: translateY(1px); }
+
+  .btn-clear {
+    background: transparent;
+    color: var(--ink-light);
+    border-color: var(--border-light);
+  }
+  .btn-clear:hover { background: var(--parchment-darker); color: var(--ink); }
+
+  /* Summary stats */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+
+  .stat-card {
+    background: var(--parchment-dark);
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    padding: 8px 10px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .stat-lbl {
+    font-size: 0.7rem;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-top: 3px;
+  }
+
+  .num-atk { color: var(--atk-color); }
+  .num-def { color: var(--def-color); }
+  .num-neutral { color: var(--ink-mid); }
+
+  /* Log */
+  .log-area {
+    max-height: 520px;
+    overflow-y: auto;
+    font-family: 'Crimson Text', serif;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .round-block {
+    padding: 0.7rem 0.9rem;
+    margin-bottom: 8px;
+    background: var(--parchment-dark);
+    border: 1px solid var(--border-light);
+    border-left: 3px solid var(--border);
+    border-radius: 2px;
+  }
+
+  .round-head {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-mid);
+    margin-bottom: 6px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .log-line { margin: 2px 0; }
+  .rolls-line { color: var(--ink-light); font-style: italic; }
+  .success-die { color: var(--accent-gold); font-weight: 600; }
+  .outcome-line { font-weight: 600; margin: 4px 0; }
+  .atk-wins { color: var(--atk-color); }
+  .def-wins { color: var(--def-color); }
+  .neutral-out { color: var(--ink-mid); }
+  .dmg-line-atk { color: var(--atk-color); }
+  .dmg-line-def { color: var(--def-color); }
+  .effect-line { color: var(--success); font-style: italic; }
+  .armor-line { color: var(--ink-light); font-style: italic; }
+  .no-dmg { color: var(--ink-light); font-style: italic; }
+
+  .empty-state {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: var(--ink-light);
+    font-style: italic;
+    font-size: 1.05rem;
+  }
+
+  .ornament {
+    text-align: center;
+    color: var(--border);
+    font-size: 1.2rem;
+    letter-spacing: 0.3em;
+    margin: 0.4rem 0;
+  }
+
+  .hp-bar-wrap {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-light);
+  }
+
+  .hp-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .hp-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    min-width: 28px;
+  }
+
+  .hp-track {
+    flex: 1;
+    height: 8px;
+    background: var(--parchment-darker);
+    border: 1px solid var(--border-light);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .hp-fill-atk {
+    height: 100%;
+    background: var(--atk-color);
+    transition: width 0.4s ease;
+  }
+
+  .hp-fill-def {
+    height: 100%;
+    background: var(--def-color);
+    transition: width 0.4s ease;
+  }
+
+  .hp-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    min-width: 32px;
+    text-align: right;
+  }
+
+  .hp-num-atk { color: var(--atk-color); }
+  .hp-num-def { color: var(--def-color); }
+
+  .tag {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border-radius: 2px;
+    border: 1px solid;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .tag-atk { color: var(--atk-color); border-color: var(--atk-color); background: rgba(122,26,26,0.08); }
+  .tag-def { color: var(--def-color); border-color: var(--def-color); background: rgba(26,58,92,0.08); }
+  .tag-both { color: var(--accent-gold); border-color: var(--accent-gold); background: rgba(201,146,10,0.08); }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Combat Simulator</h1>
+  <div class="subtitle">Roll-under dice pool — TN 4</div>
+
+  <div class="fighters-grid">
+    <!-- ATTACKER -->
+    <div class="fighter-panel">
+      <div class="fighter-header">
+        <div class="fighter-crest atk-crest">ATK</div>
+        <div class="fighter-title atk-title">Attacker</div>
+      </div>
+      <div class="section-label">Attributes</div>
+      <div class="form-grid" style="margin-bottom:0.6rem">
+        <div class="form-field">
+          <label>Attr die 1</label>
+          <select id="a-attr1">
+            <option value="6">d6</option>
+            <option value="8" selected>d8</option>
+            <option value="10">d10</option>
+            <option value="12">d12</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Attr die 2</label>
+          <select id="a-attr2">
+            <option value="6">d6</option>
+            <option value="8">d8</option>
+            <option value="10" selected>d10</option>
+            <option value="12">d12</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Fate dice</label>
+          <select id="a-fate">
+            <option value="8">2d8 (advantage)</option>
+            <option value="10" selected>2d10 (normal)</option>
+            <option value="12">2d12 (disadvantage)</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Weapon dmg</label>
+          <select id="a-wep">
+            <option value="1d4">1d4</option>
+            <option value="2d4">2d4</option>
+            <option value="1d6">1d6</option>
+            <option value="1d8">1d8</option>
+            <option value="1d10" selected>1d10</option>
+            <option value="1d12">1d12</option>
+            <option value="2d6">2d6</option>
+          </select>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label">Armor</div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Armor type</label>
+          <select id="a-armor">
+            <option value="0">None</option>
+            <option value="1">Light (1 die)</option>
+            <option value="2">Medium (2 dice)</option>
+            <option value="3">Heavy (3 dice)</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Armor die</label>
+          <select id="a-adie">
+            <option value="12" selected>d12 (standard)</option>
+            <option value="10">d10 (quality)</option>
+            <option value="8">d8 (masterwork)</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>DR per success</label>
+          <input type="number" id="a-dr" value="4" min="1" max="12">
+        </div>
+      </div>
+    </div>
+
+    <!-- DEFENDER -->
+    <div class="fighter-panel">
+      <div class="fighter-header">
+        <div class="fighter-crest def-crest">DEF</div>
+        <div class="fighter-title def-title">Defender</div>
+      </div>
+      <div class="section-label">Attributes</div>
+      <div class="form-grid" style="margin-bottom:0.6rem">
+        <div class="form-field">
+          <label>Attr die 1</label>
+          <select id="d-attr1">
+            <option value="6">d6</option>
+            <option value="8" selected>d8</option>
+            <option value="10">d10</option>
+            <option value="12">d12</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Attr die 2</label>
+          <select id="d-attr2">
+            <option value="6">d6</option>
+            <option value="8" selected>d8</option>
+            <option value="10">d10</option>
+            <option value="12">d12</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Fate dice</label>
+          <select id="d-fate">
+            <option value="8">2d8 (advantage)</option>
+            <option value="10" selected>2d10 (normal)</option>
+            <option value="12">2d12 (disadvantage)</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Defense type</label>
+          <select id="d-type">
+            <option value="fightback">Fight back</option>
+            <option value="block">Block (shield)</option>
+            <option value="avoid">Avoid</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Weapon dmg</label>
+          <select id="d-wep">
+            <option value="1d4">1d4</option>
+            <option value="2d4">2d4</option>
+            <option value="1d6">1d6</option>
+            <option value="1d8" selected>1d8</option>
+            <option value="1d10">1d10</option>
+            <option value="1d12">1d12</option>
+            <option value="2d6">2d6</option>
+          </select>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label">Armor</div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Armor type</label>
+          <select id="d-armor">
+            <option value="0">None</option>
+            <option value="1">Light (1 die)</option>
+            <option value="2" selected>Medium (2 dice)</option>
+            <option value="3">Heavy (3 dice)</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Armor die</label>
+          <select id="d-adie">
+            <option value="12" selected>d12 (standard)</option>
+            <option value="10">d10 (quality)</option>
+            <option value="8">d8 (masterwork)</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>DR per success</label>
+          <input type="number" id="d-dr" value="4" min="1" max="12">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="parchment-panel" style="margin-bottom:1.25rem">
+    <div class="controls-row">
+      <div class="rounds-field form-field">
+        <label style="font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-light)">Rounds</label>
+        <input type="number" id="rounds" value="8" min="1" max="30" style="width:70px">
+      </div>
+      <button class="btn btn-run" onclick="runSim()">Roll the dice</button>
+      <button class="btn btn-clear" onclick="clearLog()">Clear</button>
+    </div>
+    <!-- HP bars -->
+    <div id="hp-section" style="display:none">
+      <div class="divider" style="margin-top:0"></div>
+      <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:8px">
+        <div>
+          <div class="section-label" style="color:var(--atk-color)">Attacker HP</div>
+          <div class="hp-row">
+            <div class="hp-track"><div class="hp-fill-atk" id="atk-bar" style="width:100%"></div></div>
+            <div class="hp-num hp-num-atk" id="atk-hp-num">—</div>
+          </div>
+        </div>
+        <div>
+          <div class="section-label" style="color:var(--def-color)">Defender HP</div>
+          <div class="hp-row">
+            <div class="hp-track"><div class="hp-fill-def" id="def-bar" style="width:100%"></div></div>
+            <div class="hp-num hp-num-def" id="def-hp-num">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats summary -->
+  <div id="stats-section" style="display:none;margin-bottom:1.25rem">
+    <div class="parchment-panel">
+      <div class="ornament">— ✦ —</div>
+      <div class="stats-row" id="stats-cards" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <!-- Log -->
+  <div class="parchment-panel">
+    <div class="log-area" id="log">
+      <div class="empty-state">Configure fighters above and roll the dice...</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const TN = 4;
+
+function roll(sides) { return Math.floor(Math.random() * sides) + 1; }
+
+function rollPool(diceArr) {
+  return diceArr.map(s => { const v = roll(s); return { val: v, sides: s, hit: v <= TN }; });
+}
+
+function successes(rolls) { return rolls.filter(r => r.hit).length; }
+
+function fmtRolls(rolls) {
+  return rolls.map(r => r.hit
+    ? `<span class="success-die">${r.val}*</span>`
+    : `${r.val}`
+  ).join(' ');
+}
+
+function parseDie(str) {
+  const m = str.match(/(\d+)d(\d+)/);
+  return { count: +m[1], sides: +m[2] };
+}
+
+function getDmgRolls(wepStr) {
+  const { count, sides } = parseDie(wepStr);
+  return Array.from({ length: count }, () => roll(sides));
+}
+
+function armorSave(numDice, dieSides, dmgRolls, dr) {
+  if (numDice === 0) return { saved: 0, remaining: [...dmgRolls], armorRolls: [], saves: 0 };
+  const armorRolls = Array.from({ length: numDice }, () => {
+    const v = roll(dieSides);
+    return { val: v, sides: dieSides, hit: v <= TN };
+  });
+  const saves = armorRolls.filter(r => r.hit).length;
+  let reduction = saves * dr;
+  const sorted = [...dmgRolls].sort((a, b) => b - a);
+  const newDmg = sorted.map(d => {
+    if (reduction <= 0) return d;
+    const sub = Math.min(d, reduction);
+    reduction -= sub;
+    return d - sub;
+  }).filter(d => d > 0);
+  const saved = Math.min(saves * dr, dmgRolls.reduce((s, v) => s + v, 0));
+  return { saved, remaining: newDmg, armorRolls, saves };
+}
+
+const EFFECTS = [
+  'Maneuver', 'Shove', 'Stand fast', 'Pin weapon', 'Daze'
+];
+const MAJOR_EFFECTS = ['Bypass armor', 'Topple'];
+
+function pickEffect() { return EFFECTS[Math.floor(Math.random() * EFFECTS.length)]; }
+function pickMajor() { return MAJOR_EFFECTS[Math.floor(Math.random() * MAJOR_EFFECTS.length)]; }
+
+function runSim() {
+  const aAttr1 = +document.getElementById('a-attr1').value;
+  const aAttr2 = +document.getElementById('a-attr2').value;
+  const aFate  = +document.getElementById('a-fate').value;
+  const aWep   = document.getElementById('a-wep').value;
+  const aArmorN = +document.getElementById('a-armor').value;
+  const aArmorD = +document.getElementById('a-adie').value;
+  const aDR    = +document.getElementById('a-dr').value;
+
+  const dAttr1 = +document.getElementById('d-attr1').value;
+  const dAttr2 = +document.getElementById('d-attr2').value;
+  const dFate  = +document.getElementById('d-fate').value;
+  const dWep   = document.getElementById('d-wep').value;
+  const dArmorN = +document.getElementById('d-armor').value;
+  const dArmorD = +document.getElementById('d-adie').value;
+  const dDR    = +document.getElementById('d-dr').value;
+  const defType = document.getElementById('d-type').value;
+  const numRounds = +document.getElementById('rounds').value;
+
+  const aDice = [aAttr1, aAttr2, aFate, aFate];
+  const dDice = [dAttr1, dAttr2, dFate, dFate];
+
+  let atkTotalDmg = 0, defTotalDmg = 0;
+  let atkHits = 0, defHits = 0;
+  let atkArmorAbsorbed = 0, defArmorAbsorbed = 0;
+  let atkHP = 20, defHP = 20;
+  const maxHP = 20;
+
+  let html = '';
+
+  for (let r = 1; r <= numRounds; r++) {
+    if (atkHP <= 0 || defHP <= 0) break;
+
+    const aRolls = rollPool(aDice);
+    const dRolls = rollPool(dDice);
+    const aS = successes(aRolls);
+    const dS = successes(dRolls);
+    const margin = aS - dS;
+
+    const defLabel = defType === 'fightback' ? 'Fight back' : defType === 'block' ? 'Block' : 'Avoid';
+
+    let rHtml = `<div class="round-block">`;
+    rHtml += `<div class="round-head">Round ${r} &mdash; ${defLabel}</div>`;
+    rHtml += `<div class="log-line rolls-line">ATK rolls [${fmtRolls(aRolls)}] &rarr; ${aS} success${aS !== 1 ? 'es' : ''}</div>`;
+    rHtml += `<div class="log-line rolls-line">DEF rolls [${fmtRolls(dRolls)}] &rarr; ${dS} success${dS !== 1 ? 'es' : ''}</div>`;
+
+    if (defType === 'fightback') {
+      // --- FIGHT BACK ---
+      if (margin === 0) {
+        // Tie: both deal weapon damage
+        rHtml += `<div class="log-line outcome-line neutral-out">Tie &mdash; both deal weapon damage <span class="tag tag-both">CLASH</span></div>`;
+        const aDmg = getDmgRolls(aWep);
+        const dDmg = getDmgRolls(dWep);
+        const defSave = armorSave(dArmorN, dArmorD, aDmg, dDR);
+        const atkSave = armorSave(aArmorN, aArmorD, dDmg, aDR);
+        const aDmgFinal = defSave.remaining.reduce((s, v) => s + v, 0);
+        const dDmgFinal = atkSave.remaining.reduce((s, v) => s + v, 0);
+        rHtml += buildDmgLine('ATK', aDmg, defSave, aDmgFinal, 'DEF', 'dmg-line-atk');
+        rHtml += buildDmgLine('DEF', dDmg, atkSave, dDmgFinal, 'ATK', 'dmg-line-def');
+        defHP -= aDmgFinal; atkHP -= dDmgFinal;
+        atkTotalDmg += aDmgFinal; defTotalDmg += dDmgFinal;
+        atkHits++; defHits++;
+        defArmorAbsorbed += defSave.saved; atkArmorAbsorbed += atkSave.saved;
+      } else {
+        const net = Math.abs(margin);
+        const winner = margin > 0 ? 'ATK' : 'DEF';
+        const loser = winner === 'ATK' ? 'DEF' : 'ATK';
+        rHtml += `<div class="log-line outcome-line ${winner === 'ATK' ? 'atk-wins' : 'def-wins'}">`;
+        rHtml += `+${net} ${winner} <span class="tag ${winner === 'ATK' ? 'tag-atk' : 'tag-def'}">${winner} WINS</span></div>`;
+        const dmgMulti = net >= 3 ? 2 : 1;
+        const wepToUse = winner === 'ATK' ? aWep : dWep;
+        let allDmg = [];
+        for (let i = 0; i < dmgMulti; i++) allDmg = [...allDmg, ...getDmgRolls(wepToUse)];
+        const targetArmorN = winner === 'ATK' ? dArmorN : aArmorN;
+        const targetArmorD = winner === 'ATK' ? dArmorD : aArmorD;
+        const targetDR     = winner === 'ATK' ? dDR     : aDR;
+        const save = armorSave(targetArmorN, targetArmorD, allDmg, targetDR);
+        const final = save.remaining.reduce((s, v) => s + v, 0);
+        rHtml += buildDmgLine(winner, allDmg, save, final, loser, winner === 'ATK' ? 'dmg-line-atk' : 'dmg-line-def');
+        if (net >= 2) rHtml += `<div class="log-line effect-line">+ combat effect: ${pickEffect()}</div>`;
+        if (net >= 3) rHtml += `<div class="log-line effect-line">+ major effect: ${pickMajor()}</div>`;
+        if (net >= 4) rHtml += `<div class="log-line effect-line">+ second effect: ${pickEffect()}</div>`;
+        if (winner === 'ATK') {
+          defHP -= final; atkTotalDmg += final; atkHits++;
+          defArmorAbsorbed += save.saved;
+        } else {
+          atkHP -= final; defTotalDmg += final; defHits++;
+          atkArmorAbsorbed += save.saved;
+        }
+      }
+    } else if (defType === 'block') {
+      // --- BLOCK ---
+      // DEF wins or ties: no damage to DEF. DEF applies combat effect if they have 1+ successes (regardless of margin).
+      // ATK wins: normal damage to DEF only.
+      if (margin <= 0) {
+        const net = Math.abs(margin);
+        rHtml += `<div class="log-line outcome-line def-wins">DEF holds <span class="tag tag-def">BLOCKED</span></div>`;
+        rHtml += `<div class="log-line no-dmg">Attacker's blow is turned aside — no damage to DEF</div>`;
+        // DEF applies effect if they generated any successes (dS >= 1)
+        if (dS >= 1) {
+          rHtml += `<div class="log-line effect-line">+ DEF applies combat effect: ${pickEffect()}</div>`;
+          if (net >= 2) rHtml += `<div class="log-line effect-line">+ major effect: ${pickMajor()}</div>`;
+        }
+      } else {
+        const net = margin;
+        rHtml += `<div class="log-line outcome-line atk-wins">+${net} ATK breaks through <span class="tag tag-atk">ATK WINS</span></div>`;
+        const dmgMulti = net >= 3 ? 2 : 1;
+        let allDmg = [];
+        for (let i = 0; i < dmgMulti; i++) allDmg = [...allDmg, ...getDmgRolls(aWep)];
+        const save = armorSave(dArmorN, dArmorD, allDmg, dDR);
+        const final = save.remaining.reduce((s, v) => s + v, 0);
+        rHtml += buildDmgLine('ATK', allDmg, save, final, 'DEF', 'dmg-line-atk');
+        if (net >= 2) rHtml += `<div class="log-line effect-line">+ combat effect: ${pickEffect()}</div>`;
+        if (net >= 3) rHtml += `<div class="log-line effect-line">+ major effect: ${pickMajor()}</div>`;
+        if (net >= 4) rHtml += `<div class="log-line effect-line">+ second effect: ${pickEffect()}</div>`;
+        defHP -= final; atkTotalDmg += final; atkHits++;
+        defArmorAbsorbed += save.saved;
+      }
+    } else {
+      // --- AVOID ---
+      if (margin <= 0) {
+        rHtml += `<div class="log-line outcome-line def-wins">DEF avoids <span class="tag tag-def">EVADED</span></div>`;
+        rHtml += `<div class="log-line no-dmg">DEF slips aside — no damage</div>`;
+      } else {
+        const net = margin;
+        rHtml += `<div class="log-line outcome-line atk-wins">+${net} ATK catches them <span class="tag tag-atk">ATK HITS</span></div>`;
+        const dmgMulti = net >= 3 ? 2 : 1;
+        let allDmg = [];
+        for (let i = 0; i < dmgMulti; i++) allDmg = [...allDmg, ...getDmgRolls(aWep)];
+        const save = armorSave(dArmorN, dArmorD, allDmg, dDR);
+        const final = save.remaining.reduce((s, v) => s + v, 0);
+        rHtml += buildDmgLine('ATK', allDmg, save, final, 'DEF', 'dmg-line-atk');
+        if (net >= 2) rHtml += `<div class="log-line effect-line">+ combat effect: ${pickEffect()}</div>`;
+        if (net >= 3) rHtml += `<div class="log-line effect-line">+ major effect: ${pickMajor()}</div>`;
+        if (net >= 4) rHtml += `<div class="log-line effect-line">+ second effect: ${pickEffect()}</div>`;
+        defHP -= final; atkTotalDmg += final; atkHits++;
+        defArmorAbsorbed += save.saved;
+      }
+    }
+
+    atkHP = Math.max(0, atkHP);
+    defHP = Math.max(0, defHP);
+
+    rHtml += `<div class="log-line" style="margin-top:5px;font-size:0.82rem;color:var(--ink-light)">`;
+    rHtml += `HP &mdash; <span style="color:var(--atk-color)">ATK ${atkHP}</span> / <span style="color:var(--def-color)">DEF ${defHP}</span>`;
+    rHtml += `</div>`;
+
+    if (atkHP <= 0) { rHtml += `<div class="log-line outcome-line def-wins" style="margin-top:4px">Attacker falls!</div>`; }
+    if (defHP <= 0) { rHtml += `<div class="log-line outcome-line atk-wins" style="margin-top:4px">Defender falls!</div>`; }
+
+    rHtml += `</div>`;
+    html += rHtml;
+  }
+
+  document.getElementById('log').innerHTML = html;
+
+  // HP bars
+  document.getElementById('hp-section').style.display = 'block';
+  document.getElementById('atk-bar').style.width = Math.max(0, (atkHP / maxHP) * 100) + '%';
+  document.getElementById('def-bar').style.width = Math.max(0, (defHP / maxHP) * 100) + '%';
+  document.getElementById('atk-hp-num').textContent = atkHP;
+  document.getElementById('def-hp-num').textContent = defHP;
+
+  // Stats
+  document.getElementById('stats-section').style.display = 'block';
+  const sc = document.getElementById('stats-cards');
+  sc.innerHTML = `
+    <div class="stat-card"><div class="stat-num num-atk">${atkTotalDmg}</div><div class="stat-lbl">ATK total dmg</div></div>
+    <div class="stat-card"><div class="stat-num num-def">${defTotalDmg}</div><div class="stat-lbl">DEF total dmg</div></div>
+    <div class="stat-card"><div class="stat-num num-atk">${atkHits}</div><div class="stat-lbl">ATK hits</div></div>
+    <div class="stat-card"><div class="stat-num num-def">${defHits}</div><div class="stat-lbl">DEF hits</div></div>
+    <div class="stat-card"><div class="stat-num num-neutral">${defArmorAbsorbed}</div><div class="stat-lbl">DEF armor absorbed</div></div>
+    <div class="stat-card"><div class="stat-num num-neutral">${atkArmorAbsorbed}</div><div class="stat-lbl">ATK armor absorbed</div></div>
+    <div class="stat-card"><div class="stat-num num-atk">${atkHits > 0 ? (atkTotalDmg / atkHits).toFixed(1) : '—'}</div><div class="stat-lbl">avg dmg / ATK hit</div></div>
+    <div class="stat-card"><div class="stat-num num-def">${defHits > 0 ? (defTotalDmg / defHits).toFixed(1) : '—'}</div><div class="stat-lbl">avg dmg / DEF hit</div></div>
+  `;
+}
+
+function buildDmgLine(dealer, rawDmg, save, final, target, cls) {
+  let line = `<div class="log-line ${cls}">${dealer} &rarr; ${target}: dmg roll [${rawDmg.join(' ')}]`;
+  if (save.armorRolls.length > 0) {
+    line += ` | armor [${fmtRolls(save.armorRolls)}] absorbs ${save.saved}`;
+  }
+  line += ` &rarr; <strong>${final} damage</strong></div>`;
+  return line;
+}
+
+function clearLog() {
+  document.getElementById('log').innerHTML = '<div class="empty-state">Configure fighters above and roll the dice...</div>';
+  document.getElementById('stats-section').style.display = 'none';
+  document.getElementById('hp-section').style.display = 'none';
+}
+</script>
+</body>
+</html>
