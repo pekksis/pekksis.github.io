@@ -97,7 +97,8 @@
   .ko-atk { background:rgba(122,26,26,0.12); color:var(--atk-color); border:1px solid var(--atk-color); }
   .ko-def { background:rgba(26,58,92,0.12); color:var(--def-color); border:1px solid var(--def-color); }
   .effects-panel { margin-top:1.25rem; }
-  .effects-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; }
+  .effects-fighters-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+  @media (max-width:500px) { .effects-fighters-grid { grid-template-columns:1fr; } }
   .effect-row { display:flex; align-items:center; gap:6px; }
   .effect-row input[type="checkbox"] { width:14px; height:14px; accent-color:var(--ink-mid); flex-shrink:0; cursor:pointer; }
   .effect-row label { font-family:'Crimson Text',serif; font-size:0.9rem; color:var(--ink); cursor:pointer; }
@@ -209,21 +210,29 @@
 
   <!-- Combat Effects Panel -->
   <div class="parchment-panel effects-panel" style="margin-bottom:1.25rem">
-    <div class="section-label">Combat effects available</div>
-    <div style="font-size:0.82rem;color:var(--ink-light);font-style:italic;margin-bottom:0.7rem">
-      Normal effects trigger on 1+ success margin. Major effects (marked) require 2+ success margin.
-    </div>
-    <div class="effects-grid">
-      <div class="effect-row"><input type="checkbox" id="eff-maneuver" checked><label for="eff-maneuver">Maneuver</label></div>
-      <div class="effect-row"><input type="checkbox" id="eff-shove" checked><label for="eff-shove">Shove</label></div>
-      <div class="effect-row"><input type="checkbox" id="eff-stanfast" checked><label for="eff-stanfast">Stand fast <span class="eff-tag">ADV self</span></label></div>
-      <div class="effect-row"><input type="checkbox" id="eff-pin" checked><label for="eff-pin">Pin weapon</label></div>
-      <div class="effect-row"><input type="checkbox" id="eff-daze" checked><label for="eff-daze">Daze <span class="eff-tag">DISADV opp</span></label></div>
-      <div class="effect-row"><input type="checkbox" id="eff-topple" checked><label for="eff-topple">Topple <span class="eff-tag">MAJOR · skip turn</span></label></div>
-      <div class="effect-row"><input type="checkbox" id="eff-sunder" checked><label for="eff-sunder">Sunder <span class="eff-tag">MAJOR · worse armor</span></label></div>
-      <div class="effect-row"><input type="checkbox" id="eff-impale" checked><label for="eff-impale">Impale <span class="eff-tag">MAJOR · 3+ · roll 2x pick best</span></label></div>
-      <div class="effect-row"><input type="checkbox" id="eff-artery" checked><label for="eff-artery">Cut artery <span class="eff-tag">MAJOR · bleeding</span></label></div>
-      <div class="effect-row"><input type="checkbox" id="eff-bypass" checked><label for="eff-bypass">Bypass armor <span class="eff-tag">MAJOR · ignore 1 armor save</span></label></div>
+    <div class="section-label">Combat effects</div>
+    <div style="font-size:0.82rem;color:var(--ink-light);font-style:italic;margin-bottom:0.9rem">Normal effects trigger on 1+ margin. Major effects require 2+ margin (Impale requires 3+).</div>
+    <div class="effects-fighters-grid">
+      <div>
+        <div class="section-label" style="color:var(--atk-color);margin-bottom:0.5rem">Fighter A</div>
+        <div class="effect-row"><input type="checkbox" id="a-eff-stanfast" checked><label for="a-eff-stanfast">Stand fast <span class="eff-tag">ADV self</span></label></div>
+        <div class="effect-row"><input type="checkbox" id="a-eff-daze" checked><label for="a-eff-daze">Daze <span class="eff-tag">DISADV opp</span></label></div>
+        <div class="effect-row"><input type="checkbox" id="a-eff-topple" checked><label for="a-eff-topple">Topple <span class="eff-tag">MAJOR · skip turn</span></label></div>
+        <div class="effect-row"><input type="checkbox" id="a-eff-sunder" checked><label for="a-eff-sunder">Sunder <span class="eff-tag">MAJOR · worse armor</span></label></div>
+        <div class="effect-row"><input type="checkbox" id="a-eff-impale" checked><label for="a-eff-impale">Impale <span class="eff-tag">MAJOR · 3+</span></label></div>
+        <div class="effect-row"><input type="checkbox" id="a-eff-artery" checked><label for="a-eff-artery">Cut artery <span class="eff-tag">MAJOR · bleed</span></label></div>
+        <div class="effect-row"><input type="checkbox" id="a-eff-bypass" checked><label for="a-eff-bypass">Bypass armor <span class="eff-tag">MAJOR · pierce</span></label></div>
+      </div>
+      <div>
+        <div class="section-label" style="color:var(--def-color);margin-bottom:0.5rem">Fighter B</div>
+        <div class="effect-row"><input type="checkbox" id="b-eff-stanfast" checked><label for="b-eff-stanfast">Stand fast <span class="eff-tag">ADV self</span></label></div>
+        <div class="effect-row"><input type="checkbox" id="b-eff-daze" checked><label for="b-eff-daze">Daze <span class="eff-tag">DISADV opp</span></label></div>
+        <div class="effect-row"><input type="checkbox" id="b-eff-topple" checked><label for="b-eff-topple">Topple <span class="eff-tag">MAJOR · skip turn</span></label></div>
+        <div class="effect-row"><input type="checkbox" id="b-eff-sunder" checked><label for="b-eff-sunder">Sunder <span class="eff-tag">MAJOR · worse armor</span></label></div>
+        <div class="effect-row"><input type="checkbox" id="b-eff-impale" checked><label for="b-eff-impale">Impale <span class="eff-tag">MAJOR · 3+</span></label></div>
+        <div class="effect-row"><input type="checkbox" id="b-eff-artery" checked><label for="b-eff-artery">Cut artery <span class="eff-tag">MAJOR · bleed</span></label></div>
+        <div class="effect-row"><input type="checkbox" id="b-eff-bypass" checked><label for="b-eff-bypass">Bypass armor <span class="eff-tag">MAJOR · pierce</span></label></div>
+      </div>
     </div>
   </div>
 
@@ -360,23 +369,21 @@ function sundered(dieSides) {
   return ARMOR_TIERS[idx + 1];
 }
 
-// --- Effect pool (loaded from checkboxes) ---
-function getEnabledEffects() {
+// --- Effect pool (loaded from per-fighter checkboxes) ---
+const EFFECT_MAP = [
+  {key:'stanfast', name:'Stand fast', type:'normal'},
+  {key:'daze',     name:'Daze',       type:'normal'},
+  {key:'topple',   name:'Topple',     type:'major'},
+  {key:'sunder',   name:'Sunder',     type:'major'},
+  {key:'impale',   name:'Impale',     type:'major', minMargin:3},
+  {key:'artery',   name:'Cut artery', type:'major'},
+  {key:'bypass',   name:'Bypass armor', type:'major'},
+];
+
+function getEffectsFor(fighter) {
   const normal = [], major = [];
-  const map = [
-    {id:'eff-maneuver', name:'Maneuver', type:'normal'},
-    {id:'eff-shove',    name:'Shove',    type:'normal'},
-    {id:'eff-stanfast', name:'Stand fast', type:'normal'},
-    {id:'eff-pin',      name:'Pin weapon', type:'normal'},
-    {id:'eff-daze',     name:'Daze',     type:'normal'},
-    {id:'eff-topple',   name:'Topple',   type:'major'},
-    {id:'eff-sunder',   name:'Sunder',   type:'major'},
-    {id:'eff-impale',   name:'Impale',   type:'major', minMargin:3},
-    {id:'eff-artery',   name:'Cut artery', type:'major'},
-    {id:'eff-bypass',   name:'Bypass armor', type:'major'},
-  ];
-  map.forEach(e => {
-    const el = document.getElementById(e.id);
+  EFFECT_MAP.forEach(e => {
+    const el = document.getElementById(`${fighter}-eff-${e.key}`);
     if (el && el.checked) {
       if (e.type === 'normal') normal.push(e);
       else major.push(e);
@@ -451,7 +458,7 @@ function buildDmgLine(dealer, rawDmg, save, final, target, cls) {
   return line;
 }
 
-function resolveExchange(atkKey, defKey, atkLabel, defLabel, atkCfg, defCfg, atkState, defState, mutCfg, effects) {
+function resolveExchange(atkKey, defKey, atkLabel, defLabel, atkCfg, defCfg, atkState, defState, mutCfg, atkEffects, defEffects) {
   // --- Status display ---
   let statusHtml = '';
   if (atkState.adv)    statusHtml += `<div class="log-line status-line">${atkLabel} has advantage (fate d8) <span class="tag tag-status">ADV</span></div>`;
@@ -523,12 +530,12 @@ function resolveExchange(atkKey, defKey, atkLabel, defLabel, atkCfg, defCfg, atk
   let armorRemoved = 0;
   let winner = null;
 
-  const doAttack = (atker, atkerLabel, wep, targetLabel, targetCfg, targetState, targetMutCfg, net, isMajor) => {
+  const doAttack = (atker, atkerLabel, wep, targetLabel, targetCfg, targetState, targetMutCfg, net, isMajor, effPool) => {
     const wepInfo = parseDie(wep);
     let effectHtml = '', bypassArmor = 0, impale = false;
 
     if (net >= 1) {
-      const normalPool = effects.normal.filter(e => !e.minMargin || net >= e.minMargin);
+      const normalPool = effPool.normal.filter(e => !e.minMargin || net >= e.minMargin);
       const eff = pickFrom(normalPool);
       if (eff) {
         const r = resolveEffect(eff, net, targetState, atker === atkKey ? atkState : defState, targetMutCfg);
@@ -536,7 +543,7 @@ function resolveExchange(atkKey, defKey, atkLabel, defLabel, atkCfg, defCfg, atk
       }
     }
     if (isMajor && net >= 2) {
-      const majorPool = effects.major.filter(e => !e.minMargin || net >= e.minMargin);
+      const majorPool = effPool.major.filter(e => !e.minMargin || net >= e.minMargin);
       const eff = pickFrom(majorPool);
       if (eff) {
         const r = resolveEffect(eff, net, targetState, atker === atkKey ? atkState : defState, targetMutCfg);
@@ -570,7 +577,7 @@ function resolveExchange(atkKey, defKey, atkLabel, defLabel, atkCfg, defCfg, atk
         ? `<div class="log-line outcome-line neutral-out">Tie &mdash; attacker wins <span class="tag tag-atk">ATK</span></div>`
         : `<div class="log-line outcome-line atk-wins">+${margin} &mdash; ${atkLabel} wins <span class="tag tag-atk">ATK +${margin}</span></div>`;
       rHtml += `<div class="log-line rolls-line" style="font-style:italic">${net}&times;${atkCfg.wep} = ${net * parseDie(atkCfg.wep).count} dice</div>`;
-      const res = doAttack(atkKey, atkLabel, atkCfg.wep, defLabel, defCfg, defState, mutCfg[defKey], net, true);
+      const res = doAttack(atkKey, atkLabel, atkCfg.wep, defLabel, defCfg, defState, mutCfg[defKey], net, true, atkEffects);
       rHtml += res.html;
       defState.hp -= res.final;
       dmgDealt = res.final; armorRemoved = res.armorRemoved; winner = atkKey;
@@ -578,7 +585,7 @@ function resolveExchange(atkKey, defKey, atkLabel, defLabel, atkCfg, defCfg, atk
       const net = Math.abs(margin);
       rHtml += `<div class="log-line outcome-line def-wins">+${net} &mdash; ${defLabel} wins <span class="tag tag-def">DEF +${net}</span></div>`;
       rHtml += `<div class="log-line rolls-line" style="font-style:italic">${net}&times;${defCfg.wep} = ${net * parseDie(defCfg.wep).count} dice</div>`;
-      const res = doAttack(defKey, defLabel, defCfg.wep, atkLabel, atkCfg, atkState, mutCfg[atkKey], net, true);
+      const res = doAttack(defKey, defLabel, defCfg.wep, atkLabel, atkCfg, atkState, mutCfg[atkKey], net, true, defEffects);
       rHtml += res.html;
       atkState.hp -= res.final;
       dmgDealt = res.final; armorRemoved = res.armorRemoved; winner = defKey;
@@ -598,11 +605,11 @@ function resolveExchange(atkKey, defKey, atkLabel, defLabel, atkCfg, defCfg, atk
       const wepInfo = parseDie(atkCfg.wep);
       let effectHtml = '', bypassArmor = 0, impale = false;
       if (net >= 1) {
-        const eff = pickFrom(effects.normal.filter(e => !e.minMargin || net >= e.minMargin));
+        const eff = pickFrom(atkEffects.normal.filter(e => !e.minMargin || net >= e.minMargin));
         if (eff) { const r = resolveEffect(eff, net, defState, atkState, mutCfg[defKey]); effectHtml += r.html; bypassArmor += r.bypassArmor; impale = r.impale; }
       }
       if (net >= 2) {
-        const eff = pickFrom(effects.major.filter(e => !e.minMargin || net >= e.minMargin));
+        const eff = pickFrom(atkEffects.major.filter(e => !e.minMargin || net >= e.minMargin));
         if (eff) { const r = resolveEffect(eff, net, defState, atkState, mutCfg[defKey]); effectHtml += r.html; bypassArmor += r.bypassArmor; impale = impale || r.impale; }
       }
 
@@ -665,7 +672,8 @@ function runSim() {
   };
 
   const numRounds = +document.getElementById('rounds').value;
-  const effects = getEnabledEffects();
+  const effectsA = getEffectsFor('a');
+  const effectsB = getEffectsFor('b');
 
   let html = '';
   const stats = {aDmg:0,bDmg:0,aHits:0,bHits:0,aArm:0,bArm:0,aEn:0,bEn:0};
@@ -720,7 +728,9 @@ function runSim() {
 
       const energyBefore = {a: state.a.energy, b: state.b.energy};
 
-      const res = resolveExchange(atkKey, defKey, atkLabel, defLabel, cfg[atkKey], cfg[defKey], atkState, defState, mutCfg, effects);
+      const atkEffects = atkKey === 'a' ? effectsA : effectsB;
+      const defEffects = defKey === 'a' ? effectsA : effectsB;
+      const res = resolveExchange(atkKey, defKey, atkLabel, defLabel, cfg[atkKey], cfg[defKey], atkState, defState, mutCfg, atkEffects, defEffects);
 
       rHtml += res.html;
 
