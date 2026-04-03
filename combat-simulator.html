@@ -211,7 +211,7 @@
   <!-- Combat Effects Panel -->
   <div class="parchment-panel effects-panel" style="margin-bottom:1.25rem">
     <div class="section-label">Combat effects</div>
-    <div style="font-size:0.82rem;color:var(--ink-light);font-style:italic;margin-bottom:0.9rem">Normal effects trigger on 1+ margin. Major effects require 2+ margin (Impale requires 3+).</div>
+    <div style="font-size:0.82rem;color:var(--ink-light);font-style:italic;margin-bottom:0.9rem">Normal effects trigger on 1+ margin. Major effects require 2+ margin.</div>
     <div class="effects-fighters-grid">
       <div>
         <div class="section-label" style="color:var(--atk-color);margin-bottom:0.5rem">Fighter A</div>
@@ -219,7 +219,7 @@
         <div class="effect-row"><input type="checkbox" id="a-eff-daze" checked><label for="a-eff-daze">Daze <span class="eff-tag">DISADV opp</span></label></div>
         <div class="effect-row"><input type="checkbox" id="a-eff-topple" checked><label for="a-eff-topple">Topple <span class="eff-tag">MAJOR · skip turn</span></label></div>
         <div class="effect-row"><input type="checkbox" id="a-eff-sunder" checked><label for="a-eff-sunder">Sunder <span class="eff-tag">MAJOR · worse armor</span></label></div>
-        <div class="effect-row"><input type="checkbox" id="a-eff-impale" checked><label for="a-eff-impale">Impale <span class="eff-tag">MAJOR · 3+</span></label></div>
+        <div class="effect-row"><input type="checkbox" id="a-eff-impale" checked><label for="a-eff-impale">Impale <span class="eff-tag">MAJOR · maximize damage</span></label></div>
         <div class="effect-row"><input type="checkbox" id="a-eff-artery" checked><label for="a-eff-artery">Cut artery <span class="eff-tag">MAJOR · bleed</span></label></div>
         <div class="effect-row"><input type="checkbox" id="a-eff-bypass" checked><label for="a-eff-bypass">Bypass armor <span class="eff-tag">MAJOR · pierce</span></label></div>
       </div>
@@ -229,7 +229,7 @@
         <div class="effect-row"><input type="checkbox" id="b-eff-daze" checked><label for="b-eff-daze">Daze <span class="eff-tag">DISADV opp</span></label></div>
         <div class="effect-row"><input type="checkbox" id="b-eff-topple" checked><label for="b-eff-topple">Topple <span class="eff-tag">MAJOR · skip turn</span></label></div>
         <div class="effect-row"><input type="checkbox" id="b-eff-sunder" checked><label for="b-eff-sunder">Sunder <span class="eff-tag">MAJOR · worse armor</span></label></div>
-        <div class="effect-row"><input type="checkbox" id="b-eff-impale" checked><label for="b-eff-impale">Impale <span class="eff-tag">MAJOR · 3+</span></label></div>
+        <div class="effect-row"><input type="checkbox" id="b-eff-impale" checked><label for="b-eff-impale">Impale <span class="eff-tag">MAJOR · maximize damage</span></label></div>
         <div class="effect-row"><input type="checkbox" id="b-eff-artery" checked><label for="b-eff-artery">Cut artery <span class="eff-tag">MAJOR · bleed</span></label></div>
         <div class="effect-row"><input type="checkbox" id="b-eff-bypass" checked><label for="b-eff-bypass">Bypass armor <span class="eff-tag">MAJOR · pierce</span></label></div>
       </div>
@@ -375,7 +375,7 @@ const EFFECT_MAP = [
   {key:'daze',     name:'Daze',       type:'normal'},
   {key:'topple',   name:'Topple',     type:'major'},
   {key:'sunder',   name:'Sunder',     type:'major'},
-  {key:'impale',   name:'Impale',     type:'major', minMargin:3},
+  {key:'impale',   name:'Impale',     type:'major'},
   {key:'artery',   name:'Cut artery', type:'major'},
   {key:'bypass',   name:'Bypass armor', type:'major'},
 ];
