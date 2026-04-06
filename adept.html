@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Adept — Abilities</title>
+  <link rel="stylesheet" href="charstyle.css">
+  <style>
+    :root {
+      --accent: #2a6b8b;
+      --accent-light: #3a8aad;
+      --gold: #4a9e8a;
+      --gold-light: #6abfaa;
+      --rule: #a0bfc8;
+      --parchment: #eef4f7;
+      --parchment-dark: #d5e6ec;
+      --parchment-mid: #e4eff3;
+      --muted: #4a6878;
+      --shadow: rgba(20,60,90,0.14);
+    }
+    body {
+      background-color: var(--parchment);
+      background-image:
+        radial-gradient(ellipse at 15% 15%, rgba(74,158,138,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 85%, rgba(42,107,139,0.10) 0%, transparent 55%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    }
+    .char-name { color: var(--accent); }
+    .badge-cost { background: var(--accent); }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <a class="nav-back" href="#">Character Sheet</a>
+
+  <header class="char-header">
+    <div class="char-name">The Adept</div>
+    <div class="power-source">Source of Power: Ki</div>
+  </header>
+
+  <p class="section-title">Talents</p>
+  <div class="divider">✦ ✦ ✦</div>
+
+  <div class="talent-list">
+
+    <div class="talent">
+      <div class="talent-header">
+        <span class="talent-name">Weightless Tread</span>
+        <div class="badges">
+          <span class="badge badge-tier">Tier 1</span>
+          <span class="badge badge-cost">1 Power</span>
+        </div>
+      </div>
+      <p class="talent-desc">You may move freely across vertical surfaces and ceilings for one minute. You leave no unusual marks, make no additional noise, and suffer no penalty to movement.</p>
+    </div>
+
+    <div class="talent">
+      <div class="talent-header">
+        <span class="talent-name">Center Self</span>
+        <div class="badges">
+          <span class="badge badge-tier">Tier 2</span>
+          <span class="badge badge-cost">2 Power</span>
+        </div>
+      </div>
+      <p class="talent-desc">Meditate for one hour. Choose one attribute — it improves one step for the next 24 hours. This effect cannot be stacked; a second use simply resets the timer and may shift which attribute is enhanced.</p>
+    </div>
+
+    <div class="talent">
+      <div class="talent-header">
+        <span class="talent-name">Staff Master</span>
+        <div class="badges">
+          <span class="badge badge-tier">Tier 2</span>
+          <span class="badge badge-type">Passive</span>
+        </div>
+      </div>
+      <p class="talent-desc">While wielding a quarterstaff:</p>
+      <div class="talent-desc">
+        <ul>
+          <li>When attacking or contesting, roll one additional fate die.</li>
+          <li>Your staff counts as a medium shield for the purpose of blocking incoming projectiles.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="talent">
+      <div class="talent-header">
+        <span class="talent-name">Float Like Water</span>
+        <div class="badges">
+          <span class="badge badge-tier">Tier 2</span>
+          <span class="badge badge-type">Combat Effect</span>
+          <span class="badge badge-cost">1 Power</span>
+        </div>
+      </div>
+      <div class="talent-trigger">Trigger: You are fighting back, or the attacker is fighting back against you.</div>
+      <p class="talent-desc">Instead of dealing damage, you flow seamlessly past the attacker's guard. Deal only base weapon damage, shift one tile in any direction, and knock the opponent prone.</p>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
