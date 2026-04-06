@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Beastmaster — Abilities</title>
+  <link rel="stylesheet" href="charstyle.css">
+  <style>
+    :root {
+      --accent: #4a6b2a;
+      --accent-light: #5e8a38;
+      --gold: #8a7a2a;
+      --gold-light: #b09e44;
+      --rule: #b8c4a0;
+      --parchment: #f0f4ea;
+      --parchment-dark: #dce6cc;
+      --parchment-mid: #e8f0da;
+      --muted: #556644;
+      --shadow: rgba(40,60,20,0.14);
+    }
+    body {
+      background-color: var(--parchment);
+      background-image:
+        radial-gradient(ellipse at 10% 30%, rgba(74,107,42,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse at 88% 75%, rgba(138,122,42,0.10) 0%, transparent 55%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    }
+    .char-name { color: var(--accent); }
+    .badge-cost { background: var(--accent); }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <header class="char-header">
+    <div class="char-name">The Beastmaster</div>
+    <div class="power-source">Source of Power: Primal Fury</div>
+  </header>
+
+  <p class="section-title">Talents</p>
+  <div class="divider">✦ ✦ ✦</div>
+
+  <div class="talent-list">
+
+    <div class="talent">
+      <div class="talent-header">
+        <span class="talent-name">Wild Sense</span>
+        <div class="badges">
+          <span class="badge badge-tier">Tier 1</span>
+          <span class="badge badge-type">Passive</span>
+        </div>
+      </div>
+      <p class="talent-desc">You are never lost outdoors and can identify any creature by its tracks, spoor, or markings. Once per day, you may ask the GM one question about the surrounding environment and receive an honest answer.</p>
+    </div>
+
+    <div class="talent">
+      <div class="talent-header">
+        <span class="talent-name">The Bond</span>
+        <div class="badges">
+          <span class="badge badge-tier">Tier 2</span>
+          <span class="badge badge-type">Passive</span>
+        </div>
+      </div>
+      <p class="talent-desc">You have a loyal animal companion. It has no stat block but provides utility:</p>
+      <div class="talent-desc">
+        <ul>
+          <li><strong>Scout:</strong> Send your companion ahead to observe a nearby location. You gain Advantage on your next navigation or awareness roll based on what it finds.</li>
+          <li><strong>Guardian:</strong> If you are reduced to Death's Door, your companion protects you, imposing Disadvantage on all melee attacks against you while you remain down.</li>
+		  <li></strong>Pack Tactics - Fast Action (Cost 1 Power):</strong> Your companion strikes in tandem with your next attack. The target has Disadvantage on their Reaction roll against your next attack.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="talent">
+      <div class="talent-header">
+        <span class="talent-name">Berserking Frenzy</span>
+        <div class="badges">
+          <span class="badge badge-tier">Tier 2</span>
+          <span class="badge badge-cost">2 Power</span>
+        </div>
+      </div>
+      <p class="talent-desc">You fly into a primal frenzy. Your Might attribute die improves two steps for the duration.</p>
+      <p class="talent-desc" style="margin-top:0.5rem;">The frenzy ends at the end of any turn in which you did not attack a creature — friend or foe. When it ends, you are Dazed until the end of your next turn.</p>
+    </div>
+
+    <div class="talent">
+      <div class="talent-header">
+        <span class="talent-name">Overpowering Strike</span>
+        <div class="badges">
+          <span class="badge badge-tier">Tier 2</span>
+          <span class="badge badge-type">Combat Effect</span>
+          <span class="badge badge-cost">1 Power</span>
+        </div>
+      </div>
+      <p class="talent-desc">You put your entire weight into the blow. Send the enemy flying back 2 tiles. If they impact with a wall, object, or another creature, they take 1d4 damage ignoring armor. You can describe this as a heavy weapon swing, a cinematic kick, a shoulder barge, or a focused burst of energy.</p>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
