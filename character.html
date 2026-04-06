@@ -140,9 +140,9 @@ const SVG=`<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/sv
   document.getElementById('skills-container').appendChild(row);
 });
 
-// Talents — 4 rows, single column, name + tier
+// Talents — 6 rows, single column, name + tier
 const tc=document.getElementById('talents-container');
-for(let i=0;i<4;i++){
+for(let i=0;i<6;i++){
   const row=document.createElement('div');row.className='talent-row';
   const num=document.createElement('span');num.className='talent-num';num.textContent=`${i+1}.`;
   const ni=document.createElement('input');ni.className='fi';ni.type='text';ni.placeholder='—';
