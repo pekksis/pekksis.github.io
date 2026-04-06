@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Knave — Abilities</title>
+  <link rel="stylesheet" href="charstyle.css">
+  <style>
+    :root {
+      --accent: #4a3070;
+      --accent-light: #6248a0;
+      --gold: #7a5a9a;
+      --gold-light: #9a78be;
+      --rule: #b8aace;
+      --parchment: #f2eef8;
+      --parchment-dark: #e0d8ee;
+      --parchment-mid: #e9e4f3;
+      --muted: #5a4870;
+      --shadow: rgba(40,20,80,0.14);
+    }
+    body {
+      background-color: var(--parchment);
+      background-image:
+        radial-gradient(ellipse at 12% 20%, rgba(74,48,112,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 80%, rgba(122,90,154,0.10) 0%, transparent 55%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    }
+    .char-name { color: var(--accent); }
+    .badge-cost { background: var(--accent); }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <header class="char-header">
+    <div class="char-name">The Knave</div>
+    <div class="power-source">Source of Power: Guile</div>
+  </header>
+
+  <p class="section-title">Talents</p>
+  <div class="divider">✦ ✦ ✦</div>
+
+  <div class="talent-list">
+
+    <div class="talent">
+      <div class="talent-header">
+        <span class="talent-name">Silver Tongue</span>
+        <div class="badges">
+          <span class="badge badge-tier">Tier 1</span>
+          <span class="badge badge-type">Passive</span>
+        </div>
+      </div>
+      <p class="talent-desc">When attempting to bribe, lie, or manipulate a neutral or friendly NPC, you may reroll one fate die. If you fail the roll, the NPC immediately becomes hostile or reports you to the relevant authorities.</p>
+    </div>
+
+    <div class="talent">
+      <div class="talent-header">
+        <span class="talent-name">Dirty Fighting</span>
+        <div class="badges">
+          <span class="badge badge-tier">Tier 1</span>
+          <span class="badge badge-type">Fast Action</span>
+          <span class="badge badge-cost">2 Power</span>
+        </div>
+      </div>
+      <p class="talent-desc">Throw sand, trip, or shove your target. They have Disadvantage on their next Reaction this round.</p>
+    </div>
+
+    <div class="talent">
+      <div class="talent-header">
+        <span class="talent-name">Sneak Attack</span>
+        <div class="badges">
+          <span class="badge badge-tier">Tier 2</span>
+          <span class="badge badge-type">Passive</span>
+        </div>
+      </div>
+      <p class="talent-desc">If you initiate combat against an completely unaware target, your first attack is made with Advantage and the target cannot spend a Reaction to defend. If you attack a target who is currently engaged in melee with one of your allies, your attack is made with Advantage.</p>
+    </div>
+
+    <div class="talent">
+      <div class="talent-header">
+        <span class="talent-name">Defensive Roll</span>
+        <div class="badges">
+          <span class="badge badge-tier">Tier 2</span>
+          <span class="badge badge-cost">1 Power</span>
+        </div>
+      </div>
+      <div class="talent-trigger">Trigger: You successfully Avoid an attack or effect.</div>
+      <p class="talent-desc">Shift up to your full free movement. If you end this movement in cover or concealment, you are automatically Hidden from all enemies. If this movement takes you clear of an area effect or environmental hazard, you take no damage from it.</p>
+    </div>
+
+    <div class="talent">
+      <div class="talent-header">
+        <span class="talent-name">Cut Artery</span>
+        <div class="badges">
+          <span class="badge badge-tier">Tier 2</span>
+          <span class="badge badge-type">Combat Effect</span>
+        </div>
+      </div>
+      <div class="talent-trigger">Requires: Slashing or piercing weapon.</div>
+      <p class="talent-desc">The target receives Bleeding equal to 1 + the number of Injuries they have already sustained.</p>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
