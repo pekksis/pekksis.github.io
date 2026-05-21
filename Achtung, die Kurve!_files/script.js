@@ -16,6 +16,8 @@ let achtung = {
     winner: false, // do we have a winner?
     sides: 0, // can all players go out of screen and come out the other side
     clearSides: 0, // to clear timeone if leftover time from last round
+    ghostMode: 0, // all trails drawn invisible (black) but still lethal
+    clearGhost: 0, // to clear ghost timeout if leftover from last round
     playing: [], // who's playing
     powerups: [
         "g_slow",
@@ -35,7 +37,8 @@ let achtung = {
         "o_random",
         "r_shots",
         "g_jesus",
-        "r_circus"   // <-- Circus Tent Sabotage
+        "r_circus",  // <-- Circus Tent Sabotage
+        "b_ghost"    // <-- Ghost Mode: ALL trails invisible (but lethal) for 2s
     ],
     powerupsOnScreen: [], // what powerups are on screen now
 }
@@ -87,6 +90,10 @@ window.addEventListener("resize", newSize)
 const fredPhoto = new Image()
 fredPhoto.src = "Achtung, die Kurve!_files/fred_photo.jpg" // <-- PUT GROOM PHOTO HERE (jpg/png URL or base64)
 
+// Ghost powerup custom image
+const ghostPowerupImage = new Image()
+ghostPowerupImage.src = "Achtung, die Kurve!_files/jager.jpg" // <-- PUT GHOST POWERUP IMAGE HERE
+
 // Death audio clips — replace filenames with your actual mp3 files
 const fredDeathClips = [
     new Audio("Achtung, die Kurve!_files/death1.mp3"), 
@@ -99,15 +106,6 @@ function playFredDeathSound() {
     clip.play().catch(() => {}) // catch autoplay errors gracefully
 }
 
-// K-key swaps left/right for fred for 1 second
-document.addEventListener("keydown", (e) => {
-    if (e.code === "KeyK" && players.fred && players.fred.alive) {
-        players.fred.powerup.reverse++
-        setTimeout(() => {
-            if (players.fred) players.fred.powerup.reverse--
-        }, 500)
-    }
-})
 // ============================================================
 
 function newSize() {
@@ -140,6 +138,8 @@ function init() {
     achtung.powerupsOnScreen = [] // clear powerups on screen
     clearTimeout(achtung.clearSides) // clear timeout if sides powerup leftover time from last round
     achtung.sides = 0 // reset sides
+    clearTimeout(achtung.clearGhost) // clear ghost timeout if leftover
+    achtung.ghostMode = 0 // reset ghost mode
     activeCircuses = []; // Clear active obstacles
 
     for (const player in players) {
@@ -321,6 +321,14 @@ function draw() {
     canvasID = window.requestAnimationFrame(draw) // to pause: cancelAnimationFrame(CanvasID)
     tFrame++ // increment tFrame
 
+    // Bachelor easter egg: randomly swap Fred's controls for 0.5s (roughly once every ~25s at 60fps)
+    if (players.fred && players.fred.alive && players.fred.ready) {
+        if (Math.random() < 0.001) {
+            players.fred.powerup.reverse++
+            setTimeout(() => { if (players.fred) players.fred.powerup.reverse-- }, 500)
+        }
+    }
+
     // clear
     ctxTH.clearRect(h, 0, w - h, h)
     ctxDO.clearRect(0, 0, w, h)
@@ -389,7 +397,7 @@ function draw() {
     }
     // Boost speed globally based on how many players are alive.
     // Tweak 0.10 if it feels too fast/slow.
-    let lagCompensation = 1 + (aliveCount * 0.10); 
+    let lagCompensation = 1 + (aliveCount * 0.07); 
     let currentMoveSpeed = moveSpeed * lagCompensation;
     let currentTurnSpeed = turnSpeed * lagCompensation;
     // -----------------------------
@@ -423,6 +431,7 @@ function draw() {
         }
 
         const dotRadius = (playerSize / 2) * players[player].powerup.size
+        if (!players[player].alive) continue // continue if player not alive (drawing dot is above, so player dot will still be drawn even if dead)
 
         if (players[player].powerup.robot == 0) {
             // Calculate wobble offset for shots powerup
@@ -466,7 +475,8 @@ function draw() {
             ctxDO.restore()
         }
 
-        if (!players[player].alive) continue // continue if player not alive (drawing dot is above, so player dot will still be drawn even if dead)
+	
+
 
         // update player turning
         if (players[player].powerup.jesus > 0) {
@@ -481,6 +491,10 @@ function draw() {
             if (players[player].turnR) {
                 if (players[player].powerup.reverse == 0) players[player].dir += currentTurnSpeed / Math.pow(players[player].powerup.size, 0.3)
                 else players[player].dir -= currentTurnSpeed / Math.pow(players[player].powerup.size, 0.3)
+            }
+            // Shots powerup: add gentle sinusoidal weave to movement direction
+            if (players[player].powerup.wobble > 0) {
+                players[player].dir += Math.sin(tFrame * 0.12 + players[player].x * 0.01) * 0.018
             }
         } else {
             // if robot
@@ -559,8 +573,9 @@ function draw() {
         }
 
         // draw player trail; don't draw if bridge or invisible
+        // if ghostMode: draw in black — visually hidden on black bg, but alpha=255 so collision still kills
         if (!players[player].bridge && players[player].powerup.invisible == 0) {
-            ctxTH.strokeStyle = players[player].color
+            ctxTH.strokeStyle = achtung.ghostMode > 0 ? "#000001" : players[player].color
             ctxTH.lineWidth = playerSize * players[player].powerup.size
             ctxTH.beginPath()
             if (players[player].powerup.robot != 0) {
@@ -885,6 +900,13 @@ function doPowerups(puPlayer, index) {
         }, jesusTimeout)
     }
     
+    if (powName == "b_ghost") {
+        // Ghost Mode: ALL trails become invisible (black) for 4s — still lethal, everyone must remember
+        let ghostTimeout = 4000
+        achtung.ghostMode++
+        achtung.clearGhost = setTimeout(() => achtung.ghostMode--, ghostTimeout)
+    }
+
     // 1. Red Power-up: Sirkusteltta Pystyyn (Sabotages everyone else by flying a tent down)
     if (powName == "r_circus") {
         let p = players[puPlayer];
@@ -1047,8 +1069,18 @@ function powerupDraw() {
             ctxPV.fill()
         }
 
-        // draw yellow icon
-        drawPowerupIcons(pow.slice(2))
+        // draw yellow icon (or custom image for special powerups)
+        if (pow === "b_ghost" && ghostPowerupImage.complete && ghostPowerupImage.naturalWidth > 0) {
+            // Clip and draw the custom ghost image inside the powerup circle
+            ctxPV.save()
+            ctxPV.beginPath()
+            ctxPV.arc(0, 0, iconSize * 0.75, 0, r2d(360), false)
+            ctxPV.clip()
+            ctxPV.drawImage(ghostPowerupImage, -iconSize * 0.75, -iconSize * 0.75, iconSize * 1.5, iconSize * 1.5)
+            ctxPV.restore()
+        } else {
+            drawPowerupIcons(pow.slice(2))
+        }
 
         ctxPV.restore()
     }
