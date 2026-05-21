@@ -61,7 +61,7 @@ let canvasID,
     bluet = getComputedStyle(document.documentElement).getPropertyValue(`--blue-t`),
     tFrame = 0, // cur frame in draw
     powerupProb = 0.01, // in percent
-    bridgeProb = 0.008, // in percent
+    bridgeProb = 0.007, // in percent
     bridgeSize = 12, // in frames
     turnSpeed = 0.06, // in radians per frame
     w,
