@@ -320,11 +320,24 @@ function draw() {
     canvasID = window.requestAnimationFrame(draw) // to pause: cancelAnimationFrame(CanvasID)
     tFrame++ // increment tFrame
 
-    // Bachelor easter egg: randomly swap Fred's controls for 0.5s (roughly once every ~25s at 60fps)
+// Randomly glitch Fred's controls, size, or speed (roughly once every ~25s at 60fps)
     if (players.fred && players.fred.alive && players.fred.ready) {
-        if (Math.random() < 0.001) {
-            players.fred.powerup.reverse++
-            setTimeout(() => { if (players.fred) players.fred.powerup.reverse-- }, 500)
+        if (Math.random() < 0.0012) {
+            let randomEffect = Math.floor(Math.random() * 3); // Picks 0, 1, or 2
+
+            if (randomEffect === 0) {
+                // 1. Reverse controls for half a second
+                players.fred.powerup.reverse++;
+                setTimeout(() => { if (players.fred) players.fred.powerup.reverse--; }, 500);
+            } else if (randomEffect === 1) {
+                // 2. Become 20% thiccer for 5s
+                players.fred.powerup.size *= 1.2;
+                setTimeout(() => { if (players.fred) players.fred.powerup.size /= 3; }, 5000);
+            } else if (randomEffect === 2) {
+                // 3. Get 2x speed
+                players.fred.powerup.speed *= 2;
+                setTimeout(() => { if (players.fred) players.fred.powerup.speed /= 2; }, 500);
+            }
         }
     }
 
@@ -844,7 +857,7 @@ function doPowerups(puPlayer, index) {
     if (powName == "r_thick") {
         for (const otherPlayers in players) {
             if (otherPlayers != puPlayer) {
-                players[otherPlayers].powerup.size *= 2
+                players[otherPlayers].powerup.size *= 2.25
                 players[otherPlayers].powerup.toClear[index] = setTimeout(() => (players[otherPlayers].powerup.size *= 0.5), rTimeout)
             }
         }
@@ -890,8 +903,8 @@ function doPowerups(puPlayer, index) {
         }
     }
     if (powName == "g_jesus") {
-        // Jesus take the wheel: straight line, invincible, wall-punching, 3s
-        let jesusTimeout = 3000
+        // Jesus take the wheel: straight line, invincible, wall-punching, 4s
+        let jesusTimeout = 4000
         players[puPlayer].powerup.jesus++
         players[puPlayer].powerup.jesusDir = players[puPlayer].dir // lock current direction
         players[puPlayer].powerup.toClear[index] = setTimeout(() => {
@@ -900,8 +913,8 @@ function doPowerups(puPlayer, index) {
     }
     
     if (powName == "b_ghost") {
-        // Ghost Mode: ALL trails become invisible (black) for 4s — still lethal, everyone must remember
-        let ghostTimeout = 4000
+        // Ghost Mode: ALL trails become invisible (black) for 5s — still lethal, everyone must remember
+        let ghostTimeout = 5000
         achtung.ghostMode++
         achtung.clearGhost = setTimeout(() => achtung.ghostMode--, ghostTimeout)
     }
