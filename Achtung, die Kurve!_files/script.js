@@ -88,11 +88,10 @@ window.addEventListener("resize", newSize)
 
 // Photo for Fred's worm head — replace src with actual photo URL or base64
 const fredPhoto = new Image()
-fredPhoto.src = "Achtung, die Kurve!_files/fred_photo.jpg" // <-- PUT GROOM PHOTO HERE (jpg/png URL or base64)
-
+fredPhoto.src = "Achtung, die Kurve!_files/fred_photo.jpg" 
 // Ghost powerup custom image
 const ghostPowerupImage = new Image()
-ghostPowerupImage.src = "Achtung, die Kurve!_files/jager.jpg" // <-- PUT GHOST POWERUP IMAGE HERE
+ghostPowerupImage.src = "Achtung, die Kurve!_files/jager.jpg" // Rotta tuomas
 
 // Death audio clips — replace filenames with your actual mp3 files
 const fredDeathClips = [
