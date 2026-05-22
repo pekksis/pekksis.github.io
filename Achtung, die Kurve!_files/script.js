@@ -35,7 +35,7 @@ let achtung = {
         "b_more",
         "b_sides",
         "o_random",
-		"g_swap", // Swap players
+		"o_swap", // Swap players
         "r_shots",  // Serve shots to others
         "g_jesus",  // Jesus take the wheel
         "r_circus",  // <-- Circus Tent Sabotage
