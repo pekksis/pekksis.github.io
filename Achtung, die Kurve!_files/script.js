@@ -100,8 +100,8 @@ const fredDeathClips = [
     new Audio("Achtung, die Kurve!_files/death2.mp3"),
 	new Audio("Achtung, die Kurve!_files/death3.mp3")
 ]
-fredDeathClips[1].volume = 0.3 //lower this volume
-fredDeathClips[0].volume = 0.8 //lower this volume
+fredDeathClips[1].volume = 0.2 //lower this volume
+fredDeathClips[0].volume = 0.6 //lower this volume
 fredDeathClips[2].volume = 0.8 //lower this volume
 
 const ghostModeAudio = new Audio("Achtung, die Kurve!_files/tico.mp3")
