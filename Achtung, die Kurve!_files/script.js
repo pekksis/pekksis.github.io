@@ -16,8 +16,8 @@ let achtung = {
     winner: false, // do we have a winner?
     sides: 0, // can all players go out of screen and come out the other side
     clearSides: 0, // to clear timeone if leftover time from last round
-    ghostMode: 0, // all trails drawn invisible (black) but still lethal
-    clearGhost: 0, // to clear ghost timeout if leftover from last round
+    partyMode: 0, // all trails drawn invisible (black) but still lethal
+    clearParty: 0, // to clear ghost timeout if leftover from last round
     playing: [], // who's playing
     powerups: [
         "g_slow",
@@ -39,7 +39,7 @@ let achtung = {
         "r_shots",  // Serve shots to others
         "g_jesus",  // Jesus take the wheel
         "r_circus",  // <-- Circus Tent Sabotage
-        "b_party"    // <-- Tico tico!
+        "b_party"    // <-- Tico Tico!
     ],
     powerupsOnScreen: [], // what powerups are on screen now
 }
@@ -103,9 +103,8 @@ const fredDeathClips = [
 fredDeathClips[1].volume = 0.2 //lower this volume
 fredDeathClips[0].volume = 0.6 //lower this volume
 fredDeathClips[2].volume = 0.8 //lower this volume
-
-const ghostModeAudio = new Audio("Achtung, die Kurve!_files/tico.mp3")
-ghostModeAudio.loop = true
+const partyModeAudio = new Audio("Achtung, die Kurve!_files/tico.mp3")
+partyModeAudio.loop = true
 
 function playFredDeathSound() {
     const clip = fredDeathClips[Math.floor(Math.random() * fredDeathClips.length)]
@@ -145,10 +144,10 @@ function init() {
     achtung.powerupsOnScreen = [] // clear powerups on screen
     clearTimeout(achtung.clearSides) // clear timeout if sides powerup leftover time from last round
     achtung.sides = 0 // reset sides
-    clearTimeout(achtung.clearGhost) // clear ghost timeout if leftover
-    achtung.ghostMode = 0 // reset ghost mode
-	ghostModeAudio.pause()
-	ghostModeAudio.currentTime = 0
+    clearTimeout(achtung.clearParty) // clear ghost timeout if leftover
+    achtung.partyMode = 0 // reset ghost mode
+	partyModeAudio.pause()
+	partyModeAudio.currentTime = 0
     activeCircuses = []; // Clear active obstacles
 	if (!achtung.powerups.includes("b_party")) { //Add partymode back to list
     achtung.powerups.push("b_party")
@@ -455,7 +454,8 @@ function draw() {
             ctxDO.fillStyle = `rgba(255, ${200 + Math.floor(Math.abs((tFrame % 20) - 10) * 5.5)}, 0, 1)`
         }
 
-        const dotRadius = (playerSize / 2) * players[player].powerup.size
+        const pulse = achtung.partyMode > 0 ? 1 + Math.sin(tFrame * 0.15) * 0.25 : 1
+		const dotRadius = (playerSize / 2) * players[player].powerup.size * pulse
         if (!players[player].alive) continue // continue if player not alive (drawing dot is above, so player dot will still be drawn even if dead)
 
         if (players[player].powerup.robot == 0) {
@@ -598,12 +598,10 @@ function draw() {
         }
 
         // draw player trail; don't draw if bridge or invisible
-        // if ghostMode: draw in black — visually hidden on black bg, but alpha=255 so collision still kills
+        // if partyMode: draw in black — visually hidden on black bg, but alpha=255 so collision still kills
         if (!players[player].bridge && players[player].powerup.invisible == 0) {
-			const ghostVisible = Math.floor(tFrame / 8) % 2 === 0  // blinks every 8 frames
-			ctxTH.strokeStyle = achtung.ghostMode > 0
-				? (ghostVisible ? players[player].color : "#000001")
-				: players[player].color            
+			const partyColor = `hsl(${(tFrame * 3 + players[player].x) % 360}, 100%, 55%)`
+			ctxTH.strokeStyle = achtung.partyMode > 0 ? partyColor : players[player].color        
 			ctxTH.lineWidth = playerSize * players[player].powerup.size
             ctxTH.beginPath()
             if (players[player].powerup.robot != 0) {
@@ -931,13 +929,13 @@ function doPowerups(puPlayer, index) {
     if (powName == "b_party") {
         // Party mode: all lines blink and music plays
         let ghostTimeout = 60000
-        achtung.ghostMode++
-		ghostModeAudio.currentTime = 0
-		ghostModeAudio.play().catch(() => {})
-        achtung.clearGhost = setTimeout(() => {
-        achtung.ghostMode--
-        ghostModeAudio.pause()
-        ghostModeAudio.currentTime = 0
+        achtung.partyMode++
+		partyModeAudio.currentTime = 0
+		partyModeAudio.play().catch(() => {})
+        achtung.clearParty = setTimeout(() => {
+        achtung.partyMode--
+        partyModeAudio.pause()
+        partyModeAudio.currentTime = 0
     }, ghostTimeout)
     }
 
