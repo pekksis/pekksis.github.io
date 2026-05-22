@@ -39,7 +39,7 @@ let achtung = {
         "r_shots",  // Serve shots to others
         "g_jesus",  // Jesus take the wheel
         "r_circus",  // <-- Circus Tent Sabotage
-        "b_party"    // <-- Ghost Mode: ALL trails invisible (but lethal) for 2s
+        "b_party"    // <-- Tico tico!
     ],
     powerupsOnScreen: [], // what powerups are on screen now
 }
@@ -100,6 +100,7 @@ const fredDeathClips = [
     new Audio("Achtung, die Kurve!_files/death2.mp3"),
 	new Audio("Achtung, die Kurve!_files/death3.mp3")
 ]
+fredDeathClips[1].volume = 0.4 //lower this volume
 const ghostModeAudio = new Audio("Achtung, die Kurve!_files/tico.mp3")
 ghostModeAudio.loop = true
 
