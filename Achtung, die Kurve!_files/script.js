@@ -20,7 +20,7 @@ let achtung = {
     clearGhost: 0, // to clear ghost timeout if leftover from last round
     playing: [], // who's playing
     powerups: [
-        "g_slow",
+       /* "g_slow",
         "g_fast",
         "g_thin",
         "g_robot",
@@ -34,7 +34,7 @@ let achtung = {
         "b_clear",
         "b_more",
         "b_sides",
-        "o_random",
+        "o_random",*/
 		"g_swap", // Swap players
         "r_shots",  // Serve shots to others
         "g_jesus",  // Jesus take the wheel
