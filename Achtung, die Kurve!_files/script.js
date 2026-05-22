@@ -35,6 +35,7 @@ let achtung = {
         "b_more",
         "b_sides",
         "o_random",
+		"g_swap", // Swap players
         "r_shots",  // Serve shots to others
         "g_jesus",  // Jesus take the wheel
         "r_circus",  // <-- Circus Tent Sabotage
@@ -968,6 +969,43 @@ function doPowerups(puPlayer, index) {
             radius: w100th * 6, // Sizable circus tent circle radius
             owner: puPlayer     // Save who spawned it so they are immune!
         });
+    }
+	//Swap places with another player
+	if (powName == "o_swap") {
+        // 1. Find all OTHER players who are actually playing and currently alive
+        let validTargets = [];
+        for (const p in players) {
+            if (p != puPlayer && players[p].ready && players[p].alive) {
+                validTargets.push(p);
+            }
+        }
+
+        // 2. If there is at least one valid target, swap places!
+        if (validTargets.length > 0) {
+            let target = validTargets[Math.floor(Math.random() * validTargets.length)];
+
+            // Swap X positions
+            let tempX = players[puPlayer].x;
+            players[puPlayer].x = players[target].x;
+            players[target].x = tempX;
+
+            // Swap Y positions
+            let tempY = players[puPlayer].y;
+            players[puPlayer].y = players[target].y;
+            players[target].y = tempY;
+
+            // Swap Directions
+            let tempDir = players[puPlayer].dir;
+            players[puPlayer].dir = players[target].dir;
+            players[target].dir = tempDir;
+
+            // 3. Give both players a brief "bridge" so they don't instantly die on the other's trail
+            players[puPlayer].bridge = true;
+            players[puPlayer].bridgeFrame = tFrame;
+            
+            players[target].bridge = true;
+            players[target].bridgeFrame = tFrame;
+        }
     }
 
 }
