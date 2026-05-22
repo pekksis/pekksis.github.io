@@ -35,7 +35,7 @@ let achtung = {
         "b_more",
         "b_sides",
         "o_random",
-		"o_swap", // Swap players
+		"g_swap", // Swap players
         "r_shots",  // Serve shots to others
         "g_jesus",  // Jesus take the wheel
         "r_circus",  // <-- Circus Tent Sabotage
@@ -971,7 +971,7 @@ function doPowerups(puPlayer, index) {
         });
     }
 	//Swap places with another player
-	if (powName == "o_swap") {
+	if (powName == "g_swap") {
         // 1. Find all OTHER players who are actually playing and currently alive
         let validTargets = [];
         for (const p in players) {
