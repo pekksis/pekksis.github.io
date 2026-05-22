@@ -330,9 +330,9 @@ function draw() {
                 players.fred.powerup.reverse++;
                 setTimeout(() => { if (players.fred) players.fred.powerup.reverse--; }, 500);
             } else if (randomEffect === 1) {
-                // 2. Become 20% thiccer for 5s
-                players.fred.powerup.size *= 1.2;
-                setTimeout(() => { if (players.fred) players.fred.powerup.size /= 3; }, 5000);
+                // 2. Become 30% thiccer for 5s
+                players.fred.powerup.size *= 1.3;
+                setTimeout(() => { if (players.fred) players.fred.powerup.size /= 1.3; }, 5000);
             } else if (randomEffect === 2) {
                 // 3. Get 2x speed
                 players.fred.powerup.speed *= 2;
