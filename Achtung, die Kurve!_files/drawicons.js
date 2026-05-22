@@ -207,4 +207,34 @@ const drawPowerupIcons = (icon) => {
 
         ctxPV.restore()
     }
+    // --- NEW: Swap Icon (Two opposite-facing arrows) ---
+    if (icon === "swap") {
+        ctxPV.save()
+        ctxPV.fillStyle = yellow
+        const s = iconSize * 0.55
+
+        // Top Arrow (pointing right)
+        // Stem
+        ctxPV.fillRect(-s * 0.6, -s * 0.4, s * 0.8, s * 0.25)
+        // Head
+        ctxPV.beginPath()
+        ctxPV.moveTo(s * 0.2, -s * 0.7)
+        ctxPV.lineTo(s * 0.8, -s * 0.275)
+        ctxPV.lineTo(s * 0.2, s * 0.15)
+        ctxPV.closePath()
+        ctxPV.fill()
+
+        // Bottom Arrow (pointing left)
+        // Stem
+        ctxPV.fillRect(-s * 0.2, s * 0.15, s * 0.8, s * 0.25)
+        // Head
+        ctxPV.beginPath()
+        ctxPV.moveTo(-s * 0.2, -s * 0.15)
+        ctxPV.lineTo(-s * 0.8, s * 0.275)
+        ctxPV.lineTo(-s * 0.2, s * 0.7)
+        ctxPV.closePath()
+        ctxPV.fill()
+
+        ctxPV.restore()
+    }
 }
