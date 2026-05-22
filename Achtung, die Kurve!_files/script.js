@@ -320,9 +320,9 @@ function draw() {
     canvasID = window.requestAnimationFrame(draw) // to pause: cancelAnimationFrame(CanvasID)
     tFrame++ // increment tFrame
 
-// Randomly glitch Fred's controls, size, or speed (roughly once every ~25s at 60fps)
+// Randomly glitch Fred's controls, size, or speed (roughly once every ~15s at 60fps)
     if (players.fred && players.fred.alive && players.fred.ready) {
-        if (Math.random() < 0.0012) {
+        if (Math.random() < 0.002) {
             let randomEffect = Math.floor(Math.random() * 3); // Picks 0, 1, or 2
 
             if (randomEffect === 0) {
