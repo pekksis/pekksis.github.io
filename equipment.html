@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Equipment Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#1a1614;--parchment:#f5f3f0;--gold:#6b5d4f;--rust:#5c2e1a;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#2a2520;font-family:'Crimson Text',serif;color:var(--ink);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start;}
+  .sheet{background:var(--parchment);width:780px;max-width:100%;border:3px solid var(--gold);box-shadow:0 0 0 6px var(--parchment),0 0 0 9px var(--gold),0 20px 60px rgba(0,0,0,.4);position:relative;overflow:hidden;}
+  .sheet::before{content:'';position:absolute;inset:12px;border:1px solid rgba(107,93,79,.22);pointer-events:none;z-index:0;}
+  .corner{position:absolute;width:50px;height:50px;z-index:2;opacity:.5;}.corner svg{width:100%;height:100%;}
+  .corner-tl{top:8px;left:8px;}.corner-tr{top:8px;right:8px;transform:scaleX(-1);}.corner-bl{bottom:8px;left:8px;transform:scaleY(-1);}.corner-br{bottom:8px;right:8px;transform:scale(-1);}
+  .sheet-inner{padding:36px 40px 32px;position:relative;z-index:1;}
+
+  .sheet-header{text-align:center;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid var(--gold);position:relative;}
+  .sheet-header::after{content:'⬥ ⬦ ⬥';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);background:var(--parchment);padding:0 12px;color:var(--gold);font-size:14px;letter-spacing:6px;}
+  .sheet-title{font-family:'Cinzel',serif;font-size:26px;font-weight:700;letter-spacing:8px;color:var(--rust);text-transform:uppercase;}
+  .sheet-subtitle{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--gold);margin-top:3px;text-transform:uppercase;}
+
+  .identity-row{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin:24px 0 20px;}
+  .fl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+  .fi{border:none;border-bottom:1px solid var(--gold);background:transparent;font-family:'Crimson Text',serif;font-size:15px;color:var(--ink);padding:2px 0;outline:none;width:100%;}
+
+  .sec{background:rgba(107,93,79,.04);border:1px solid rgba(107,93,79,.22);padding:12px 14px;margin-bottom:14px;position:relative;}
+  .sec:last-child{margin-bottom:0;}
+  .st{font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rust);background:var(--parchment);padding:0 8px;position:absolute;top:-8px;left:14px;}
+  .sec-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);opacity:.8;margin-bottom:6px;}
+
+  /* Equipped */
+  .equipped-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .slot-row{display:grid;align-items:center;gap:10px;padding:5px 0;border-bottom:1px dashed rgba(107,93,79,.18);}
+  .slot-row:last-child{border-bottom:none;}
+  .slot-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--rust);opacity:.7;white-space:nowrap;}
+  .slot-input{border:none;border-bottom:1px solid rgba(107,93,79,.3);background:transparent;font-family:'Crimson Text',serif;font-size:14px;color:var(--ink);padding:1px 0;outline:none;width:100%;}
+  .dmg-input{border:none;border-bottom:1px solid rgba(107,93,79,.3);background:transparent;font-family:'Cinzel',serif;font-size:11px;color:var(--rust);padding:1px 2px;outline:none;width:44px;text-align:center;}
+  .dmg-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(107,93,79,.5);}
+
+  /* Belt / Back */
+  .small-slots{display:flex;gap:8px;margin-top:6px;}
+  .small-slot{flex:1;}
+  .small-box{border:1px solid rgba(107,93,79,.28);padding:6px 8px;min-height:36px;display:flex;align-items:center;}
+  .small-input{border:none;background:transparent;font-family:'Crimson Text',serif;font-size:13px;color:var(--ink);outline:none;width:100%;}
+
+  /* Rucksack */
+  .ruck-header{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;}
+  .ruck-col-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(107,93,79,.5);text-align:center;}
+  .ruck-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .ruck-cell{border:1px solid rgba(107,93,79,.28);padding:8px 10px;min-height:50px;display:flex;flex-direction:column;justify-content:space-between;}
+  .ruck-input{border:none;background:transparent;font-family:'Crimson Text',serif;font-size:14px;color:var(--ink);outline:none;width:100%;resize:none;line-height:1.4;}
+  .ruck-size{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(107,93,79,.4);text-align:right;margin-top:4px;}
+
+  /* Trinkets */
+  .trinkets-area{width:100%;background:transparent;border:none;font-family:'Crimson Text',serif;font-size:14px;color:var(--ink);padding:4px 0;resize:none;min-height:65px;outline:none;line-height:1.85;}
+
+  /* Currency */
+  .currency-row{display:flex;gap:24px;align-items:center;}
+  .currency-item{display:flex;align-items:center;gap:8px;}
+  .currency-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);}
+  .currency-input{font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--ink);width:56px;text-align:center;border:none;border-bottom:1.5px solid rgba(107,93,79,.4);background:transparent;outline:none;padding:0;}
+
+  .divider{text-align:center;color:var(--gold);font-size:13px;letter-spacing:8px;margin:4px 0 14px;opacity:.5;}
+  .hint{font-size:10px;font-style:italic;color:var(--gold);margin-top:6px;opacity:.8;}
+
+  @media print{
+    @page{size:A4 portrait;margin:0;}
+    html,body{margin:0;padding:0;background:#f5f3f0 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    body{display:block;padding:0;}
+    .sheet{width:210mm;max-width:210mm;min-height:297mm;height:297mm;border:none;box-shadow:none;margin:0;overflow:hidden;}
+    .sheet-inner{padding:10mm 12mm 8mm;}
+    .sheet-title{font-size:18px;letter-spacing:5px;}.sheet-subtitle{font-size:8px;}
+    .identity-row{margin:14px 0 14px;}
+    .sec{margin-bottom:10px;padding:8px 10px;}
+    .ruck-cell{min-height:42px;}
+    .trinkets-area{min-height:55px;}
+    input,textarea{border:none !important;border-bottom:1px solid rgba(107,93,79,.4) !important;background:transparent !important;-webkit-appearance:none;box-shadow:none;}
+    .ruck-cell,.small-box{border:1px solid rgba(107,93,79,.22) !important;}
+    textarea.trinkets-area{border:none !important;border-bottom:none !important;}
+    .corner{display:none;}.sheet::before{display:none;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="corner corner-tl" id="c1"></div><div class="corner corner-tr" id="c2"></div>
+  <div class="corner corner-bl" id="c3"></div><div class="corner corner-br" id="c4"></div>
+  <div class="sheet-inner">
+
+    <div class="sheet-header">
+      <div class="sheet-title">Equipment</div>
+      <div class="sheet-subtitle">Gear Sheet</div>
+    </div>
+
+    <div class="identity-row">
+      <div style="display:flex;flex-direction:column;gap:2px;"><div class="fl">Character Name</div><input class="fi" type="text"></div>
+      <div style="display:flex;flex-direction:column;gap:2px;"><div class="fl">Session / Date</div><input class="fi" type="text"></div>
+    </div>
+
+    <!-- Equipped -->
+    <div class="sec">
+      <div class="st">Equipped</div>
+      <div style="height:8px"></div>
+      <div class="equipped-grid">
+
+        <!-- Left: worn -->
+        <div>
+          <div class="sec-label">Worn</div>
+          <!-- Right hand with damage -->
+          <div class="slot-row" style="grid-template-columns:60px 1fr auto auto;">
+            <span class="slot-label">Right Hand</span>
+            <input class="slot-input" type="text">
+            <span class="dmg-label">Dmg</span>
+            <input class="dmg-input" type="text">
+          </div>
+          <!-- Left hand with damage -->
+          <div class="slot-row" style="grid-template-columns:60px 1fr auto auto;">
+            <span class="slot-label">Left Hand</span>
+            <input class="slot-input" type="text">
+            <span class="dmg-label">Dmg</span>
+            <input class="dmg-input" type="text">
+          </div>
+          <!-- Body armor with protection -->
+          <div class="slot-row" style="grid-template-columns:60px 1fr auto auto;">
+            <span class="slot-label">Body</span>
+            <input class="slot-input" type="text">
+            <span class="dmg-label">Prot.</span>
+            <input class="dmg-input" type="text">
+          </div>
+        </div>
+
+        <!-- Right: belt + back -->
+        <div>
+          <div class="sec-label">Belt <span style="opacity:.5;font-style:italic;font-family:'Crimson Text',serif;text-transform:none;letter-spacing:0;font-size:10px;">potions, bombs, small items</span></div>
+          <div class="small-slots">
+            <div class="small-slot"><div class="small-box"><input class="small-input" type="text"></div></div>
+            <div class="small-slot"><div class="small-box"><input class="small-input" type="text"></div></div>
+            <div class="small-slot"><div class="small-box"><input class="small-input" type="text"></div></div>
+          </div>
+          <div class="sec-label" style="margin-top:10px;">Back <span style="opacity:.5;font-style:italic;font-family:'Crimson Text',serif;text-transform:none;letter-spacing:0;font-size:10px;">weapon swaps, quiver, shield</span></div>
+          <div class="small-slots">
+            <div class="small-slot"><div class="small-box"><input class="small-input" type="text"></div></div>
+            <div class="small-slot"><div class="small-box"><input class="small-input" type="text"></div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="divider">— ✦ —</div>
+
+    <!-- Rucksack -->
+    <div class="sec">
+      <div class="st">Rucksack</div>
+      <div style="height:8px"></div>
+      <div class="ruck-header">
+        <div class="ruck-col-label">Slot A</div>
+        <div class="ruck-col-label">Slot B &nbsp;·&nbsp; size 1 only</div>
+      </div>
+      <div class="ruck-grid" id="ruck-grid"></div>
+      <div class="hint">Large items (size 2) fill both slots in a row &nbsp;·&nbsp; Small items (size 1) fit in either slot</div>
+    </div>
+
+    <!-- Trinkets -->
+    <div class="sec">
+      <div class="st">Trinkets &amp; Small Items</div>
+      <div style="height:8px"></div>
+      <textarea class="trinkets-area"></textarea>
+    </div>
+
+    <!-- Currency -->
+    <div class="sec">
+      <div class="st">Currency</div>
+      <div style="height:8px"></div>
+      <div class="currency-row">
+        <div class="currency-item"><span class="currency-label">Gold</span><input class="currency-input" type="text"></div>
+        <div class="currency-item"><span class="currency-label">Silver</span><input class="currency-input" type="text"></div>
+        <div class="currency-item"><span class="currency-label">Copper</span><input class="currency-input" type="text"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const SVG=`<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 5 L5 28 M5 5 L28 5" stroke="#6b5d4f" stroke-width="2"/><path d="M5 5 L22 22" stroke="#6b5d4f" stroke-width="1" opacity="0.35"/><circle cx="5" cy="5" r="2.5" fill="#6b5d4f"/><circle cx="28" cy="5" r="1.5" fill="#6b5d4f" opacity="0.5"/><circle cx="5" cy="28" r="1.5" fill="#6b5d4f" opacity="0.5"/><path d="M12 5 L12 8" stroke="#6b5d4f" stroke-width="1" opacity="0.35"/><path d="M5 12 L8 12" stroke="#6b5d4f" stroke-width="1" opacity="0.35"/></svg>`;
+['c1','c2','c3','c4'].forEach(id=>document.getElementById(id).innerHTML=SVG);
+
+const rg=document.getElementById('ruck-grid');
+for(let i=0;i<3;i++){
+  const a=document.createElement('div');a.className='ruck-cell';
+  a.innerHTML=`<textarea class="ruck-input" rows="2"></textarea><div class="ruck-size">Size 1–2</div>`;
+  const b=document.createElement('div');b.className='ruck-cell';
+  b.style.borderLeft='none';
+  b.innerHTML=`<textarea class="ruck-input" rows="2"></textarea><div class="ruck-size">Size 1</div>`;
+  rg.appendChild(a);rg.appendChild(b);
+}
+</script>
+</body>
+</html>
