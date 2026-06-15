@@ -233,7 +233,7 @@
       The Core Game Loop
     </h2>
 
-    <p>The game is divided into two repeating phases. <strong>Adventures</strong> are hired missions into the uncharted continent. <strong>Downtime</strong> is the recovery, preparation, and growth between them. Every cycle begins and ends at Havenport, the last outpost of civilisation before the wilds.</p>
+    <p>The game is divided into two repeating phases. <strong>Adventures</strong> are hired missions into the uncharted continent. <strong>Downtime</strong> is the recovery, preparation, and growth between them. Every cycle begins and ends at Havenport.</p>
 
     <div class="phase-grid">
       <div class="phase-card" data-phase="Phase I">
@@ -256,12 +256,6 @@
         </ul>
       </div>
     </div>
-
-    <div class="adv-box">
-      <h3>Advancement</h3>
-      <p>Skills improve during Downtime. Your choices <em>during</em> an adventure unlock <strong>Talents</strong> — permanent abilities that make your character more effective both in and out of combat. Talents are the primary way characters grow in power and identity over time.</p>
-    </div>
-  </div>
 
   <div class="divider"><span>· · ·</span></div>
 
@@ -297,10 +291,7 @@
     <p>Favourable conditions may earn <strong>Advantage</strong>, shrinking Fate dice to <span class="die fate">d8</span>. Unfavourable conditions bring <strong>Disadvantage</strong>, inflating them to <span class="die fate">d12</span>.</p>
 
     <h3>Helping &amp; Group Rolls</h3>
-    <p>One character usually rolls for the group; others may add their Attribute die if they can justify helping. When survival is individual, such as crossing a chasm, or staying afloat in a vortex, everyone rolls and failure is personal.</p>
-
-    <h3>Skill Advancement</h3>
-    <p>Roll a <strong>natural 1</strong> on any skill check to earn Skill XP. Enough XP and the skill advances one level.</p>
+    <p>One character rolls for the group. Others may throw in their Attribute die if they can explain how they're helping. Some challenges are individual by nature. In those cases, everyone rolls and suffers consequences alone.</p>
   </div>
 
   <div class="divider"><span>· · ·</span></div>
@@ -397,7 +388,7 @@
     <p>Armor reduces damage from the incoming hit and is rolled simultaneously with the attacker rolling for damage. Roll a pool of dice based on your armor; every success (rolling 4 or under) removes one of the attacker's damage dice, starting with their lowest value die.</p>
     <ul class="plain">
       <li><strong>Armor Type</strong> determines the number of dice rolled: Light (1 die), Medium (2 dice), Heavy (3 dice).</li>
-      <li><strong>Armor Quality</strong> determines the die size: <span class="die">d12</span> Standard, <span class="die">d10</span> Masterwork, <span class="die">d8</span> Legendary, <span class="die">d20</span> Broken. <em>Heavier armor grants more dice but makes Avoid and swift skill rolls more difficult.</em></li>
+      <li><strong>Armor Quality</strong> determines the die size: <span class="die">d12</span> Standard, <span class="die">d10</span> Masterwork, <span class="die">d8</span> Legendary, <span class="die">d20</span> Broken. <em>Heavier armor grants more dice but makes Avoid and SWIFT skill rolls more difficult.</em></li>
     </ul>
 
     <h3>Combat Effects</h3>
@@ -409,16 +400,16 @@
         <p>Drive your opponent back a short distance in a direction you choose.</p>
       </div>
       <div class="effect-card">
-        <h4>Grapple</h4>
-        <p>Seize and restrain your opponent. A grappled target cannot move and suffers Disadvantage on attacks that don't target you. Either party may attempt to break free on their turn.</p>
+        <h4>Manoeuvre</h4>
+        <p>Move up to half your movement without triggering attacks of opportunity from this opponent.</p>
+      </div>
+	   <div class="effect-card">
+        <h4>Daze</h4>
+        <p>The opponent can use their Reaction only to Avoid until their next Turn.</p>
       </div>
       <div class="effect-card">
-        <h4>Manoeuvre</h4>
-        <p>Reposition during the exchange — rise from prone, withdraw from reach, or shift to a better position.</p>
-      </div>
-      <div class="effect-card special">
-        <h4>Compel Surrender ✦</h4>
-        <p>Attempt to force the surrender of a cornered or disadvantaged opponent — one who is disarmed, prone, gravely wounded, or otherwise at your mercy. No damage is dealt. Cannot be used on mindless creatures.</p>
+        <h4>Stand Fast</h4>
+        <p>Gain an Advantage on your next Reaction until your next Turn.</p>
       </div>
     </div>
 
@@ -426,51 +417,99 @@
     <div class="effect-grid">
       <div class="effect-card major">
         <h4>Bypass Armour</h4>
-        <p>Your strike finds a gap in the target's defences. The target cannot make an Armor Save against this hit.</p>
+        <p>Your strike finds a gap in the target's defences. You may ignore one success on armor dice.</p>
       </div>
       <div class="effect-card major">
-        <h4>Disarm</h4>
-        <p>Knock, wrench, or cut the weapon from your opponent's grip. They must spend a Fast action to retrieve it.</p>
+        <h4>Topple</h4>
+        <p>Target is prone. All melee attacks against the target gain Advantage. Ranged attacks are made with Disadvantage.</p>
+      </div>
+	      <div class="effect-card special">
+        <h4>Compel Surrender ✦</h4>
+        <p>Attempt to force the surrender of a cornered or disadvantaged opponent. Cannot be used on mindless creatures.</p>
       </div>
     </div>
 
     <div class="talent-note">
-      <strong>Talents unlock additional combat options.</strong> As your character advances, talents may grant access to new effects and techniques unavailable to untrained fighters.
+      <strong>Talents unlock additional combat options.</strong> As your character advances, talents may grant access to new effects and techniques.
     </div>
   </div>
 
   <div class="divider"><span>· · ·</span></div>
 
-  <div class="section">
-    <h2>
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2 L8.5 5.5 L12.5 6 L9.75 8.5 L10.5 12.5 L7 10.75 L3.5 12.5 L4.25 8.5 L1.5 6 L5.5 5.5 Z" stroke="#6b1e14" stroke-width="1.1" fill="none" stroke-linejoin="round"/></svg>
-      Wounds &amp; Injuries
-    </h2>
+<!-- ==================== STRAIN & WOUNDS ==================== -->
+<div class="section">
+  <h2>
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M7 2 L8.5 5.5 L12.5 6 L9.75 8.5 L10.5 12.5 L7 10.75 L3.5 12.5 L4.25 8.5 L1.5 6 L5.5 5.5 Z" stroke="#6b1e14" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+    </svg>
+    Strain &amp; Wounds
+  </h2>
 
-    <p>Every character can absorb Wounds equal to their <strong>Toughness.</strong> Once their Wounds exceed their Toughness, they suffer an <strong>Injury</strong> and Wounds reset to 0. A single hit dealing more than your Toughness in damage inflicts <strong>2 Injuries</strong> instead.</p>
+  <p>Every character can absorb Strain equal to their <strong>Toughness.</strong> Once their Strain exceeds their Toughness, they suffer a <strong>Wound</strong> and Strain resets to 0. A single hit dealing more than your Toughness in damage inflicts <strong>2 Wounds</strong> instead.</p>
 
-    <div class="columns">
-      <div>
-        <h3>Taking Damage</h3>
-        <table class="outcome-table">
-          <tr><td>Wounds ≤ Toughness</td><td>Mark the wounds.</td></tr>
-          <tr><td>Wounds exceed Toughness</td><td><strong>1 Injury.</strong> Wounds reset to 0.</td></tr>
-          <tr><td>Damage &gt; Toughness</td><td><strong>2 Injuries.</strong> Wounds reset to 0.</td></tr>
-          <tr><td>Damage &gt; 2× Toughness</td><td><strong>2 Injuries</strong> and immediately at Death's Door.</td></tr>
-        </table>
+  <div class="columns">
+    <div>
+      <h3>Taking damage</h3>
+      <table class="outcome-table">
+        <tr>
+          <td>Strain stays within Toughness</td>
+          <td>Add the damage to Strain. No further effect.</td>
+        </tr>
+        <tr>
+          <td>Strain exceeds Toughness</td>
+          <td><em>1 Wound.</em> Strain resets to 0.</td>
+        </tr>
+        <tr>
+          <td>Single hit exceeds Toughness</td>
+          <td><em>2 Wounds.</em> Strain resets to 0.</td>
+        </tr>
+      </table>
+      <p class="note" style="margin-top:10px;">Example: Toughness 6. At 3 Strain, a hit of 4 brings total Strain to 7 — exceeding 6 — so take 1 Wound and reset. A hit of 7 in a single blow exceeds Toughness outright: 2 Wounds regardless of current Strain.</p>
+    </div>
+    <div>
+      <h3>Wounds</h3>
+      <p>Each Wound sends you to the <strong>Wound Table.</strong> Effects last until the adventure ends. They cannot be healed mid-adventure except by rare magic. Strain may be treated between fights.</p>
+      <div class="injury-row">
+        <div class="injury-pip">I</div>
+        <div class="injury-pip">II</div>
+        <div class="injury-pip fatal">☠</div>
       </div>
-      <div>
-        <h3>Injuries</h3>
-        <p>Each Injury sends you to the <strong>Injury Table.</strong> Effects — such as a lost reaction or an Attribute die inflated to <span class="die">d20</span> — persist until the adventure ends. They cannot be healed mid-adventure except by rare magic. Wounds can be treated between fights.</p>
-        <div class="injury-row">
-          <div class="injury-pip">I</div>
-          <div class="injury-pip">II</div>
-          <div class="injury-pip fatal">☠</div>
-        </div>
-        <p style="font-size: 13px; color: var(--ink-faint);">A <strong>third Injury</strong> puts you at Death's Door.</p>
-      </div>
+      <p class="note">On the <strong>third Wound</strong>, the character is Downed.</p>
     </div>
   </div>
+  <p><em>On a rare case where character would take damage that was three times their Toughness, they would instantly be Downed and Bleeding out. 4 times Toughness would kill them outright</em></p>
+</div>
+
+<div class="section">
+  <h2>
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M 7,1 V 13 M 3,5 H 11" stroke="#6b1e14" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>
+    Downed &amp; Death's Door
+  </h2>
+
+  <p>Character is <strong>Downed</strong> when they suffer their third Wound. When Downed, immediately roll <strong>Heart</strong> and a <strong>Fate Die</strong> against <strong>TN 4.</strong></p>
+
+  <div class="columns">
+    <div>
+      <h3>Save outcomes</h3>
+      <table class="outcome-table">
+        <tr>
+          <td><strong>2 successes</strong></td>
+          <td><em>Adrenaline surge.</em> Clear 1 Strain and act as normal on your next turn.</td>
+        </tr>
+        <tr>
+          <td><strong>1 success</strong></td>
+          <td><em>Stable.</em> You remain unconscious but are out of danger unless you take damage again.</td>
+        </tr>
+        <tr>
+          <td><strong>0 successes</strong></td>
+          <td><em>Bleeding out.</em> At the start of each of your turns, roll on the <strong>Death's Door table</strong> with a cumulative −1 penalty per previous roll this combat.</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
 
 </div>
 </body>
