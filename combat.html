@@ -15,52 +15,59 @@
   .corner-tl{top:8px;left:8px;}.corner-tr{top:8px;right:8px;transform:scaleX(-1);}.corner-bl{bottom:8px;left:8px;transform:scaleY(-1);}.corner-br{bottom:8px;right:8px;transform:scale(-1);}
   .sheet-inner{padding:36px 36px 32px;position:relative;z-index:1;}
 
-  .sheet-header{text-align:center;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--rust);position:relative;}
+  /* Adjusted Header Margins */
+  .sheet-header{text-align:center;margin-bottom:35px;padding-bottom:18px;border-bottom:2px solid var(--rust);position:relative;}
   .sheet-header::after{content:'⚔ ✦ ⚔';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);background:var(--parchment);padding:0 12px;color:var(--rust);font-size:13px;letter-spacing:5px;}
-  .sheet-title{font-family:'Cinzel',serif;font-size:26px;font-weight:700;letter-spacing:8px;color:var(--blood);text-transform:uppercase;}
-  .sheet-subtitle{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--rust);margin-top:3px;text-transform:uppercase;opacity:.7;}
+  .sheet-title{font-family:'Cinzel',serif;font-size:26px;font-weight:700;letter-spacing:8px;color:var(--blood);text-transform:uppercase;margin-bottom:8px;}
+  .sheet-subtitle{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--rust);margin-top:8px;text-transform:uppercase;opacity:.7;}
 
-  .strip-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--rust);margin-bottom:5px;opacity:.7;}
-  .attr-strip{display:flex;border:1px solid rgba(92,46,26,.25);background:rgba(92,46,26,.04);margin-bottom:22px;}
+  /* Adjusted Identity Row Margins */
+  .identity-row{margin:40px 0 40px;}
+  .fl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--rust);opacity:.8;}
+  .fi{border:none;border-bottom:1px solid rgba(92,46,26,.4);background:transparent;font-family:'Crimson Text',serif;font-size:15px;color:var(--ink);padding:2px 0;outline:none;width:100%;}
+  
+  /* Adjusted Attribute Strip Margins */
+  .strip-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--rust);margin-bottom:8px;opacity:.7;}
+  .attr-strip{display:flex;border:1px solid rgba(92,46,26,.25);background:rgba(92,46,26,.04);margin-bottom:45px;}
   .attr-cell{flex:1;display:flex;flex-direction:column;align-items:center;padding:6px 4px;border-right:1px solid rgba(92,46,26,.15);}
   .attr-cell:last-child{border-right:none;}
   .attr-abbr{font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--rust);text-transform:uppercase;}
   .attr-die-ref{font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--ink);margin-top:3px;width:52px;text-align:center;border:none;border-bottom:1.5px solid rgba(92,46,26,.3);background:transparent;outline:none;padding:0 2px;}
 
-  .fl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--rust);opacity:.8;}
-  .fi{border:none;border-bottom:1px solid rgba(92,46,26,.4);background:transparent;font-family:'Crimson Text',serif;font-size:15px;color:var(--ink);padding:2px 0;outline:none;width:100%;}
-  .identity-row{margin:24px 0 18px;}
-
-  .sec{background:rgba(92,46,26,.04);border:1px solid rgba(92,46,26,.2);padding:12px 14px;margin-bottom:14px;position:relative;}
-  .sec-strain{margin-top:10px;}
-  .strain-injury-grid{display:grid;grid-template-columns:11fr 14fr;gap:24px;align-items:start;}
-  .strain-power-row{display:flex;gap:28px;align-items:flex-start;justify-content:center;}
+  /* Base Section spacing increased */
+  .sec{background:rgba(92,46,26,.04);border:1px solid rgba(92,46,26,.2);padding:12px 14px;margin-bottom:24px;position:relative;}
   .sec:last-child{margin-bottom:0;}
   .st{font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blood);background:var(--parchment);padding:0 8px;position:absolute;top:-8px;left:14px;}
 
-  /* Die hexagon */
-  .die-slot{display:flex;flex-direction:column;align-items:center;gap:5px;}
-  .die-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--rust);opacity:.7;}
+  /* Made Strain & Injuries Taller */
+  .sec-strain{margin-top:10px; padding-top: 24px; padding-bottom: 24px !important;}
+  .strain-injury-grid{display:grid;grid-template-columns:11fr 14fr;gap:24px;align-items:center;}
+  .strain-power-row{display:flex;gap:32px;align-items:flex-start;justify-content:center;}
+
+  /* Scaled up the die hexagons */
+  .die-slot{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .die-label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--rust);opacity:.7;}
   .die-outline{position:relative;}
-  .die-outline-lg{width:100px;height:100px;}
+  .die-outline-lg{width:130px;height:130px;} /* Increased from 100px */
   .die-outline-lg svg{width:100%;height:100%;}
   .die-val{position:absolute;inset:0;font-family:'Cinzel',serif;font-weight:700;color:var(--blood);border:none;background:transparent;outline:none;width:100%;text-align:center;padding:0;display:flex;align-items:center;justify-content:center;}
-  .die-val-lg{font-size:30px;}
-  .die-max-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(92,46,26,.45);}
-  .die-max-val{font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--ink);width:28px;text-align:center;border:none;border-bottom:1px solid rgba(92,46,26,.3);background:transparent;outline:none;padding:0;}
+  .die-val-lg{font-size:38px;} /* Increased from 30px */
+  .die-max-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:rgba(92,46,26,.45);}
+  .die-max-val{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--ink);width:32px;text-align:center;border:none;border-bottom:1px solid rgba(92,46,26,.3);background:transparent;outline:none;padding:0;}
 
-  /* Injuries */
-  .injury-entry{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;margin-bottom:12px;}
+  /* Scaled up Injuries list */
+  .injury-entry{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;margin-bottom:24px;} /* Increased margin-bottom */
   .injury-entry:last-child{margin-bottom:0;}
-  .ib{width:28px;height:28px;border:2px solid var(--rust);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:10px;color:var(--rust);font-weight:700;flex-shrink:0;}
+  .ib{width:40px;height:40px;border:2px solid var(--rust);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:14px;color:var(--rust);font-weight:700;flex-shrink:0;} /* Scaled up checkboxes */
   .ib.filled{background:var(--rust);color:var(--parchment);}
-  .injury-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--rust);opacity:.6;}
-  .injury-input{border:none;border-bottom:1px solid rgba(92,46,26,.3);background:transparent;font-family:'Crimson Text',serif;font-size:13px;color:var(--ink);padding:1px 0;outline:none;width:100%;}
-  .deaths-door{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(92,46,26,.25);}
-  .deaths-door-icon{font-size:15px;color:var(--blood);}
-  .deaths-door-text{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--blood);}
+  .injury-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--rust);opacity:.6;}
+  .injury-input{border:none;border-bottom:1px solid rgba(92,46,26,.3);background:transparent;font-family:'Crimson Text',serif;font-size:15px;color:var(--ink);padding:4px 0;outline:none;width:100%;}
+  .deaths-door{display:flex;align-items:center;gap:8px;margin-top:24px;padding-top:20px;border-top:1px dashed rgba(92,46,26,.25);}
+  .deaths-door-icon{font-size:16px;color:var(--blood);}
+  .deaths-door-text{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blood);}
 
-  .divider{text-align:center;color:var(--rust);font-size:13px;letter-spacing:8px;margin:4px 0 14px;opacity:.5;}
+  /* Adjusted Divider Margin */
+  .divider{text-align:center;color:var(--rust);font-size:13px;letter-spacing:8px;margin:12px 0 28px;opacity:.5;}
 
   /* Techniques table */
   .tech-header{display:grid;grid-template-columns:100px 50px 1fr;gap:0;font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--rust);opacity:.7;padding:0 0 5px;border-bottom:1px solid rgba(92,46,26,.25);margin-bottom:2px;}
@@ -68,15 +75,23 @@
   .tech-row:last-child{border-bottom:none;}
   .tech-cell{border:none;background:transparent;font-family:'Crimson Text',serif;font-size:13px;color:var(--ink);padding:0 6px 0 0;outline:none;width:100%;line-height:1.6;}
 
+  /* Adjusted Print Margins */
   @media print{
     @page{size:A4 portrait;margin:0;}
     html,body{margin:0;padding:0;background:#f5f3f0 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     body{display:block;padding:0;}
     .sheet{width:210mm;max-width:210mm;min-height:297mm;height:297mm;border:none;box-shadow:none;margin:0;overflow:hidden;}
     .sheet-inner{padding:9mm 11mm 8mm;}
-    .sheet-title{font-size:18px;letter-spacing:5px;}.sheet-subtitle{font-size:8px;}
-    .attr-strip{margin-bottom:12px;}.attr-cell{padding:4px 3px;}
-    .sec{margin-bottom:9px;padding:8px 10px;}
+    
+    .sheet-header{margin-bottom:25px;padding-bottom:14px;}
+    .sheet-title{font-size:18px;letter-spacing:5px;margin-bottom:6px;}
+    .sheet-subtitle{font-size:8px;margin-top:6px;}
+    
+    .identity-row{margin:28px 0 28px;}
+    .attr-strip{margin-bottom:30px;}
+    
+    .attr-cell{padding:4px 3px;}
+    .sec{margin-bottom:16px;padding:8px 10px;}
     .tech-row{padding:8px 0;min-height:32px;}.tech-cell{font-size:12px;}
     input{border:none !important;border-bottom:1px solid rgba(92,46,26,.4) !important;background:transparent !important;-webkit-appearance:none;box-shadow:none;}
     .corner{display:none;}.sheet::before{display:none;}
@@ -101,13 +116,11 @@
     <div class="strip-label">Attribute Reference</div>
     <div class="attr-strip" id="attr-strip"></div>
 
-    <!-- Strain & Injuries -->
-    <div class="sec sec-strain" style="padding-bottom:16px;">
+    <div class="sec sec-strain">
       <div class="st">Strain &amp; Injuries</div>
       <div style="height:8px"></div>
       <div class="strain-injury-grid">
 
-        <!-- Strain + Power hex -->
         <div class="strain-power-row">
           <div class="die-slot">
             <div class="die-label">Strain</div>
@@ -136,8 +149,7 @@
           </div>
         </div>
 
-        <!-- Injuries -->
-        <div style="border-left:1px dashed rgba(92,46,26,.2);padding-left:18px;">
+        <div style="border-left:1px dashed rgba(92,46,26,.2);padding-left:24px;">
           <div class="injury-entry">
             <div class="ib" onclick="this.classList.toggle('filled')">I</div>
             <div>
@@ -162,7 +174,6 @@
 
     <div class="divider">— ✦ —</div>
 
-    <!-- Techniques -->
     <div class="sec" style="padding-bottom:18px;">
       <div class="st">Techniques</div>
       <div style="height:10px"></div>
@@ -186,9 +197,9 @@ const SVG=`<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/sv
   cell.appendChild(inp);document.getElementById('attr-strip').appendChild(cell);
 });
 
-// Techniques — 7 rows with Type / Power / Description
+// Techniques — Changed from 7 to 9 rows
 const tc=document.getElementById('tech-container');
-for(let i=0;i<7;i++){
+for(let i=0;i<9;i++){
   const row=document.createElement('div');row.className='tech-row';
   const type=document.createElement('input');type.className='tech-cell';type.type='text';
   const power=document.createElement('input');power.className='tech-cell';power.type='text';power.maxLength=3;
