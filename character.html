@@ -20,7 +20,7 @@
   .sheet-title{font-family:'Cinzel',serif;font-size:26px;font-weight:700;letter-spacing:8px;color:var(--rust);text-transform:uppercase;}
   .sheet-subtitle{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--gold);margin-top:3px;text-transform:uppercase;}
 
-  .identity-row{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin:24px 0 18px;}
+  .identity-row{margin:24px 0 18px;}
   .fl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
   .fi{border:none;border-bottom:1px solid var(--gold);background:transparent;font-family:'Crimson Text',serif;font-size:15px;color:var(--ink);padding:2px 0;outline:none;width:100%;}
 
@@ -81,7 +81,6 @@
 
     <div class="identity-row">
       <div style="display:flex;flex-direction:column;gap:2px;"><div class="fl">Character Name</div><input class="fi" type="text"></div>
-      <div style="display:flex;flex-direction:column;gap:2px;"><div class="fl">Origin</div><input class="fi" type="text"></div>
     </div>
 
     <div class="strip-label">Attributes</div>
@@ -92,21 +91,20 @@
       <div style="height:8px"></div>
       <div class="skills-grid" id="skills-container"></div>
     </div>
+
     <div class="sec">
       <div class="st">Advanced Skills &amp; Notes</div>
       <div style="height:8px"></div>
       <textarea class="free-area"></textarea>
     </div>
-	<div class="divider">— ✦ —</div>
+
+    <div class="divider">— ✦ —</div>
+
     <div class="sec">
       <div class="st">Talents</div>
       <div style="height:8px"></div>
       <div id="talents-container"></div>
     </div>
-
-    
-
-
 
   </div>
 </div>
