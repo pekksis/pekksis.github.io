@@ -15,44 +15,48 @@
   .corner-tl{top:8px;left:8px;}.corner-tr{top:8px;right:8px;transform:scaleX(-1);}.corner-bl{bottom:8px;left:8px;transform:scaleY(-1);}.corner-br{bottom:8px;right:8px;transform:scale(-1);}
   .sheet-inner{padding:36px 40px 32px;position:relative;z-index:1;}
 
-  .sheet-header{text-align:center;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid var(--gold);position:relative;}
+  /* --- Spacing Updates (Matching previous sheets) --- */
+  .sheet-header{text-align:center;margin-bottom:35px;padding-bottom:18px;border-bottom:2px solid var(--gold);position:relative;}
   .sheet-header::after{content:'⬥ ⬦ ⬥';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);background:var(--parchment);padding:0 12px;color:var(--gold);font-size:14px;letter-spacing:6px;}
-  .sheet-title{font-family:'Cinzel',serif;font-size:26px;font-weight:700;letter-spacing:8px;color:var(--rust);text-transform:uppercase;}
-  .sheet-subtitle{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--gold);margin-top:3px;text-transform:uppercase;}
+  .sheet-title{font-family:'Cinzel',serif;font-size:26px;font-weight:700;letter-spacing:8px;color:var(--rust);text-transform:uppercase;margin-bottom:8px;}
+  .sheet-subtitle{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--gold);margin-top:8px;text-transform:uppercase;}
 
-  .identity-row{margin:24px 0 20px;}
+  .identity-row{margin:40px 0 40px;}
   .fl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
   .fi{border:none;border-bottom:1px solid var(--gold);background:transparent;font-family:'Crimson Text',serif;font-size:15px;color:var(--ink);padding:2px 0;outline:none;width:100%;}
 
-  .sec{background:rgba(107,93,79,.04);border:1px solid rgba(107,93,79,.22);padding:12px 14px;margin-bottom:14px;position:relative;}
-  .sec-rucksack,.sec-trinkets,.sec-currency{margin-bottom:22px;}
+  .sec{background:rgba(107,93,79,.04);border:1px solid rgba(107,93,79,.22);padding:12px 14px;margin-bottom:24px;position:relative;}
+  .sec-rucksack,.sec-trinkets,.sec-currency{margin-bottom:28px;}
   .sec:last-child{margin-bottom:0;}
   .st{font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rust);background:var(--parchment);padding:0 8px;position:absolute;top:-8px;left:14px;}
   .sec-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);opacity:.8;margin-bottom:6px;}
 
-  /* Equipped */
-  .equipped-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-  .slot-row{display:grid;align-items:center;gap:10px;padding:5px 0;border-bottom:1px dashed rgba(107,93,79,.18);}
+  /* --- Equipped Updates --- */
+  .equipped-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .slot-row{display:grid;align-items:center;gap:10px;padding:12px 0;border-bottom:1px dashed rgba(107,93,79,.18);} /* Increased padding */
   .slot-row:last-child{border-bottom:none;}
   .slot-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--rust);opacity:.7;white-space:nowrap;}
   .slot-input{border:none;border-bottom:1px solid rgba(107,93,79,.3);background:transparent;font-family:'Crimson Text',serif;font-size:14px;color:var(--ink);padding:1px 0;outline:none;width:100%;}
   .dmg-input{border:none;border-bottom:1px solid rgba(107,93,79,.3);background:transparent;font-family:'Cinzel',serif;font-size:11px;color:var(--rust);padding:1px 2px;outline:none;width:44px;text-align:center;}
   .dmg-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(107,93,79,.5);}
 
-  /* Belt / Back */
+  /* Belt / Back Updates */
   .small-slots{display:flex;gap:8px;margin-top:6px;}
   .small-slot{flex:1;}
-  .small-box{border:1px solid rgba(107,93,79,.28);padding:6px 8px;min-height:36px;display:flex;align-items:center;}
+  .small-box{border:1px solid rgba(107,93,79,.28);padding:8px 10px;min-height:52px;display:flex;align-items:center;} /* Increased min-height */
   .small-input{border:none;background:transparent;font-family:'Crimson Text',serif;font-size:13px;color:var(--ink);outline:none;width:100%;}
 
-  /* Rucksack */
-  .ruck-header{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;}
+  /* --- Rucksack Updates (Dotted dividers) --- */
+  .ruck-header{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;}
   .ruck-col-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(107,93,79,.5);text-align:center;}
-  .ruck-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-  .ruck-cell{border:1px solid rgba(107,93,79,.28);padding:8px 10px;min-height:50px;display:flex;flex-direction:column;justify-content:space-between;}
-  .ruck-input{border:none;background:transparent;font-family:'Crimson Text',serif;font-size:14px;color:var(--ink);outline:none;width:100%;resize:none;line-height:1.4;}
-  /* Trinkets */
-  .trinkets-area{width:100%;background:transparent;border:none;font-family:'Crimson Text',serif;font-size:14px;color:var(--ink);padding:4px 0;resize:none;min-height:65px;outline:none;line-height:1.85;}
+  .ruck-grid{display:flex;flex-direction:column;gap:10px;}
+  .ruck-row{display:flex;border:1px solid rgba(107,93,79,.3);background:transparent;margin-bottom: 5px}
+  .ruck-cell{flex:1;padding:8px 12px;min-height:60px;display:flex;flex-direction:column;justify-content:center;}
+  .ruck-cell:first-child{border-right:4px dotted rgba(107,93,79,.4);} /* The dotted line between A and B */
+  .ruck-input{margin-bottom: 5px; border:none;background:transparent;font-family:'Crimson Text',serif;font-size:14px;color:var(--ink);outline:none;width:100%;resize:none;line-height:1.5;}
+  
+  /* --- Trinkets Updates --- */
+  .trinkets-area{width:100%;background:transparent;border:none;font-family:'Crimson Text',serif;font-size:14px;color:var(--ink);padding:4px 0;resize:none;min-height:130px;outline:none;line-height:1.9;} /* Significantly increased min-height */
 
   /* Currency */
   .currency-row{display:flex;gap:24px;align-items:center;}
@@ -60,21 +64,32 @@
   .currency-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);}
   .currency-input{font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--ink);width:56px;text-align:center;border:none;border-bottom:1.5px solid rgba(107,93,79,.4);background:transparent;outline:none;padding:0;}
 
-  .divider{text-align:center;color:var(--gold);font-size:13px;letter-spacing:8px;margin:4px 0 14px;opacity:.5;}
+  .divider{text-align:center;color:var(--gold);font-size:13px;letter-spacing:8px;margin:12px 0 28px;opacity:.5;}
 
+  /* --- Print Overrides --- */
   @media print{
     @page{size:A4 portrait;margin:0;}
     html,body{margin:0;padding:0;background:#f5f3f0 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     body{display:block;padding:0;}
     .sheet{width:210mm;max-width:210mm;min-height:297mm;height:297mm;border:none;box-shadow:none;margin:0;overflow:hidden;}
     .sheet-inner{padding:10mm 12mm 8mm;}
-    .sheet-title{font-size:18px;letter-spacing:5px;}.sheet-subtitle{font-size:8px;}
-    .identity-row{margin:14px 0 14px;}
-    .sec{margin-bottom:10px;padding:8px 10px;}
-    .ruck-cell{min-height:42px;}
-    .trinkets-area{min-height:55px;}
+    
+    .sheet-header{margin-bottom:25px;padding-bottom:14px;}
+    .sheet-title{font-size:18px;letter-spacing:5px;margin-bottom:6px;}
+    .sheet-subtitle{font-size:8px;margin-top:6px;}
+    
+    .identity-row{margin:28px 0 28px;}
+    .sec{margin-bottom:16px;padding:8px 10px;}
+    
+    .slot-row {padding: 8px 0;}
+    .small-box{border:1px solid rgba(107,93,79,.22) !important; min-height:42px;}
+    
+    .ruck-row{border:1px solid rgba(107,93,79,.22) !important;}
+    .ruck-cell{min-height:46px;}
+    .ruck-cell:first-child{border-right:3px dotted rgba(107,93,79,.3) !important;}
+    
+    .trinkets-area{min-height:100px;}
     input,textarea{border:none !important;border-bottom:1px solid rgba(107,93,79,.4) !important;background:transparent !important;-webkit-appearance:none;box-shadow:none;}
-    .ruck-cell,.small-box{border:1px solid rgba(107,93,79,.22) !important;}
     textarea.trinkets-area{border:none !important;border-bottom:none !important;}
     .corner{display:none;}.sheet::before{display:none;}
   }
@@ -95,30 +110,24 @@
       <div style="display:flex;flex-direction:column;gap:2px;"><div class="fl">Character Name</div><input class="fi" type="text"></div>
     </div>
 
-    <!-- Equipped -->
     <div class="sec">
       <div class="st">Equipped</div>
       <div style="height:8px"></div>
       <div class="equipped-grid">
 
-        <!-- Left: worn -->
         <div>
-          <div class="sec-label">Worn</div>
-          <!-- Right hand with damage -->
-          <div class="slot-row" style="grid-template-columns:60px 1fr auto auto;">
+          <div class="slot-row" style="grid-template-columns:60px 1fr auto auto; margin-top: 7px">
             <span class="slot-label">Right Hand</span>
             <input class="slot-input" type="text">
             <span class="dmg-label">Dmg</span>
             <input class="dmg-input" type="text">
           </div>
-          <!-- Left hand with damage -->
           <div class="slot-row" style="grid-template-columns:60px 1fr auto auto;">
             <span class="slot-label">Left Hand</span>
             <input class="slot-input" type="text">
             <span class="dmg-label">Dmg</span>
             <input class="dmg-input" type="text">
           </div>
-          <!-- Body armor with protection -->
           <div class="slot-row" style="grid-template-columns:60px 1fr auto auto;">
             <span class="slot-label">Body</span>
             <input class="slot-input" type="text">
@@ -127,7 +136,6 @@
           </div>
         </div>
 
-        <!-- Right: belt + back -->
         <div>
           <div class="sec-label">Belt</div>
           <div class="small-slots">
@@ -135,7 +143,7 @@
             <div class="small-slot"><div class="small-box"><input class="small-input" type="text"></div></div>
             <div class="small-slot"><div class="small-box"><input class="small-input" type="text"></div></div>
           </div>
-          <div class="sec-label" style="margin-top:10px;">Back</div>
+          <div class="sec-label" style="margin-top:14px;">Back</div>
           <div class="small-slots">
             <div class="small-slot"><div class="small-box"><input class="small-input" type="text"></div></div>
             <div class="small-slot"><div class="small-box"><input class="small-input" type="text"></div></div>
@@ -147,25 +155,20 @@
 
     <div class="divider">— ✦ —</div>
 
-    <!-- Rucksack -->
     <div class="sec sec-rucksack">
       <div class="st">Rucksack</div>
       <div style="height:8px"></div>
       <div class="ruck-header">
-        <div class="ruck-col-label">Slot A</div>
-        <div class="ruck-col-label">Slot B</div>
       </div>
       <div class="ruck-grid" id="ruck-grid"></div>
     </div>
 
-    <!-- Trinkets -->
     <div class="sec sec-trinkets">
       <div class="st">Trinkets &amp; Small Items</div>
       <div style="height:8px"></div>
       <textarea class="trinkets-area"></textarea>
     </div>
 
-    <!-- Currency -->
     <div class="sec sec-currency">
       <div class="st">Currency</div>
       <div style="height:8px"></div>
@@ -184,13 +187,22 @@ const SVG=`<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/sv
 ['c1','c2','c3','c4'].forEach(id=>document.getElementById(id).innerHTML=SVG);
 
 const rg=document.getElementById('ruck-grid');
+// Modified to create structural rows for the dotted border effect
 for(let i=0;i<3;i++){
-  const a=document.createElement('div');a.className='ruck-cell';
-  a.innerHTML=`<textarea class="ruck-input" rows="2"></textarea>`;
-  const b=document.createElement('div');b.className='ruck-cell';
-  b.style.borderLeft='none';
-  b.innerHTML=`<textarea class="ruck-input" rows="2"></textarea>`;
-  rg.appendChild(a);rg.appendChild(b);
+  const row = document.createElement('div');
+  row.className = 'ruck-row';
+  
+  const a = document.createElement('div');
+  a.className = 'ruck-cell';
+  a.innerHTML = `<textarea class="ruck-input" rows="2"></textarea>`;
+  
+  const b = document.createElement('div');
+  b.className = 'ruck-cell';
+  b.innerHTML = `<textarea class="ruck-input" rows="2"></textarea>`;
+  
+  row.appendChild(a);
+  row.appendChild(b);
+  rg.appendChild(row);
 }
 </script>
 </body>
