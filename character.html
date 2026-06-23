@@ -15,23 +15,24 @@
   .corner-tl{top:8px;left:8px;}.corner-tr{top:8px;right:8px;transform:scaleX(-1);}.corner-bl{bottom:8px;left:8px;transform:scaleY(-1);}.corner-br{bottom:8px;right:8px;transform:scale(-1);}
   .sheet-inner{padding:36px 40px 32px;position:relative;z-index:1;}
 
-  .sheet-header{text-align:center;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid var(--gold);position:relative;}
+  /* --- SPACING CHANGES FOR SCREEN --- */
+  .sheet-header{text-align:center;margin-bottom:35px;padding-bottom:18px;border-bottom:2px solid var(--gold);position:relative;}
   .sheet-header::after{content:'⬥ ⬦ ⬥';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);background:var(--parchment);padding:0 12px;color:var(--gold);font-size:14px;letter-spacing:6px;}
-  .sheet-title{font-family:'Cinzel',serif;font-size:26px;font-weight:700;letter-spacing:8px;color:var(--rust);text-transform:uppercase;}
-  .sheet-subtitle{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--gold);margin-top:3px;text-transform:uppercase;}
+  .sheet-title{font-family:'Cinzel',serif;font-size:26px;font-weight:700;letter-spacing:8px;color:var(--rust);text-transform:uppercase;margin-bottom:8px;}
+  .sheet-subtitle{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--gold);margin-top:8px;text-transform:uppercase;}
 
-  .identity-row{margin:24px 0 18px;}
+  .identity-row{margin:40px 0 40px;} /* Increased above and below character name */
   .fl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
   .fi{border:none;border-bottom:1px solid var(--gold);background:transparent;font-family:'Crimson Text',serif;font-size:15px;color:var(--ink);padding:2px 0;outline:none;width:100%;}
 
-  .strip-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;opacity:.8;}
-  .attr-strip{display:flex;border:1px solid rgba(107,93,79,.25);background:rgba(107,93,79,.04);margin-bottom:18px;}
+  .strip-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;opacity:.8;}
+  .attr-strip{display:flex;border:1px solid rgba(107,93,79,.25);background:rgba(107,93,79,.04);margin-bottom:45px;} /* Increased after attributes */
   .attr-cell{flex:1;display:flex;flex-direction:column;align-items:center;padding:7px 4px 6px;border-right:1px solid rgba(107,93,79,.15);}
   .attr-cell:last-child{border-right:none;}
   .attr-abbr{font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--rust);text-transform:uppercase;}
   .attr-die{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--ink);margin-top:4px;width:46px;text-align:center;border:none;border-bottom:1.5px solid rgba(107,93,79,.4);background:transparent;outline:none;padding:0 2px;}
 
-  .sec{background:rgba(107,93,79,.04);border:1px solid rgba(107,93,79,.22);padding:12px 14px;margin-bottom:14px;position:relative;}
+  .sec{background:rgba(107,93,79,.04);border:1px solid rgba(107,93,79,.22);padding:12px 14px;margin-bottom:24px;position:relative;}
   .sec:last-child{margin-bottom:0;}
   .st{font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rust);background:var(--parchment);padding:0 8px;position:absolute;top:-8px;left:14px;}
 
@@ -47,19 +48,25 @@
 
   .free-area{width:100%;background:transparent;border:none;font-family:'Crimson Text',serif;font-size:14px;color:var(--ink);padding:4px 0;resize:none;min-height:140px;outline:none;line-height:1.9;}
 
-  .divider{text-align:center;color:var(--gold);font-size:13px;letter-spacing:8px;margin:4px 0 14px;opacity:.5;}
+  .divider{text-align:center;color:var(--gold);font-size:13px;letter-spacing:8px;margin:8px 0 24px;opacity:.5;}
 
+  /* --- SPACING CHANGES FOR PRINT --- */
   @media print{
     @page{size:A4 portrait;margin:0;}
     html,body{margin:0;padding:0;background:#f5f3f0 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     body{display:block;padding:0;}
     .sheet{width:210mm;max-width:210mm;min-height:297mm;height:297mm;border:none;box-shadow:none;margin:0;padding:0;overflow:hidden;}
     .sheet-inner{padding:10mm 12mm 8mm;}
-    .sheet-title{font-size:18px;letter-spacing:5px;}.sheet-subtitle{font-size:8px;}
-    .identity-row{margin:14px 0 12px;}
-    .attr-strip{margin-bottom:12px;}
+    
+    .sheet-header{margin-bottom:25px;padding-bottom:14px;}
+    .sheet-title{font-size:18px;letter-spacing:5px;margin-bottom:6px;}
+    .sheet-subtitle{font-size:8px;margin-top:6px;}
+    
+    .identity-row{margin:28px 0 28px;} /* Scaled for print */
+    .attr-strip{margin-bottom:30px;}   /* Scaled for print */
+    
     .attr-cell{padding:5px 3px;}
-    .sec{margin-bottom:9px;padding:8px 10px;}
+    .sec{margin-bottom:16px;padding:8px 10px;}
     .skill-row{padding:2px 0;}.skill-name{font-size:12px;}
     .free-area{min-height:100px;}
     input,textarea{border:none !important;border-bottom:1px solid rgba(107,93,79,.45) !important;background:transparent !important;-webkit-appearance:none;box-shadow:none;}
@@ -100,7 +107,7 @@
 
     <div class="divider">— ✦ —</div>
 
-    <div class="sec">
+    <div class="sec" style="margin-bottom:40px">
       <div class="st">Talents</div>
       <div style="height:8px"></div>
       <div id="talents-container"></div>
@@ -130,7 +137,7 @@ const SVG=`<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/sv
 });
 
 const tc=document.getElementById('talents-container');
-for(let i=0;i<4;i++){
+for(let i=0;i<5;i++){
   const row=document.createElement('div');row.className='talent-row';
   const num=document.createElement('span');num.className='talent-num';num.textContent=`${i+1}.`;
   const ni=document.createElement('input');ni.className='fi';ni.type='text';
