@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Combat Simulator v3</title>
+<title>Combat Simulator v4 — Multi-participant</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -21,270 +21,334 @@
     background-image: repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(0,0,0,0.03) 40px,rgba(0,0,0,0.03) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(0,0,0,0.03) 40px,rgba(0,0,0,0.03) 41px);
     min-height: 100vh; padding: 2rem 1rem; color: var(--ink);
   }
-  .container { max-width: 980px; margin: 0 auto; }
+  .container { max-width: 1100px; margin: 0 auto; }
   h1 { font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 700; color: var(--parchment); text-align: center; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.25rem; }
   .subtitle { font-family: 'Crimson Text', serif; font-style: italic; color: var(--border); text-align: center; font-size: 1.1rem; margin-bottom: 2rem; }
+
   .parchment-panel { background: var(--parchment); border: 1px solid var(--border); border-radius: 3px; padding: 1.25rem 1.5rem; position: relative; box-shadow: 0 4px 24px rgba(0,0,0,0.4),inset 0 0 40px rgba(184,152,106,0.15); }
   .parchment-panel::before { content:''; position:absolute; inset:4px; border:1px solid var(--border-light); border-radius:2px; pointer-events:none; opacity:0.5; }
-  .fighters-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
-  @media (max-width: 640px) { .fighters-grid { grid-template-columns: 1fr; } }
-  .fighter-panel { background: var(--parchment); border: 1px solid var(--border); border-radius: 3px; padding: 1.25rem; position: relative; box-shadow: 0 2px 12px rgba(0,0,0,0.3),inset 0 0 30px rgba(184,152,106,0.1); }
-  .fighter-panel::before { content:''; position:absolute; inset:3px; border:1px solid var(--border-light); border-radius:2px; pointer-events:none; opacity:0.4; }
-  .fighter-header { display:flex; align-items:center; gap:0.6rem; margin-bottom:1rem; padding-bottom:0.6rem; border-bottom:1px solid var(--border-light); }
-  .fighter-crest { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Cinzel',serif; font-size:11px; font-weight:700; flex-shrink:0; }
-  .atk-crest { background: var(--atk-color); color:#f4ede0; }
-  .def-crest { background: var(--def-color); color:#f4ede0; }
-  .fighter-title { font-family:'Cinzel',serif; font-size:0.95rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; }
-  .atk-title { color: var(--atk-color); }
-  .def-title { color: var(--def-color); }
-  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; }
-  .form-field { display:flex; flex-direction:column; gap:3px; }
-  .form-field label { font-size:0.72rem; font-family:'Cinzel',serif; letter-spacing:0.08em; color:var(--ink-light); text-transform:uppercase; }
-  select, input[type="number"] { font-family:'Crimson Text',serif; font-size:0.95rem; color:var(--ink); background:var(--parchment-dark); border:1px solid var(--border); border-radius:2px; padding:4px 7px; width:100%; cursor:pointer; appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236b5344'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 7px center; padding-right:22px; }
-  input[type="number"] { background-image:none; padding-right:7px; -moz-appearance:textfield; }
+
+  /* ===== TEAM LAYOUT ===== */
+  .teams-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
+  @media (max-width: 700px) { .teams-grid { grid-template-columns: 1fr; } }
+
+  .team-panel { background: var(--parchment); border: 2px solid var(--border); border-radius: 3px; padding: 1rem; position: relative; box-shadow: 0 2px 12px rgba(0,0,0,0.3),inset 0 0 30px rgba(184,152,106,0.1); }
+  .team-panel-a { border-color: var(--atk-color); }
+  .team-panel-b { border-color: var(--def-color); }
+  .team-panel::before { content:''; position:absolute; inset:3px; border:1px solid var(--border-light); border-radius:2px; pointer-events:none; opacity:0.4; }
+
+  .team-header { display:flex; align-items:center; justify-content:space-between; gap:0.6rem; margin-bottom:0.8rem; padding-bottom:0.6rem; border-bottom:1px solid var(--border-light); }
+  .team-title { font-family:'Cinzel',serif; font-size:1rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; }
+  .team-title-a { color: var(--atk-color); }
+  .team-title-b { color: var(--def-color); }
+
+  .btn-add-creature { font-family:'Cinzel',serif; font-size:0.68rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; padding:4px 10px; border-radius:2px; cursor:pointer; border:1px solid; background:transparent; transition:all 0.15s; }
+  .btn-add-a { color:var(--atk-color); border-color:var(--atk-color); }
+  .btn-add-a:hover { background:rgba(122,26,26,0.08); }
+  .btn-add-b { color:var(--def-color); border-color:var(--def-color); }
+  .btn-add-b:hover { background:rgba(26,58,92,0.08); }
+  .btn-add-creature:disabled { opacity:0.35; cursor:not-allowed; }
+
+  /* ===== CREATURE CARD ===== */
+  .creature-card { background: var(--parchment-dark); border: 1px solid var(--border-light); border-radius:2px; padding:0.75rem; margin-bottom:0.6rem; position:relative; }
+  .creature-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem; }
+  .creature-name-row { display:flex; align-items:center; gap:0.5rem; }
+  .creature-badge { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Cinzel',serif; font-size:9px; font-weight:700; flex-shrink:0; }
+  .badge-a { background:var(--atk-color); color:#f4ede0; }
+  .badge-b { background:var(--def-color); color:#f4ede0; }
+  .creature-name-input { font-family:'Cinzel',serif; font-size:0.8rem; font-weight:600; color:var(--ink); background:transparent; border:none; border-bottom:1px solid var(--border-light); width:110px; padding:1px 2px; }
+  .creature-name-input:focus { outline:none; border-bottom-color:var(--accent-gold); }
+  .btn-remove { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.06em; text-transform:uppercase; padding:2px 7px; border-radius:2px; cursor:pointer; border:1px solid var(--border-light); background:transparent; color:var(--ink-light); transition:all 0.15s; }
+  .btn-remove:hover { background:var(--parchment-darker); color:var(--ink); }
+
+  .creature-form { display:grid; grid-template-columns:1fr 1fr; gap:0.4rem; }
+  .form-field { display:flex; flex-direction:column; gap:2px; }
+  .form-field label { font-size:0.65rem; font-family:'Cinzel',serif; letter-spacing:0.07em; color:var(--ink-light); text-transform:uppercase; }
+  select, input[type="number"], input[type="text"] { font-family:'Crimson Text',serif; font-size:0.9rem; color:var(--ink); background:var(--parchment); border:1px solid var(--border-light); border-radius:2px; padding:3px 6px; width:100%; cursor:pointer; appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236b5344'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 6px center; padding-right:20px; }
+  input[type="number"] { background-image:none; padding-right:6px; -moz-appearance:textfield; }
   input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance:none; }
-  select:focus, input[type="number"]:focus { outline:none; border-color:var(--accent-gold); }
-  .divider { height:1px; background:linear-gradient(to right,transparent,var(--border),transparent); margin:0.75rem 0; }
-  .section-label { font-family:'Cinzel',serif; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-light); margin-bottom:0.5rem; }
-  .controls-row { display:flex; align-items:flex-end; gap:1rem; flex-wrap:wrap; margin-bottom:1rem; }
-  .btn { font-family:'Cinzel',serif; font-size:0.85rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; padding:8px 22px; border-radius:2px; cursor:pointer; border:1px solid; transition:all 0.15s; }
+  input[type="text"] { background-image:none; }
+  select:focus, input[type="number"]:focus, input[type="text"]:focus { outline:none; border-color:var(--accent-gold); }
+
+  .creature-effects-toggle { font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-light); cursor:pointer; border:none; background:transparent; padding:3px 0; margin-top:4px; text-decoration:underline; }
+  .creature-effects-panel { display:none; margin-top:6px; padding:6px 8px; background:var(--parchment); border:1px solid var(--border-light); border-radius:2px; }
+  .creature-effects-panel.open { display:block; }
+  .effect-row { display:flex; align-items:center; gap:5px; margin-bottom:2px; }
+  .effect-row input[type="checkbox"] { width:12px; height:12px; accent-color:var(--ink-mid); flex-shrink:0; cursor:pointer; }
+  .effect-row label { font-family:'Crimson Text',serif; font-size:0.82rem; color:var(--ink); cursor:pointer; }
+  .eff-tag { font-family:'Cinzel',serif; font-size:0.55rem; padding:1px 4px; border-radius:2px; border:1px solid #8b6914; color:#8b6914; background:rgba(139,105,20,0.08); margin-left:2px; }
+
+  .divider { height:1px; background:linear-gradient(to right,transparent,var(--border),transparent); margin:0.6rem 0; }
+
+  /* ===== CONTROLS ===== */
+  .controls-panel { background: var(--parchment); border: 1px solid var(--border); border-radius: 3px; padding: 1rem 1.25rem; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.3); margin-bottom: 1.25rem; }
+  .controls-row { display:flex; align-items:flex-end; gap:1rem; flex-wrap:wrap; margin-bottom:0; }
+  .section-label { font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-light); margin-bottom:0.4rem; }
+  .btn { font-family:'Cinzel',serif; font-size:0.82rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; padding:7px 20px; border-radius:2px; cursor:pointer; border:1px solid; transition:all 0.15s; }
   .btn-run { background:var(--ink-mid); color:var(--parchment); border-color:var(--border); box-shadow:0 2px 8px rgba(0,0,0,0.3); }
   .btn-run:hover { background:var(--ink); }
   .btn-run:active { transform:translateY(1px); }
   .btn-clear { background:transparent; color:var(--ink-light); border-color:var(--border-light); }
   .btn-clear:hover { background:var(--parchment-darker); color:var(--ink); }
-  .stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(90px,1fr)); gap:8px; }
-  .stat-card { background:var(--parchment-dark); border:1px solid var(--border-light); border-radius:2px; padding:8px 10px; text-align:center; }
-  .stat-num { font-family:'Cinzel',serif; font-size:1.4rem; font-weight:700; line-height:1; }
-  .stat-lbl { font-size:0.65rem; font-family:'Cinzel',serif; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-light); margin-top:3px; }
+
+  .target-mode-row { display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; }
+  .radio-label { display:flex; align-items:center; gap:4px; font-family:'Crimson Text',serif; font-size:0.9rem; color:var(--ink); cursor:pointer; }
+  .radio-label input { accent-color:var(--ink-mid); cursor:pointer; }
+
+  /* ===== HP TRACKER ===== */
+  .tracker-section { background: var(--parchment); border: 1px solid var(--border); border-radius: 3px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.3); display:none; }
+  .tracker-teams { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  @media (max-width:500px) { .tracker-teams { grid-template-columns:1fr; } }
+  .tracker-team-label { font-family:'Cinzel',serif; font-size:0.7rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.4rem; }
+  .tracker-team-label-a { color:var(--atk-color); }
+  .tracker-team-label-b { color:var(--def-color); }
+  .hp-row { display:flex; align-items:center; gap:6px; margin-bottom:3px; }
+  .hp-name { font-family:'Cinzel',serif; font-size:0.65rem; min-width:52px; color:var(--ink-mid); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .hp-track { flex:1; height:7px; background:var(--parchment-darker); border:1px solid var(--border-light); border-radius:1px; overflow:hidden; }
+  .hp-fill-a { height:100%; background:var(--atk-color); transition:width 0.4s; }
+  .hp-fill-b { height:100%; background:var(--def-color); transition:width 0.4s; }
+  .hp-num { font-family:'Cinzel',serif; font-size:0.65rem; font-weight:600; min-width:40px; text-align:right; }
+  .hp-num-a { color:var(--atk-color); } .hp-num-b { color:var(--def-color); }
+
+  /* ===== STATS ===== */
+  .stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(85px,1fr)); gap:7px; }
+  .stat-card { background:var(--parchment-dark); border:1px solid var(--border-light); border-radius:2px; padding:7px 9px; text-align:center; }
+  .stat-num { font-family:'Cinzel',serif; font-size:1.3rem; font-weight:700; line-height:1; }
+  .stat-lbl { font-size:0.62rem; font-family:'Cinzel',serif; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-light); margin-top:2px; }
   .num-atk { color:var(--atk-color); } .num-def { color:var(--def-color); } .num-neutral { color:var(--ink-mid); } .num-energy { color:var(--energy-color); }
-  .log-area { max-height:600px; overflow-y:auto; font-family:'Crimson Text',serif; font-size:0.93rem; line-height:1.65; scrollbar-width:thin; scrollbar-color:var(--border) transparent; }
-  .round-block { padding:0.7rem 0.9rem; margin-bottom:8px; background:var(--parchment-dark); border:1px solid var(--border-light); border-radius:2px; }
-  .round-block.atk-round { border-left:3px solid var(--atk-color); }
-  .round-block.def-round { border-left:3px solid var(--def-color); }
+  .ornament { text-align:center; color:var(--border); font-size:1.1rem; letter-spacing:0.3em; margin:0.3rem 0; }
+
+  /* ===== LOG ===== */
+  .log-area { max-height:680px; overflow-y:auto; font-family:'Crimson Text',serif; font-size:0.9rem; line-height:1.6; scrollbar-width:thin; scrollbar-color:var(--border) transparent; }
+  .round-block { padding:0.6rem 0.8rem; margin-bottom:7px; background:var(--parchment-dark); border:1px solid var(--border-light); border-radius:2px; }
+  .round-block.team-a-round { border-left:3px solid var(--atk-color); }
+  .round-block.team-b-round { border-left:3px solid var(--def-color); }
   .round-block.bleed-block { border-left:3px solid #8b2200; background:#fdf0ec; }
-  .round-head { font-family:'Cinzel',serif; font-size:0.78rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-mid); margin-bottom:6px; padding-bottom:5px; border-bottom:1px solid var(--border-light); display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .round-block.round-divider-block { background:transparent; border:none; border-top:1px solid var(--border-light); text-align:center; padding:4px; }
+  .round-head { font-family:'Cinzel',serif; font-size:0.75rem; font-weight:600; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-mid); margin-bottom:5px; padding-bottom:4px; border-bottom:1px solid var(--border-light); display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
   .log-line { margin:2px 0; }
   .rolls-line { color:var(--ink-light); font-style:italic; }
   .success-die { color:var(--accent-gold); font-weight:600; }
   .reroll-die { color:#8b6914; font-style:italic; }
-  .outcome-line { font-weight:600; margin:4px 0; }
+  .outcome-line { font-weight:600; margin:3px 0; }
   .atk-wins { color:var(--atk-color); } .def-wins { color:var(--def-color); } .neutral-out { color:var(--ink-mid); }
   .dmg-line-atk { color:var(--atk-color); } .dmg-line-def { color:var(--def-color); }
   .effect-line { color:var(--success); font-style:italic; }
   .bleed-line { color:#8b2200; font-style:italic; }
   .energy-line { color:var(--energy-color); font-style:italic; }
   .no-dmg { color:var(--ink-light); font-style:italic; }
-  .status-line { color:#7a5c00; font-style:italic; font-size:0.88rem; }
-  .empty-state { text-align:center; padding:2.5rem 1rem; color:var(--ink-light); font-style:italic; font-size:1.05rem; }
-  .ornament { text-align:center; color:var(--border); font-size:1.2rem; letter-spacing:0.3em; margin:0.4rem 0; }
-  .tag { display:inline-block; font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; padding:1px 5px; border-radius:2px; border:1px solid; margin-left:4px; vertical-align:middle; }
+  .status-line { color:#7a5c00; font-style:italic; font-size:0.85rem; }
+  .empty-state { text-align:center; padding:2.5rem 1rem; color:var(--ink-light); font-style:italic; font-size:1rem; }
+  .tag { display:inline-block; font-family:'Cinzel',serif; font-size:0.55rem; letter-spacing:0.07em; text-transform:uppercase; padding:1px 4px; border-radius:2px; border:1px solid; margin-left:3px; vertical-align:middle; }
   .tag-atk { color:var(--atk-color); border-color:var(--atk-color); background:rgba(122,26,26,0.08); }
   .tag-def { color:var(--def-color); border-color:var(--def-color); background:rgba(26,58,92,0.08); }
   .tag-status { color:#7a5c00; border-color:#b8860b; background:rgba(184,134,11,0.1); }
   .tag-energy { color:var(--energy-color); border-color:var(--energy-color); background:rgba(74,26,110,0.08); }
   .tag-bleed { color:#8b2200; border-color:#8b2200; background:rgba(139,34,0,0.08); }
-  .hp-row { display:flex; align-items:center; gap:8px; margin-bottom:4px; }
-  .hp-track { flex:1; height:8px; background:var(--parchment-darker); border:1px solid var(--border-light); border-radius:1px; overflow:hidden; }
-  .hp-fill-atk { height:100%; background:var(--atk-color); transition:width 0.4s; }
-  .hp-fill-def { height:100%; background:var(--def-color); transition:width 0.4s; }
-  .en-fill-atk { height:100%; background:var(--energy-color); transition:width 0.4s; }
-  .en-fill-def { height:100%; background:var(--energy-color); transition:width 0.4s; }
-  .hp-num { font-family:'Cinzel',serif; font-size:0.75rem; font-weight:600; min-width:44px; text-align:right; }
-  .hp-num-atk { color:var(--atk-color); } .hp-num-def { color:var(--def-color); } .en-num { color:var(--energy-color); }
-  .tracker-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-  .ko-banner { text-align:center; font-family:'Cinzel',serif; font-size:1.1rem; font-weight:700; padding:0.6rem; border-radius:2px; margin-bottom:8px; letter-spacing:0.08em; }
-  .ko-atk { background:rgba(122,26,26,0.12); color:var(--atk-color); border:1px solid var(--atk-color); }
-  .ko-def { background:rgba(26,58,92,0.12); color:var(--def-color); border:1px solid var(--def-color); }
-  .effects-panel { margin-top:1.25rem; }
-  .effects-fighters-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
-  @media (max-width:500px) { .effects-fighters-grid { grid-template-columns:1fr; } }
-  .effect-row { display:flex; align-items:center; gap:6px; }
-  .effect-row input[type="checkbox"] { width:14px; height:14px; accent-color:var(--ink-mid); flex-shrink:0; cursor:pointer; }
-  .effect-row label { font-family:'Crimson Text',serif; font-size:0.9rem; color:var(--ink); cursor:pointer; }
-  .effect-row .eff-tag { font-family:'Cinzel',serif; font-size:0.58rem; padding:1px 5px; border-radius:2px; border:1px solid #8b6914; color:#8b6914; background:rgba(139,105,20,0.08); margin-left:3px; }
+  .tag-dead { color:#5a0000; border-color:#5a0000; background:rgba(90,0,0,0.1); }
+  .ko-banner { text-align:center; font-family:'Cinzel',serif; font-size:1rem; font-weight:700; padding:0.5rem; border-radius:2px; margin-bottom:7px; letter-spacing:0.07em; }
+  .ko-a { background:rgba(122,26,26,0.12); color:var(--atk-color); border:1px solid var(--atk-color); }
+  .ko-b { background:rgba(26,58,92,0.12); color:var(--def-color); border:1px solid var(--def-color); }
+  .round-divider-label { font-family:'Cinzel',serif; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--border); }
 </style>
 </head>
 <body>
 <div class="container">
   <h1>Combat Simulator</h1>
-  <div class="subtitle">Roll-under dice pool &mdash; TN 4 &mdash; v3</div>
+  <div class="subtitle">Multi-participant &mdash; Roll-under dice pool &mdash; TN 4 &mdash; v4</div>
 
-  <div class="fighters-grid">
-    <!-- FIGHTER A -->
-    <div class="fighter-panel">
-      <div class="fighter-header">
-        <div class="fighter-crest atk-crest">A</div>
-        <div class="fighter-title atk-title">Fighter A</div>
+  <!-- TEAMS -->
+  <div class="teams-grid">
+    <div class="team-panel team-panel-a" id="team-a-panel">
+      <div class="team-header">
+        <div class="team-title team-title-a">⚔ Team A</div>
+        <button class="btn-add-creature btn-add-a" id="btn-add-a" onclick="addCreature('a')">+ Add creature</button>
       </div>
-      <div class="section-label">Attributes &amp; Combat</div>
-      <div class="form-grid" style="margin-bottom:0.6rem">
-        <div class="form-field"><label>Primary attr</label>
-          <select id="a-attr1">
-            <option value="1d6">d6</option><option value="1d8" selected>d8</option><option value="1d10">d10</option><option value="1d12">d12</option>
-            <option value="2d10">2d10</option><option value="2d12">2d12</option>
-          </select></div>
-        <div class="form-field"><label>Secondary attr</label>
-          <select id="a-attr2">
-            <option value="1d6">d6</option><option value="1d8">d8</option><option value="1d10" selected>d10</option><option value="1d12">d12</option>
-            <option value="2d10">2d10</option><option value="2d12">2d12</option>
-          </select></div>
-        <div class="form-field"><label>Weapon dmg</label>
-          <select id="a-wep">
-            <option value="1d4">1d4</option><option value="2d4">2d4</option><option value="1d6">1d6</option><option value="1d8">1d8</option>
-            <option value="1d10" selected>1d10</option><option value="1d12">1d12</option><option value="2d6">2d6</option>
-          </select></div>
-        <div class="form-field"><label>HP</label>
-          <input type="number" id="a-hp" value="20" min="1" max="999"></div>
-        <div class="form-field"><label>Energy</label>
-          <input type="number" id="a-energy" value="3" min="0" max="20"></div>
-      </div>
-      <div class="divider"></div>
-      <div class="section-label">Armor</div>
-      <div class="form-grid" style="margin-bottom:0.6rem">
-        <div class="form-field"><label>Armor dice</label>
-          <input type="number" id="a-armor" value="0" min="0" max="6"></div>
-        <div class="form-field"><label>Armor die size</label>
-          <select id="a-adie">
-            <option value="8">d8 (masterwork)</option><option value="10">d10 (quality)</option><option value="12" selected>d12 (standard)</option><option value="20">d20 (poor)</option>
-          </select></div>
-      </div>
-      <div class="divider"></div>
-      <div class="section-label">Reaction</div>
-      <div class="form-grid">
-        <div class="form-field" style="grid-column:1/-1"><label>When attacked</label>
-          <select id="a-react">
-            <option value="random" selected>Random</option><option value="contest">Always Contest</option><option value="avoid">Always Avoid</option>
-          </select></div>
-      </div>
+      <div id="team-a-creatures"></div>
     </div>
-
-    <!-- FIGHTER B -->
-    <div class="fighter-panel">
-      <div class="fighter-header">
-        <div class="fighter-crest def-crest">B</div>
-        <div class="fighter-title def-title">Fighter B</div>
+    <div class="team-panel team-panel-b" id="team-b-panel">
+      <div class="team-header">
+        <div class="team-title team-title-b">🛡 Team B</div>
+        <button class="btn-add-creature btn-add-b" id="btn-add-b" onclick="addCreature('b')">+ Add creature</button>
       </div>
-      <div class="section-label">Attributes &amp; Combat</div>
-      <div class="form-grid" style="margin-bottom:0.6rem">
-        <div class="form-field"><label>Primary attr</label>
-          <select id="d-attr1">
-            <option value="1d6">d6</option><option value="1d8" selected>d8</option><option value="1d10">d10</option><option value="1d12">d12</option>
-            <option value="2d10">2d10</option><option value="2d12">2d12</option>
-          </select></div>
-        <div class="form-field"><label>Secondary attr</label>
-          <select id="d-attr2">
-            <option value="1d6">d6</option><option value="1d8" selected>d8</option><option value="1d10">d10</option><option value="1d12">d12</option>
-            <option value="2d10">2d10</option><option value="2d12">2d12</option>
-          </select></div>
-        <div class="form-field"><label>Weapon dmg</label>
-          <select id="d-wep">
-            <option value="1d4">1d4</option><option value="2d4">2d4</option><option value="1d6">1d6</option><option value="1d8" selected>1d8</option>
-            <option value="1d10">1d10</option><option value="1d12">1d12</option><option value="2d6">2d6</option>
-          </select></div>
-        <div class="form-field"><label>HP</label>
-          <input type="number" id="d-hp" value="20" min="1" max="999"></div>
-        <div class="form-field"><label>Energy</label>
-          <input type="number" id="d-energy" value="3" min="0" max="20"></div>
-      </div>
-      <div class="divider"></div>
-      <div class="section-label">Armor</div>
-      <div class="form-grid" style="margin-bottom:0.6rem">
-        <div class="form-field"><label>Armor dice</label>
-          <input type="number" id="d-armor" value="2" min="0" max="6"></div>
-        <div class="form-field"><label>Armor die size</label>
-          <select id="d-adie">
-            <option value="8">d8 (masterwork)</option><option value="10">d10 (quality)</option><option value="12" selected>d12 (standard)</option><option value="20">d20 (poor)</option>
-          </select></div>
-      </div>
-      <div class="divider"></div>
-      <div class="section-label">Reaction</div>
-      <div class="form-grid">
-        <div class="form-field" style="grid-column:1/-1"><label>When attacked</label>
-          <select id="d-react">
-            <option value="random" selected>Random</option><option value="contest">Always Contest</option><option value="avoid">Always Avoid</option>
-          </select></div>
-      </div>
+      <div id="team-b-creatures"></div>
     </div>
   </div>
 
-  <!-- Combat Effects Panel -->
-  <div class="parchment-panel effects-panel" style="margin-bottom:1.25rem">
-    <div class="section-label">Combat effects</div>
-    <div style="font-size:0.82rem;color:var(--ink-light);font-style:italic;margin-bottom:0.9rem">Normal effects trigger on 1+ margin. Major effects require 2+ margin.</div>
-    <div class="effects-fighters-grid">
-      <div>
-        <div class="section-label" style="color:var(--atk-color);margin-bottom:0.5rem">Fighter A</div>
-        <div class="effect-row"><input type="checkbox" id="a-eff-stanfast" checked><label for="a-eff-stanfast">Stand fast <span class="eff-tag">ADV self</span></label></div>
-        <div class="effect-row"><input type="checkbox" id="a-eff-daze" checked><label for="a-eff-daze">Daze <span class="eff-tag">DISADV opp</span></label></div>
-        <div class="effect-row"><input type="checkbox" id="a-eff-topple" checked><label for="a-eff-topple">Topple <span class="eff-tag">MAJOR · skip turn</span></label></div>
-        <div class="effect-row"><input type="checkbox" id="a-eff-sunder" checked><label for="a-eff-sunder">Sunder <span class="eff-tag">MAJOR · worse armor</span></label></div>
-        <div class="effect-row"><input type="checkbox" id="a-eff-impale" checked><label for="a-eff-impale">Impale <span class="eff-tag">MAJOR · maximize damage</span></label></div>
-        <div class="effect-row"><input type="checkbox" id="a-eff-artery" checked><label for="a-eff-artery">Cut artery <span class="eff-tag">MAJOR · bleed</span></label></div>
-        <div class="effect-row"><input type="checkbox" id="a-eff-bypass" checked><label for="a-eff-bypass">Bypass armor <span class="eff-tag">MAJOR · pierce</span></label></div>
-      </div>
-      <div>
-        <div class="section-label" style="color:var(--def-color);margin-bottom:0.5rem">Fighter B</div>
-        <div class="effect-row"><input type="checkbox" id="b-eff-stanfast" checked><label for="b-eff-stanfast">Stand fast <span class="eff-tag">ADV self</span></label></div>
-        <div class="effect-row"><input type="checkbox" id="b-eff-daze" checked><label for="b-eff-daze">Daze <span class="eff-tag">DISADV opp</span></label></div>
-        <div class="effect-row"><input type="checkbox" id="b-eff-topple" checked><label for="b-eff-topple">Topple <span class="eff-tag">MAJOR · skip turn</span></label></div>
-        <div class="effect-row"><input type="checkbox" id="b-eff-sunder" checked><label for="b-eff-sunder">Sunder <span class="eff-tag">MAJOR · worse armor</span></label></div>
-        <div class="effect-row"><input type="checkbox" id="b-eff-impale" checked><label for="b-eff-impale">Impale <span class="eff-tag">MAJOR · maximize damage</span></label></div>
-        <div class="effect-row"><input type="checkbox" id="b-eff-artery" checked><label for="b-eff-artery">Cut artery <span class="eff-tag">MAJOR · bleed</span></label></div>
-        <div class="effect-row"><input type="checkbox" id="b-eff-bypass" checked><label for="b-eff-bypass">Bypass armor <span class="eff-tag">MAJOR · pierce</span></label></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Controls -->
-  <div class="parchment-panel" style="margin-bottom:1.25rem">
+  <!-- CONTROLS -->
+  <div class="controls-panel">
     <div class="controls-row">
-      <div class="form-field" style="min-width:70px">
-        <label style="font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-light)">Rounds</label>
-        <input type="number" id="rounds" value="10" min="1" max="40" style="width:70px">
+      <div class="form-field" style="min-width:65px">
+        <label class="section-label" style="margin-bottom:2px">Rounds</label>
+        <input type="number" id="rounds" value="10" min="1" max="40" style="width:65px">
+      </div>
+      <div>
+        <div class="section-label" style="margin-bottom:4px">Target selection</div>
+        <div class="target-mode-row">
+          <label class="radio-label"><input type="radio" name="target-mode" value="focus" checked> Focus (weakest)</label>
+          <label class="radio-label"><input type="radio" name="target-mode" value="random"> Random</label>
+        </div>
       </div>
       <button class="btn btn-run" onclick="runSim()">Roll the dice</button>
       <button class="btn btn-clear" onclick="clearLog()">Clear</button>
     </div>
-    <div id="hp-section" style="display:none">
-      <div class="divider" style="margin-top:0"></div>
-      <div class="tracker-grid">
-        <div>
-          <div class="section-label" style="color:var(--atk-color)">Fighter A &mdash; HP</div>
-          <div class="hp-row"><div class="hp-track"><div class="hp-fill-atk" id="a-bar" style="width:100%"></div></div><div class="hp-num hp-num-atk" id="a-hp-disp">—</div></div>
-          <div class="section-label" style="color:var(--energy-color);margin-top:4px">Energy</div>
-          <div class="hp-row"><div class="hp-track"><div class="en-fill-atk" id="a-en-bar" style="width:100%"></div></div><div class="hp-num en-num" id="a-en-disp">—</div></div>
-        </div>
-        <div>
-          <div class="section-label" style="color:var(--def-color)">Fighter B &mdash; HP</div>
-          <div class="hp-row"><div class="hp-track"><div class="hp-fill-def" id="b-bar" style="width:100%"></div></div><div class="hp-num hp-num-def" id="b-hp-disp">—</div></div>
-          <div class="section-label" style="color:var(--energy-color);margin-top:4px">Energy</div>
-          <div class="hp-row"><div class="hp-track"><div class="en-fill-def" id="b-en-bar" style="width:100%"></div></div><div class="hp-num en-num" id="b-en-disp">—</div></div>
-        </div>
+  </div>
+
+  <!-- HP TRACKER -->
+  <div class="tracker-section" id="tracker-section">
+    <div class="tracker-teams">
+      <div>
+        <div class="tracker-team-label tracker-team-label-a">Team A</div>
+        <div id="tracker-a"></div>
+      </div>
+      <div>
+        <div class="tracker-team-label tracker-team-label-b">Team B</div>
+        <div id="tracker-b"></div>
       </div>
     </div>
   </div>
 
-  <!-- Stats -->
+  <!-- STATS -->
   <div id="stats-section" style="display:none;margin-bottom:1.25rem">
     <div class="parchment-panel">
       <div class="ornament">— ✦ —</div>
-      <div class="stats-row" id="stats-cards" style="margin-top:0.75rem"></div>
+      <div class="stats-row" id="stats-cards" style="margin-top:0.6rem"></div>
     </div>
   </div>
 
-  <!-- Log -->
+  <!-- LOG -->
   <div class="parchment-panel">
     <div class="log-area" id="log">
-      <div class="empty-state">Configure fighters above and roll the dice...</div>
+      <div class="empty-state">Add creatures to both teams and roll the dice…</div>
     </div>
   </div>
 </div>
 
 <script>
+// =====================================================
+// CONFIG & CONSTANTS
+// =====================================================
 const TN = 4;
+const MAX_CREATURES = 5;
 
-// --- Dice helpers ---
+const ARMOR_TIERS = [8, 10, 12, 20];
+
+const EFFECT_DEFS = [
+  {key:'stanfast', name:'Stand fast', type:'normal',  label:'ADV self'},
+  {key:'daze',     name:'Daze',       type:'normal',  label:'DISADV opp'},
+  {key:'topple',   name:'Topple',     type:'major',   label:'MAJOR · skip turn'},
+  {key:'sunder',   name:'Sunder',     type:'major',   label:'MAJOR · worse armor'},
+  {key:'impale',   name:'Impale',     type:'major',   label:'MAJOR · maximize damage'},
+  {key:'artery',   name:'Cut artery', type:'major',   label:'MAJOR · bleed'},
+  {key:'bypass',   name:'Bypass armor', type:'major', label:'MAJOR · pierce'},
+];
+
+// =====================================================
+// CREATURE REGISTRY  (keyed by uid)
+// =====================================================
+let teams = { a: [], b: [] };  // arrays of uids in order
+let creatureCounter = 0;
+let creatureDefs = {};  // uid -> {team, name, ...stats}
+
+function uid() { return 'c' + (++creatureCounter); }
+
+const DIE_OPTS = [
+  {v:'1d6',l:'d6'},{v:'1d8',l:'d8'},{v:'1d10',l:'d10'},{v:'1d12',l:'d12'},
+  {v:'2d10',l:'2d10'},{v:'2d12',l:'2d12'}
+];
+const WEP_OPTS = [
+  {v:'1d4',l:'1d4'},{v:'2d4',l:'2d4'},{v:'1d6',l:'1d6'},{v:'1d8',l:'1d8'},
+  {v:'1d10',l:'1d10'},{v:'1d12',l:'1d12'},{v:'2d6',l:'2d6'}
+];
+const ADIE_OPTS = [
+  {v:'8',l:'d8 (masterwork)'},{v:'10',l:'d10 (quality)'},{v:'12',l:'d12 (standard)'},{v:'20',l:'d20 (poor)'}
+];
+const REACT_OPTS = [
+  {v:'random',l:'Random'},{v:'contest',l:'Always Contest'},{v:'avoid',l:'Always Avoid'}
+];
+
+function selectHtml(opts, selVal) {
+  return opts.map(o => `<option value="${o.v}"${o.v===selVal?' selected':''}>${o.l}</option>`).join('');
+}
+
+function addCreature(team) {
+  if (teams[team].length >= MAX_CREATURES) return;
+  const id = uid();
+  const idx = teams[team].length + 1;
+  const defaultName = team === 'a' ? `Fighter A${idx}` : `Fighter B${idx}`;
+  teams[team].push(id);
+  creatureDefs[id] = { team, id };
+
+  const color = team === 'a' ? 'a' : 'b';
+  const badge = team === 'a' ? 'A' : 'B';
+  const teamColor = team === 'a' ? 'var(--atk-color)' : 'var(--def-color)';
+
+  const card = document.createElement('div');
+  card.className = 'creature-card';
+  card.id = `card-${id}`;
+  card.innerHTML = `
+    <div class="creature-card-header">
+      <div class="creature-name-row">
+        <div class="creature-badge badge-${color}">${badge}${idx}</div>
+        <input class="creature-name-input" type="text" id="name-${id}" value="${defaultName}" placeholder="Name">
+      </div>
+      <button class="btn-remove" onclick="removeCreature('${id}','${team}')">Remove</button>
+    </div>
+    <div class="creature-form">
+      <div class="form-field"><label>Primary attr</label>
+        <select id="attr1-${id}">${selectHtml(DIE_OPTS,'1d8')}</select></div>
+      <div class="form-field"><label>Secondary attr</label>
+        <select id="attr2-${id}">${selectHtml(DIE_OPTS,'1d10')}</select></div>
+      <div class="form-field"><label>Weapon dmg</label>
+        <select id="wep-${id}">${selectHtml(WEP_OPTS,'1d8')}</select></div>
+      <div class="form-field"><label>HP</label>
+        <input type="number" id="hp-${id}" value="20" min="1" max="999"></div>
+      <div class="form-field"><label>Energy</label>
+        <input type="number" id="energy-${id}" value="3" min="0" max="20"></div>
+      <div class="form-field"><label>Armor dice</label>
+        <input type="number" id="armor-${id}" value="0" min="0" max="6"></div>
+      <div class="form-field"><label>Armor die size</label>
+        <select id="adie-${id}">${selectHtml(ADIE_OPTS,'12')}</select></div>
+      <div class="form-field"><label>Reaction</label>
+        <select id="react-${id}">${selectHtml(REACT_OPTS,'random')}</select></div>
+    </div>
+    <button class="creature-effects-toggle" onclick="toggleEffects('${id}')">▸ Combat effects</button>
+    <div class="creature-effects-panel" id="eff-panel-${id}">
+      <div style="font-size:0.75rem;color:var(--ink-light);font-style:italic;margin-bottom:5px">Normal: 1+ margin &nbsp;·&nbsp; Major: 2+ margin</div>
+      ${EFFECT_DEFS.map(e => `
+        <div class="effect-row">
+          <input type="checkbox" id="eff-${e.key}-${id}" checked>
+          <label for="eff-${e.key}-${id}">${e.name} <span class="eff-tag">${e.label}</span></label>
+        </div>`).join('')}
+    </div>
+  `;
+  document.getElementById(`team-${team}-creatures`).appendChild(card);
+  updateAddButtons();
+}
+
+function removeCreature(id, team) {
+  teams[team] = teams[team].filter(x => x !== id);
+  delete creatureDefs[id];
+  const card = document.getElementById(`card-${id}`);
+  if (card) card.remove();
+  updateAddButtons();
+}
+
+function toggleEffects(id) {
+  const panel = document.getElementById(`eff-panel-${id}`);
+  const btn = panel.previousElementSibling;
+  panel.classList.toggle('open');
+  btn.textContent = panel.classList.contains('open') ? '▾ Combat effects' : '▸ Combat effects';
+}
+
+function updateAddButtons() {
+  document.getElementById('btn-add-a').disabled = teams.a.length >= MAX_CREATURES;
+  document.getElementById('btn-add-b').disabled = teams.b.length >= MAX_CREATURES;
+}
+
+// =====================================================
+// DICE HELPERS
+// =====================================================
 function roll(sides) { return Math.floor(Math.random() * sides) + 1; }
 
 function rollPool(diceArr) {
@@ -300,13 +364,11 @@ function fmtRolls(rolls) {
   ).join(' ');
 }
 
-// Parse "2d10" => {count:2, sides:10}
 function parseDie(str) {
   const m = str.match(/(\d+)d(\d+)/);
   return {count:+m[1], sides:+m[2]};
 }
 
-// Build dice array from attribute string like "2d10" => [10,10]
 function attrDice(str) {
   const {count, sides} = parseDie(str);
   return Array.from({length: count}, () => sides);
@@ -318,127 +380,49 @@ function getDmgRolls(wepStr, count) {
   return Array.from({length:n}, () => roll(sides));
 }
 
-// --- Energy rerolling ---
-// Try to spend up to 2 energy to reroll non-successes. Returns {rolls, spent, log}
-function spendEnergy(rolls, energyState, maxSpend) {
-  let spent = 0;
-  let logParts = [];
-  let newRolls = [...rolls];
-  while (spent < maxSpend && energyState.energy > 0) {
-    // Find worst non-success to reroll (highest value that isn't a hit)
-    const failures = newRolls.map((r,i) => ({...r, idx:i})).filter(r => !r.hit);
-    if (failures.length === 0) break; // all already successes
-    // Randomly decide to spend (60% chance per opportunity)
-    if (Math.random() > 0.6) break;
-    const target = failures[Math.floor(Math.random() * failures.length)];
-    const newVal = roll(target.sides);
-    const newHit = newVal <= TN;
-    logParts.push(`rerolled ${target.val} &rarr; <span class="${newHit?'success-die':'reroll-die'}">${newVal}${newHit?'*':''}</span>`);
-    newRolls[target.idx] = {val:newVal, sides:target.sides, hit:newHit};
-    energyState.energy--;
-    spent++;
-  }
-  return {rolls: newRolls, spent, log: logParts.join(', ')};
+function impaleRolls(wepStr, count) {
+  const roll1 = getDmgRolls(wepStr, count);
+  const roll2 = getDmgRolls(wepStr, count);
+  return roll1.reduce((a,v)=>a+v,0) >= roll2.reduce((a,v)=>a+v,0)
+    ? {chosen:roll1, other:roll2}
+    : {chosen:roll2, other:roll1};
 }
 
-// --- Armor: remove highest damage die per success ---
+function sundered(dieSides) {
+  const idx = ARMOR_TIERS.indexOf(dieSides);
+  if (idx === -1 || idx === ARMOR_TIERS.length-1) return dieSides;
+  return ARMOR_TIERS[idx+1];
+}
+
 function armorSave(numDice, dieSides, dmgRolls, ignoreSaves) {
   if (numDice === 0) return {saves:0, removed:0, remaining:[...dmgRolls], armorRolls:[]};
   const armorRolls = Array.from({length:numDice}, () => { const v=roll(dieSides); return {val:v, hit:v<=TN}; });
-  let saves = armorRolls.filter(r => r.hit).length;
+  let saves = armorRolls.filter(r=>r.hit).length;
   if (ignoreSaves > 0) saves = Math.max(0, saves - ignoreSaves);
-  const sorted = [...dmgRolls].sort((a,b) => b-a);
+  const sorted = [...dmgRolls].sort((a,b)=>b-a);
   const removed = Math.min(saves, sorted.length);
   return {saves, removed, remaining: sorted.slice(removed), armorRolls};
 }
 
-// Impale: roll twice pick highest total
-function impaleRolls(wepStr, count) {
-  const roll1 = getDmgRolls(wepStr, count);
-  const roll2 = getDmgRolls(wepStr, count);
-  const s1 = roll1.reduce((a,v)=>a+v,0);
-  const s2 = roll2.reduce((a,v)=>a+v,0);
-  return s1 >= s2 ? {chosen: roll1, other: roll2} : {chosen: roll2, other: roll1};
-}
-
-// Sunder: worsen armor die one tier
-const ARMOR_TIERS = [8, 10, 12, 20];
-function sundered(dieSides) {
-  const idx = ARMOR_TIERS.indexOf(dieSides);
-  if (idx === -1 || idx === ARMOR_TIERS.length - 1) return dieSides; // already worst or unknown
-  return ARMOR_TIERS[idx + 1];
-}
-
-// --- Effect pool (loaded from per-fighter checkboxes) ---
-const EFFECT_MAP = [
-  {key:'stanfast', name:'Stand fast', type:'normal'},
-  {key:'daze',     name:'Daze',       type:'normal'},
-  {key:'topple',   name:'Topple',     type:'major'},
-  {key:'sunder',   name:'Sunder',     type:'major'},
-  {key:'impale',   name:'Impale',     type:'major'},
-  {key:'artery',   name:'Cut artery', type:'major'},
-  {key:'bypass',   name:'Bypass armor', type:'major'},
-];
-
-function getEffectsFor(fighter) {
-  const normal = [], major = [];
-  EFFECT_MAP.forEach(e => {
-    const el = document.getElementById(`${fighter}-eff-${e.key}`);
-    if (el && el.checked) {
-      if (e.type === 'normal') normal.push(e);
-      else major.push(e);
-    }
-  });
-  return {normal, major};
-}
-
-function pickFrom(arr) { return arr.length ? arr[Math.floor(Math.random()*arr.length)] : null; }
-
-// Returns {html, bypassArmor, impale, armorDieWorsened}
-function resolveEffect(eff, net, targetState, applierState, targetCfgState) {
-  if (!eff) return {html:'', bypassArmor:0, impale:false};
-  let html = '';
-  let bypassArmor = 0;
-  let impale = false;
-
-  if (eff.name === 'Stand fast') {
-    applierState.adv = true;
-    html = `<div class="log-line effect-line">+ Stand fast &mdash; applier gains advantage on next reaction <span class="tag tag-status">ADV</span></div>`;
-  } else if (eff.name === 'Daze') {
-    targetState.disadv = true;
-    html = `<div class="log-line effect-line">+ Daze &mdash; target has disadvantage next roll <span class="tag tag-status">DISADV</span></div>`;
-  } else if (eff.name === 'Topple') {
-    targetState.skipped = true;
-    html = `<div class="log-line effect-line">+ Topple &mdash; target cannot attack or react next turn <span class="tag tag-status">TOPPLED</span></div>`;
-  } else if (eff.name === 'Sunder') {
-    const cur = targetCfgState.armorD;
-    if (cur >= 20) {
-      html = `<div class="log-line effect-line">+ Sunder &mdash; armor already at d20, no further effect</div>`;
-    } else {
-      const worse = sundered(cur);
-      targetCfgState.armorD = worse;
-      html = `<div class="log-line effect-line">+ Sunder &mdash; target armor degraded d${cur} &rarr; d${worse} <span class="tag tag-status">SUNDERED</span></div>`;
-    }
-  } else if (eff.name === 'Impale') {
-    impale = true;
-    targetState.disadv = true;
-    html = `<div class="log-line effect-line">+ Impale &mdash; damage rolled twice, best result used; target at disadvantage <span class="tag tag-status">IMPALED</span></div>`;
-  } else if (eff.name === 'Cut artery') {
-    targetState.bleeding = (targetState.bleeding || 0) + 1;
-    html = `<div class="log-line effect-line">+ Cut artery &mdash; target now bleeding ${targetState.bleeding} per round <span class="tag tag-bleed">BLEED ${targetState.bleeding}</span></div>`;
-  } else if (eff.name === 'Bypass armor') {
-    bypassArmor = 1;
-    html = `<div class="log-line effect-line">+ Bypass armor &mdash; 1 armor save ignored <em>this hit</em> <span class="tag tag-status">PIERCE</span></div>`;
-  } else {
-    targetState.disadv = true;
-    html = `<div class="log-line effect-line">+ ${eff.name} &mdash; target at disadvantage <span class="tag tag-status">DISADV</span></div>`;
+function spendEnergy(rolls, state, maxSpend) {
+  let spent = 0, logParts = [], newRolls = [...rolls];
+  while (spent < maxSpend && state.energy > 0) {
+    const failures = newRolls.map((r,i)=>({...r,idx:i})).filter(r=>!r.hit);
+    if (!failures.length || Math.random() > 0.6) break;
+    const target = failures[Math.floor(Math.random()*failures.length)];
+    const newVal = roll(target.sides);
+    const newHit = newVal <= TN;
+    logParts.push(`rerolled ${target.val} &rarr; <span class="${newHit?'success-die':'reroll-die'}">${newVal}${newHit?'*':''}</span>`);
+    newRolls[target.idx] = {val:newVal, sides:target.sides, hit:newHit};
+    state.energy--;
+    spent++;
   }
-  return {html, bypassArmor, impale};
+  return {rolls:newRolls, spent, log:logParts.join(', ')};
 }
 
-function getFateDie(state) {
-  if (state.adv)    return 8;
-  if (state.disadv) return 12;
+function getFateDie(st) {
+  if (st.adv)    return 8;
+  if (st.disadv) return 12;
   return 10;
 }
 
@@ -448,353 +432,396 @@ function getReaction(strategy) {
   return Math.random() < 0.5 ? 'contest' : 'avoid';
 }
 
-function buildDmgLine(dealer, rawDmg, save, final, target, cls) {
-  let line = `<div class="log-line ${cls}">${dealer} &rarr; ${target}: [${rawDmg.join(' ')}]`;
-  if (save.armorRolls.length > 0) {
-    line += ` | armor [${fmtRolls(save.armorRolls)}]`;
-    line += save.removed > 0 ? ` &ndash;${save.removed} highest` : ` no saves`;
-  }
-  line += ` = <strong>${final} dmg</strong></div>`;
-  return line;
+// =====================================================
+// EFFECT RESOLUTION
+// =====================================================
+function pickFrom(arr) { return arr.length ? arr[Math.floor(Math.random()*arr.length)] : null; }
+
+function getEffectsFor(id) {
+  const normal = [], major = [];
+  EFFECT_DEFS.forEach(e => {
+    const el = document.getElementById(`eff-${e.key}-${id}`);
+    if (el && el.checked) {
+      if (e.type==='normal') normal.push(e);
+      else major.push(e);
+    }
+  });
+  return {normal, major};
 }
 
-function resolveExchange(atkKey, defKey, atkLabel, defLabel, atkCfg, defCfg, atkState, defState, mutCfg, atkEffects, defEffects) {
-  // --- Status display ---
-  let statusHtml = '';
-  if (atkState.adv)    statusHtml += `<div class="log-line status-line">${atkLabel} has advantage (fate d8) <span class="tag tag-status">ADV</span></div>`;
-  if (atkState.disadv) statusHtml += `<div class="log-line status-line">${atkLabel} has disadvantage (fate d12) <span class="tag tag-status">DISADV</span></div>`;
-  if (defState.adv)    statusHtml += `<div class="log-line status-line">${defLabel} has advantage on reaction (fate d8) <span class="tag tag-status">ADV</span></div>`;
-  if (defState.disadv) statusHtml += `<div class="log-line status-line">${defLabel} has disadvantage on reaction (fate d12) <span class="tag tag-status">DISADV</span></div>`;
-  if (defState.bleeding) statusHtml += `<div class="log-line bleed-line">${defLabel} is bleeding (${defState.bleeding}/round) <span class="tag tag-bleed">BLEED</span></div>`;
-
-  const atkFate = getFateDie(atkState);
-  const defFate = getFateDie(defState);
-
-  // Consume status
-  atkState.adv = false; atkState.disadv = false;
-  defState.adv = false; defState.disadv = false;
-
-  const defType      = getReaction(defCfg.react);
-  const defTypeLabel = defType === 'contest' ? 'Contest' : 'Avoid';
-
-  // --- Build dice pools ---
-  // Attack: primary attr + secondary attr + 2x fate
-  const atkAttrDice = [...attrDice(atkCfg.attr1), ...attrDice(atkCfg.attr2)];
-  const atkFateDice = [atkFate, atkFate];
-  let atkRolls = rollPool([...atkAttrDice, ...atkFateDice]);
-
-  // Contest: primary + secondary + 2x fate
-  // Avoid: secondary x2 + 2x fate
-  let defRolls;
-  if (defType === 'contest') {
-    const defAttrDice = [...attrDice(defCfg.attr1), ...attrDice(defCfg.attr2)];
-    defRolls = rollPool([...defAttrDice, [defFate, defFate]].flat());
-  } else {
-    // Avoid uses 2x secondary attribute
-    const secDice = attrDice(defCfg.attr2);
-    const avoidDice = [...secDice, ...secDice, defFate, defFate];
-    defRolls = rollPool(avoidDice);
-  }
-
-  let energyHtml = '';
-
-  // ATK energy spend (up to 2, random)
-  if (atkState.energy > 0) {
-    const res = spendEnergy(atkRolls, atkState, 2);
-    if (res.spent > 0) {
-      atkRolls = res.rolls;
-      energyHtml += `<div class="log-line energy-line">${atkLabel} spends ${res.spent} energy: ${res.log} <span class="tag tag-energy">ENERGY ${atkState.energy} left</span></div>`;
+function resolveEffect(eff, net, targetSt, applierSt, targetMutCfg) {
+  if (!eff) return {html:'', bypassArmor:0, impale:false};
+  let html='', bypassArmor=0, impale=false;
+  if (eff.name==='Stand fast') {
+    applierSt.adv=true;
+    html=`<div class="log-line effect-line">+ Stand fast — gains advantage next reaction <span class="tag tag-status">ADV</span></div>`;
+  } else if (eff.name==='Daze') {
+    targetSt.disadv=true;
+    html=`<div class="log-line effect-line">+ Daze — target has disadvantage next roll <span class="tag tag-status">DISADV</span></div>`;
+  } else if (eff.name==='Topple') {
+    targetSt.skipped=true;
+    html=`<div class="log-line effect-line">+ Topple — target loses next turn <span class="tag tag-status">TOPPLED</span></div>`;
+  } else if (eff.name==='Sunder') {
+    const cur=targetMutCfg.armorD;
+    if (cur>=20) { html=`<div class="log-line effect-line">+ Sunder — armor already at d20, no effect</div>`; }
+    else {
+      const worse=sundered(cur); targetMutCfg.armorD=worse;
+      html=`<div class="log-line effect-line">+ Sunder — armor d${cur} &rarr; d${worse} <span class="tag tag-status">SUNDERED</span></div>`;
     }
+  } else if (eff.name==='Impale') {
+    impale=true; targetSt.disadv=true;
+    html=`<div class="log-line effect-line">+ Impale — damage best-of-two; target at disadvantage <span class="tag tag-status">IMPALED</span></div>`;
+  } else if (eff.name==='Cut artery') {
+    targetSt.bleeding=(targetSt.bleeding||0)+1;
+    html=`<div class="log-line effect-line">+ Cut artery — target bleeds ${targetSt.bleeding}/round <span class="tag tag-bleed">BLEED ${targetSt.bleeding}</span></div>`;
+  } else if (eff.name==='Bypass armor') {
+    bypassArmor=1;
+    html=`<div class="log-line effect-line">+ Bypass armor — 1 armor save ignored <span class="tag tag-status">PIERCE</span></div>`;
   }
+  return {html, bypassArmor, impale};
+}
 
-  // DEF energy spend (up to 2, random)
-  if (defState.energy > 0) {
-    const res = spendEnergy(defRolls, defState, 2);
-    if (res.spent > 0) {
-      defRolls = res.rolls;
-      energyHtml += `<div class="log-line energy-line">${defLabel} spends ${res.spent} energy: ${res.log} <span class="tag tag-energy">ENERGY ${defState.energy} left</span></div>`;
-    }
-  }
+// =====================================================
+// TARGET SELECTION
+// =====================================================
+function pickTarget(enemies, mode, states) {
+  const alive = enemies.filter(id => states[id].hp > 0);
+  if (!alive.length) return null;
+  if (mode === 'random') return alive[Math.floor(Math.random()*alive.length)];
+  // focus: lowest current HP
+  return alive.reduce((best, id) => states[id].hp < states[best].hp ? id : best, alive[0]);
+}
 
-  const aS = successes(atkRolls);
-  const dS = successes(defRolls);
-  const margin = aS - dS;
+// =====================================================
+// ONE ATTACK EXCHANGE  (attacker vs one defender)
+// =====================================================
+function resolveExchange(atkId, defId, states, mutCfg, cfgs, targetMode) {
+  const atkSt = states[atkId], defSt = states[defId];
+  const atkCfg = cfgs[atkId], defCfg = cfgs[defId];
+  const atkLabel = atkCfg.name, defLabel = defCfg.name;
+  const atkTeam = atkCfg.team;
 
+  // Status display
   let rHtml = '';
-  rHtml += statusHtml;
+  if (atkSt.adv)    rHtml += `<div class="log-line status-line">${atkLabel} has advantage (fate d8) <span class="tag tag-status">ADV</span></div>`;
+  if (atkSt.disadv) rHtml += `<div class="log-line status-line">${atkLabel} has disadvantage (fate d12) <span class="tag tag-status">DISADV</span></div>`;
+  if (defSt.adv)    rHtml += `<div class="log-line status-line">${defLabel} has advantage on reaction <span class="tag tag-status">ADV</span></div>`;
+  if (defSt.disadv) rHtml += `<div class="log-line status-line">${defLabel} has disadvantage on reaction <span class="tag tag-status">DISADV</span></div>`;
+  if (defSt.bleeding) rHtml += `<div class="log-line bleed-line">${defLabel} is bleeding (${defSt.bleeding}/round) <span class="tag tag-bleed">BLEED</span></div>`;
+
+  const atkFate = getFateDie(atkSt);
+  const defFate = getFateDie(defSt);
+  atkSt.adv=false; atkSt.disadv=false;
+  defSt.adv=false; defSt.disadv=false;
+
+  const defType = getReaction(defCfg.react);
+  const defTypeLabel = defType==='contest'?'Contest':'Avoid';
+
+  // Build pools
+  const atkAttrDice = [...attrDice(atkCfg.attr1), ...attrDice(atkCfg.attr2)];
+  let atkRolls = rollPool([...atkAttrDice, atkFate, atkFate]);
+
+  let defRolls;
+  if (defType==='contest') {
+    defRolls = rollPool([...attrDice(defCfg.attr1), ...attrDice(defCfg.attr2), defFate, defFate]);
+  } else {
+    const sec = attrDice(defCfg.attr2);
+    defRolls = rollPool([...sec, ...sec, defFate, defFate]);
+  }
+
+  // Energy rerolls
+  let energyHtml='';
+  if (atkSt.energy>0) {
+    const res=spendEnergy(atkRolls, atkSt, 2);
+    if (res.spent>0) { atkRolls=res.rolls; energyHtml+=`<div class="log-line energy-line">${atkLabel} spends ${res.spent} energy: ${res.log} <span class="tag tag-energy">E:${atkSt.energy}</span></div>`; }
+  }
+  if (defSt.energy>0) {
+    const res=spendEnergy(defRolls, defSt, 2);
+    if (res.spent>0) { defRolls=res.rolls; energyHtml+=`<div class="log-line energy-line">${defLabel} spends ${res.spent} energy: ${res.log} <span class="tag tag-energy">E:${defSt.energy}</span></div>`; }
+  }
+
+  const aS=successes(atkRolls), dS=successes(defRolls);
+  const margin=aS-dS;
+
   rHtml += `<div class="log-line rolls-line">${atkLabel} atk [${fmtRolls(atkRolls)}] &rarr; ${aS} (fate d${atkFate})</div>`;
-  rHtml += `<div class="log-line rolls-line">${defLabel} ${defTypeLabel} [${fmtRolls(defRolls)}] &rarr; ${dS} (fate d${defFate}${defType==='avoid'?' 2×secondary+1armor':''})</div>`;
+  rHtml += `<div class="log-line rolls-line">${defLabel} ${defTypeLabel} [${fmtRolls(defRolls)}] &rarr; ${dS} (fate d${defFate})</div>`;
   rHtml += energyHtml;
 
-  let dmgDealt = 0;
-  let armorRemoved = 0;
-  let winner = null;
+  const atkEffects = getEffectsFor(atkId);
+  const defEffects = getEffectsFor(defId);
 
-  const doAttack = (atker, atkerLabel, wep, targetLabel, targetCfg, targetState, targetMutCfg, net, isMajor, effPool) => {
-    const wepInfo = parseDie(wep);
-    let effectHtml = '', bypassArmor = 0, impale = false;
+  let dmgDealt=0, armorStopped=0, winner=null;
 
-    if (net >= 1) {
-      const normalPool = effPool.normal.filter(e => !e.minMargin || net >= e.minMargin);
-      const eff = pickFrom(normalPool);
-      if (eff) {
-        const r = resolveEffect(eff, net, targetState, atker === atkKey ? atkState : defState, targetMutCfg);
-        effectHtml += r.html; bypassArmor += r.bypassArmor; impale = impale || r.impale;
-      }
+  const doStrike = (strikerLabel, strikerId, wep, targetLabel, targetId, net) => {
+    const tSt=states[targetId], tMut=mutCfg[targetId], tCfg=cfgs[targetId];
+    const aSt=states[strikerId];
+    const effPool = getEffectsFor(strikerId);
+    let effectHtml='', bypassArmor=0, impale=false;
+    if (net>=1) {
+      const eff=pickFrom(effPool.normal);
+      if (eff) { const r=resolveEffect(eff,net,tSt,aSt,tMut); effectHtml+=r.html; bypassArmor+=r.bypassArmor; impale=r.impale; }
     }
-    if (isMajor && net >= 2) {
-      const majorPool = effPool.major.filter(e => !e.minMargin || net >= e.minMargin);
-      const eff = pickFrom(majorPool);
-      if (eff) {
-        const r = resolveEffect(eff, net, targetState, atker === atkKey ? atkState : defState, targetMutCfg);
-        effectHtml += r.html; bypassArmor += r.bypassArmor; impale = impale || r.impale;
-      }
+    if (net>=2) {
+      const eff=pickFrom(effPool.major);
+      if (eff) { const r=resolveEffect(eff,net,tSt,aSt,tMut); effectHtml+=r.html; bypassArmor+=r.bypassArmor; impale=impale||r.impale; }
     }
-
-    let rawDmg, note = '';
+    let rawDmg, noteHtml='';
+    const wepInfo=parseDie(wep);
     if (impale) {
-      const imp = impaleRolls(wep, net * wepInfo.count);
-      rawDmg = imp.chosen;
-      note = ` (impale: rolled [${imp.other.join(' ')}] also, chose best)`;
+      const imp=impaleRolls(wep, net*wepInfo.count);
+      rawDmg=imp.chosen;
+      noteHtml=`<div class="log-line rolls-line">(impale: also [${imp.other.join(' ')}], chose best)</div>`;
     } else {
-      rawDmg = getDmgRolls(wep, net * wepInfo.count);
+      rawDmg=getDmgRolls(wep, net*wepInfo.count);
     }
-
-    const save = armorSave(targetCfg.armorN, targetMutCfg.armorD, rawDmg, bypassArmor);
-    const final = save.remaining.reduce((s,v)=>s+v,0);
-    const cls = atker === atkKey ? 'dmg-line-atk' : 'dmg-line-def';
-    let dmgHtml = buildDmgLine(atkerLabel, rawDmg, save, final, targetLabel, cls);
-    if (note) dmgHtml += `<div class="log-line rolls-line" style="font-style:italic">${note}</div>`;
-    dmgHtml += effectHtml;
-
-    return {html: dmgHtml, final, armorRemoved: save.removed};
+    const save=armorSave(tCfg.armorN, tMut.armorD, rawDmg, bypassArmor);
+    const final=save.remaining.reduce((s,v)=>s+v,0);
+    const cls=cfgs[strikerId].team==='a'?'dmg-line-atk':'dmg-line-def';
+    let dmgHtml=`<div class="log-line ${cls}">${strikerLabel} &rarr; ${targetLabel}: [${rawDmg.join(' ')}]`;
+    if (save.armorRolls.length) { dmgHtml+=` | armor [${fmtRolls(save.armorRolls)}]`; dmgHtml+=save.removed>0?` &ndash;${save.removed} highest`:` no saves`; }
+    dmgHtml+=` = <strong>${final} dmg</strong></div>`;
+    return {html:dmgHtml+noteHtml+effectHtml, final, armorRemoved:save.removed};
   };
 
-  if (defType === 'contest') {
-    if (margin >= 0) {
-      const net = Math.max(margin, 1);
-      rHtml += margin === 0
-        ? `<div class="log-line outcome-line neutral-out">Tie &mdash; attacker wins <span class="tag tag-atk">ATK</span></div>`
-        : `<div class="log-line outcome-line atk-wins">+${margin} &mdash; ${atkLabel} wins <span class="tag tag-atk">ATK +${margin}</span></div>`;
-      rHtml += `<div class="log-line rolls-line" style="font-style:italic">${net}&times;${atkCfg.wep} = ${net * parseDie(atkCfg.wep).count} dice</div>`;
-      const res = doAttack(atkKey, atkLabel, atkCfg.wep, defLabel, defCfg, defState, mutCfg[defKey], net, true, atkEffects);
-      rHtml += res.html;
-      defState.hp -= res.final;
-      dmgDealt = res.final; armorRemoved = res.armorRemoved; winner = atkKey;
+  if (defType==='contest') {
+    if (margin>=0) {
+      const net=Math.max(margin,1);
+      rHtml += margin===0
+        ? `<div class="log-line outcome-line neutral-out">Tie — attacker wins <span class="tag tag-atk">ATK</span></div>`
+        : `<div class="log-line outcome-line atk-wins">+${margin} — ${atkLabel} wins <span class="tag tag-atk">+${margin}</span></div>`;
+      rHtml += `<div class="log-line rolls-line" style="font-style:italic">${net}×${atkCfg.wep} = ${net*parseDie(atkCfg.wep).count} dice</div>`;
+      const res=doStrike(atkLabel,atkId,atkCfg.wep,defLabel,defId,net);
+      rHtml+=res.html; defSt.hp-=res.final; dmgDealt=res.final; armorStopped=res.armorRemoved; winner=atkId;
     } else {
-      const net = Math.abs(margin);
-      rHtml += `<div class="log-line outcome-line def-wins">+${net} &mdash; ${defLabel} wins <span class="tag tag-def">DEF +${net}</span></div>`;
-      rHtml += `<div class="log-line rolls-line" style="font-style:italic">${net}&times;${defCfg.wep} = ${net * parseDie(defCfg.wep).count} dice</div>`;
-      const res = doAttack(defKey, defLabel, defCfg.wep, atkLabel, atkCfg, atkState, mutCfg[atkKey], net, true, defEffects);
-      rHtml += res.html;
-      atkState.hp -= res.final;
-      dmgDealt = res.final; armorRemoved = res.armorRemoved; winner = defKey;
+      const net=Math.abs(margin);
+      rHtml+=`<div class="log-line outcome-line def-wins">+${net} — ${defLabel} counters <span class="tag tag-def">+${net}</span></div>`;
+      rHtml+=`<div class="log-line rolls-line" style="font-style:italic">${net}×${defCfg.wep} = ${net*parseDie(defCfg.wep).count} dice</div>`;
+      const res=doStrike(defLabel,defId,defCfg.wep,atkLabel,atkId,net);
+      rHtml+=res.html; atkSt.hp-=res.final; dmgDealt=res.final; armorStopped=res.armorRemoved; winner=defId;
     }
   } else {
-    // Avoid: tie = def wins, +1 armor die
-    if (margin <= 0) {
-      rHtml += `<div class="log-line outcome-line def-wins">Avoided <span class="tag tag-def">EVADED</span></div>`;
-      rHtml += `<div class="log-line no-dmg">${defLabel} slips aside &mdash; no damage</div>`;
+    if (margin<=0) {
+      rHtml+=`<div class="log-line outcome-line def-wins">Avoided <span class="tag tag-def">EVADED</span></div>`;
+      rHtml+=`<div class="log-line no-dmg">${defLabel} slips aside — no damage</div>`;
     } else {
-      const net = margin;
-      const extraArmor = 1;
-      const totalArmorN = defCfg.armorN + extraArmor;
-      rHtml += `<div class="log-line outcome-line atk-wins">+${net} &mdash; ${atkLabel} catches them <span class="tag tag-atk">ATK +${net}</span></div>`;
-      rHtml += `<div class="log-line rolls-line" style="font-style:italic">${net}&times;${atkCfg.wep} vs ${totalArmorN} armor (+1 Avoid)</div>`;
-
-      const wepInfo = parseDie(atkCfg.wep);
-      let effectHtml = '', bypassArmor = 0, impale = false;
-      if (net >= 1) {
-        const eff = pickFrom(atkEffects.normal.filter(e => !e.minMargin || net >= e.minMargin));
-        if (eff) { const r = resolveEffect(eff, net, defState, atkState, mutCfg[defKey]); effectHtml += r.html; bypassArmor += r.bypassArmor; impale = r.impale; }
-      }
-      if (net >= 2) {
-        const eff = pickFrom(atkEffects.major.filter(e => !e.minMargin || net >= e.minMargin));
-        if (eff) { const r = resolveEffect(eff, net, defState, atkState, mutCfg[defKey]); effectHtml += r.html; bypassArmor += r.bypassArmor; impale = impale || r.impale; }
-      }
-
+      const net=margin;
+      const extraArmor=1, totalArmorN=defCfg.armorN+extraArmor;
+      rHtml+=`<div class="log-line outcome-line atk-wins">+${net} — ${atkLabel} catches them <span class="tag tag-atk">+${net}</span></div>`;
+      rHtml+=`<div class="log-line rolls-line">${net}×${atkCfg.wep} vs ${totalArmorN} armor (+1 Avoid)</div>`;
+      const wepInfo=parseDie(atkCfg.wep);
+      let effectHtml='', bypassArmor=0, impale=false;
+      const effPool=getEffectsFor(atkId);
+      if (net>=1) { const e=pickFrom(effPool.normal); if(e){const r=resolveEffect(e,net,defSt,atkSt,mutCfg[defId]);effectHtml+=r.html;bypassArmor+=r.bypassArmor;impale=r.impale;} }
+      if (net>=2) { const e=pickFrom(effPool.major);  if(e){const r=resolveEffect(e,net,defSt,atkSt,mutCfg[defId]);effectHtml+=r.html;bypassArmor+=r.bypassArmor;impale=impale||r.impale;} }
       let rawDmg;
       if (impale) {
-        const imp = impaleRolls(atkCfg.wep, net * wepInfo.count);
-        rawDmg = imp.chosen;
-        rHtml += `<div class="log-line rolls-line" style="font-style:italic">(impale: also rolled [${imp.other.join(' ')}], chose best)</div>`;
-      } else {
-        rawDmg = getDmgRolls(atkCfg.wep, net * wepInfo.count);
-      }
-
-      const saveObj = {saves:0, removed:0, remaining:[...rawDmg], armorRolls:[]};
-      if (totalArmorN > 0) {
-        const s = armorSave(totalArmorN, mutCfg[defKey].armorD, rawDmg, bypassArmor);
-        Object.assign(saveObj, s);
-      }
-      const final = saveObj.remaining.reduce((s,v)=>s+v,0);
-      rHtml += buildDmgLine(atkLabel, rawDmg, saveObj, final, defLabel, 'dmg-line-atk');
-      rHtml += effectHtml;
-      defState.hp -= final;
-      dmgDealt = final; armorRemoved = saveObj.removed; winner = atkKey;
+        const imp=impaleRolls(atkCfg.wep,net*wepInfo.count); rawDmg=imp.chosen;
+        rHtml+=`<div class="log-line rolls-line">(impale: also [${imp.other.join(' ')}], chose best)</div>`;
+      } else { rawDmg=getDmgRolls(atkCfg.wep,net*wepInfo.count); }
+      const save=armorSave(totalArmorN,mutCfg[defId].armorD,rawDmg,bypassArmor);
+      const final=save.remaining.reduce((s,v)=>s+v,0);
+      let dmgHtml=`<div class="log-line dmg-line-${atkCfg.team}">${atkLabel} &rarr; ${defLabel}: [${rawDmg.join(' ')}]`;
+      if (save.armorRolls.length){dmgHtml+=` | armor [${fmtRolls(save.armorRolls)}]`;dmgHtml+=save.removed>0?` &ndash;${save.removed} highest`:` no saves`;}
+      dmgHtml+=` = <strong>${final} dmg</strong></div>`;
+      rHtml+=dmgHtml+effectHtml;
+      defSt.hp-=final; dmgDealt=final; armorStopped=save.removed; winner=atkId;
     }
   }
 
-  return {html: rHtml, dmgDealt, armorRemoved, winner};
+  // Clamp HPs
+  states[atkId].hp=Math.max(0,states[atkId].hp);
+  states[defId].hp=Math.max(0,states[defId].hp);
+
+  rHtml+=`<div class="log-line" style="margin-top:4px;font-size:0.8rem;color:var(--ink-light)">${atkLabel} HP: <strong>${states[atkId].hp}</strong> &nbsp;|&nbsp; ${defLabel} HP: <strong>${states[defId].hp}</strong></div>`;
+
+  return {html:rHtml, dmgDealt, armorStopped, winner};
+}
+
+// =====================================================
+// MAIN SIMULATION
+// =====================================================
+function readCreatureCfg(id) {
+  return {
+    id,
+    team: creatureDefs[id].team,
+    name: document.getElementById(`name-${id}`).value.trim() || id,
+    attr1:  document.getElementById(`attr1-${id}`).value,
+    attr2:  document.getElementById(`attr2-${id}`).value,
+    wep:    document.getElementById(`wep-${id}`).value,
+    armorN: +document.getElementById(`armor-${id}`).value,
+    react:  document.getElementById(`react-${id}`).value,
+    maxHP:  +document.getElementById(`hp-${id}`).value,
+    maxEN:  +document.getElementById(`energy-${id}`).value,
+  };
 }
 
 function runSim() {
-  const cfg = {
-    a: {
-      attr1:  document.getElementById('a-attr1').value,
-      attr2:  document.getElementById('a-attr2').value,
-      wep:    document.getElementById('a-wep').value,
-      armorN: +document.getElementById('a-armor').value,
-      react:  document.getElementById('a-react').value,
-      maxHP:  +document.getElementById('a-hp').value,
-      maxEN:  +document.getElementById('a-energy').value,
-    },
-    b: {
-      attr1:  document.getElementById('d-attr1').value,
-      attr2:  document.getElementById('d-attr2').value,
-      wep:    document.getElementById('d-wep').value,
-      armorN: +document.getElementById('d-armor').value,
-      react:  document.getElementById('d-react').value,
-      maxHP:  +document.getElementById('d-hp').value,
-      maxEN:  +document.getElementById('d-energy').value,
-    }
-  };
+  if (!teams.a.length || !teams.b.length) {
+    alert('Add at least one creature to each team.');
+    return;
+  }
 
-  // Mutable config (armor die can change via Sunder)
-  const mutCfg = {
-    a: { armorD: +document.getElementById('a-adie').value },
-    b: { armorD: +document.getElementById('d-adie').value }
-  };
+  const targetMode = document.querySelector('input[name="target-mode"]:checked').value;
+  const numRounds  = +document.getElementById('rounds').value;
 
-  const state = {
-    a: { hp: cfg.a.maxHP, energy: cfg.a.maxEN, disadv:false, adv:false, bleeding:0, skipped:false },
-    b: { hp: cfg.b.maxHP, energy: cfg.b.maxEN, disadv:false, adv:false, bleeding:0, skipped:false }
-  };
+  // Load configs
+  const cfgs = {};
+  [...teams.a, ...teams.b].forEach(id => { cfgs[id] = readCreatureCfg(id); });
 
-  const numRounds = +document.getElementById('rounds').value;
-  const effectsA = getEffectsFor('a');
-  const effectsB = getEffectsFor('b');
+  // Mutable armor die (Sunder)
+  const mutCfg = {};
+  [...teams.a, ...teams.b].forEach(id => { mutCfg[id] = { armorD: +document.getElementById(`adie-${id}`).value }; });
 
+  // Live states
+  const states = {};
+  [...teams.a, ...teams.b].forEach(id => {
+    states[id] = {
+      hp: cfgs[id].maxHP,
+      energy: cfgs[id].maxEN,
+      adv:false, disadv:false, bleeding:0, skipped:false
+    };
+  });
+
+  const stats = { a:{dmg:0,hits:0,arm:0}, b:{dmg:0,hits:0,arm:0} };
   let html = '';
-  const stats = {aDmg:0,bDmg:0,aHits:0,bHits:0,aArm:0,bArm:0,aEn:0,bEn:0};
+
+  // Zipper order: A1, B1, A2, B2, ...
+  function buildZipperOrder() {
+    const alive = { a: teams.a.filter(id=>states[id].hp>0), b: teams.b.filter(id=>states[id].hp>0) };
+    const order = [];
+    const len = Math.max(alive.a.length, alive.b.length);
+    for (let i=0; i<len; i++) {
+      if (i < alive.a.length) order.push({id:alive.a[i], team:'a'});
+      if (i < alive.b.length) order.push({id:alive.b[i], team:'b'});
+    }
+    return order;
+  }
+
+  function teamAlive(team) { return teams[team].some(id => states[id].hp > 0); }
 
   for (let r = 1; r <= numRounds; r++) {
-    if (state.a.hp <= 0 || state.b.hp <= 0) break;
+    if (!teamAlive('a') || !teamAlive('b')) break;
 
-    // --- Bleeding at round start ---
-    let bleedHtml = '';
-    if (state.a.bleeding > 0 || state.b.bleeding > 0) {
-      bleedHtml = `<div class="round-block bleed-block"><div class="round-head">Round ${r} &mdash; Bleeding</div>`;
-      if (state.a.bleeding > 0) {
-        state.a.hp -= state.a.bleeding;
-        bleedHtml += `<div class="log-line bleed-line">Fighter A bleeds for ${state.a.bleeding} &rarr; HP ${Math.max(0,state.a.hp)}</div>`;
-      }
-      if (state.b.bleeding > 0) {
-        state.b.hp -= state.b.bleeding;
-        bleedHtml += `<div class="log-line bleed-line">Fighter B bleeds for ${state.b.bleeding} &rarr; HP ${Math.max(0,state.b.hp)}</div>`;
-      }
+    // Round divider
+    html += `<div class="round-block round-divider-block"><span class="round-divider-label">⚔ Round ${r} ⚔</span></div>`;
+
+    // Bleed phase
+    const bleeders = [...teams.a, ...teams.b].filter(id => states[id].hp>0 && states[id].bleeding>0);
+    if (bleeders.length) {
+      let bleedHtml = `<div class="round-block bleed-block"><div class="round-head">Round ${r} — Bleeding</div>`;
+      bleeders.forEach(id => {
+        states[id].hp = Math.max(0, states[id].hp - states[id].bleeding);
+        bleedHtml += `<div class="log-line bleed-line">${cfgs[id].name} bleeds ${states[id].bleeding} &rarr; HP ${states[id].hp}${states[id].hp===0?' <span class="tag tag-dead">KO</span>':''}</div>`;
+      });
       bleedHtml += `</div>`;
       html += bleedHtml;
+      if (!teamAlive('a') || !teamAlive('b')) break;
     }
 
-    if (state.a.hp <= 0 || state.b.hp <= 0) break;
+    // Build zipper order for this round
+    const order = buildZipperOrder();
 
-    for (let half = 0; half < 2; half++) {
-      if (state.a.hp <= 0 || state.b.hp <= 0) break;
+    for (const {id:atkId, team:atkTeam} of order) {
+      if (!teamAlive('a') || !teamAlive('b')) break;
+      if (states[atkId].hp <= 0) continue;  // died mid-round
 
-      const atkKey   = half === 0 ? 'a' : 'b';
-      const defKey   = half === 0 ? 'b' : 'a';
-      const atkLabel = half === 0 ? 'Fighter A' : 'Fighter B';
-      const defLabel = half === 0 ? 'Fighter B' : 'Fighter A';
-      const atkCls   = half === 0 ? 'atk-round' : 'def-round';
-      const atkState = state[atkKey];
-      const defState = state[defKey];
-
-      let rHtml = `<div class="round-block ${atkCls}">`;
-      rHtml += `<div class="round-head"><span>R${r}: ${atkLabel} attacks ${defLabel}</span>`;
-      if (atkState.energy > 0 || defState.energy > 0) {
-        rHtml += `<span style="color:var(--energy-color);font-size:0.68rem">⚡ A:${state.a.energy} B:${state.b.energy}</span>`;
-      }
-      rHtml += `</div>`;
-
-      // Check if attacker is toppled (skipped)
-      if (atkState.skipped) {
-        atkState.skipped = false;
-        rHtml += `<div class="log-line status-line">${atkLabel} is toppled and cannot act this turn <span class="tag tag-status">TOPPLED</span></div>`;
-        rHtml += `</div>`;
-        html += rHtml;
+      // Skipped?
+      if (states[atkId].skipped) {
+        states[atkId].skipped = false;
+        const blk = `<div class="round-block team-${atkTeam}-round">
+          <div class="round-head">${cfgs[atkId].name} (${atkTeam.toUpperCase()})</div>
+          <div class="log-line status-line">${cfgs[atkId].name} is toppled and cannot act <span class="tag tag-status">TOPPLED</span></div>
+        </div>`;
+        html += blk;
         continue;
       }
 
-      const energyBefore = {a: state.a.energy, b: state.b.energy};
+      const enemyTeam = atkTeam === 'a' ? 'b' : 'a';
+      const defId = pickTarget(teams[enemyTeam], targetMode, states);
+      if (!defId) continue;
 
-      const atkEffects = atkKey === 'a' ? effectsA : effectsB;
-      const defEffects = defKey === 'a' ? effectsA : effectsB;
-      const res = resolveExchange(atkKey, defKey, atkLabel, defLabel, cfg[atkKey], cfg[defKey], atkState, defState, mutCfg, atkEffects, defEffects);
+      const atkLabel = cfgs[atkId].name;
+      const defLabel = cfgs[defId].name;
 
-      rHtml += res.html;
-
-      state[atkKey].hp = Math.max(0, state[atkKey].hp);
-      state[defKey].hp = Math.max(0, state[defKey].hp);
-
-      rHtml += `<div class="log-line" style="margin-top:5px;font-size:0.82rem;color:var(--ink-light)">`;
-      rHtml += `HP &mdash; <span style="color:var(--atk-color)">A: ${state.a.hp}</span> / <span style="color:var(--def-color)">B: ${state.b.hp}</span>`;
-      if (cfg.a.maxEN > 0 || cfg.b.maxEN > 0) {
-        rHtml += ` &nbsp; ⚡ <span style="color:var(--energy-color)">A: ${state.a.energy} B: ${state.b.energy}</span>`;
+      let blk = `<div class="round-block team-${atkTeam}-round">`;
+      blk += `<div class="round-head"><span>${atkLabel} &rarr; ${defLabel}</span>`;
+      if (states[atkId].energy > 0 || states[defId].energy > 0) {
+        blk += `<span style="color:var(--energy-color);font-size:0.65rem">⚡ ${atkLabel}:${states[atkId].energy} ${defLabel}:${states[defId].energy}</span>`;
       }
-      rHtml += `</div></div>`;
-      html += rHtml;
+      blk += `</div>`;
 
-      // Track stats
-      const enSpentA = energyBefore.a - state.a.energy;
-      const enSpentB = energyBefore.b - state.b.energy;
-      stats.aEn += enSpentA; stats.bEn += enSpentB;
+      const res = resolveExchange(atkId, defId, states, mutCfg, cfgs, targetMode);
+      blk += res.html;
+      blk += `</div>`;
+      html += blk;
 
-      if (res.winner === atkKey) {
-        if (atkKey === 'a') { stats.aDmg += res.dmgDealt; stats.aHits++; stats.bArm += res.armorRemoved; }
-        else                { stats.bDmg += res.dmgDealt; stats.bHits++; stats.aArm += res.armorRemoved; }
-      } else if (res.winner === defKey) {
-        if (defKey === 'b') { stats.bDmg += res.dmgDealt; stats.bHits++; stats.aArm += res.armorRemoved; }
-        else                { stats.aDmg += res.dmgDealt; stats.aHits++; stats.bArm += res.armorRemoved; }
+      // Stats
+      if (res.winner === atkId) {
+        stats[atkTeam].dmg += res.dmgDealt;
+        stats[atkTeam].hits++;
+        stats[enemyTeam].arm += res.armorStopped;
+      } else if (res.winner === defId) {
+        stats[enemyTeam].dmg += res.dmgDealt;
+        stats[enemyTeam].hits++;
+        stats[atkTeam].arm += res.armorStopped;
       }
     }
   }
 
-  if (state.a.hp <= 0) html = `<div class="ko-banner ko-def">Fighter B wins &mdash; Fighter A falls!</div>` + html;
-  else if (state.b.hp <= 0) html = `<div class="ko-banner ko-atk">Fighter A wins &mdash; Fighter B falls!</div>` + html;
+  // Result banner
+  const aAlive = teamAlive('a'), bAlive = teamAlive('b');
+  if (!aAlive && bAlive)      html = `<div class="ko-banner ko-b">⚔ Team B is victorious — Team A falls!</div>` + html;
+  else if (aAlive && !bAlive) html = `<div class="ko-banner ko-a">⚔ Team A is victorious — Team B falls!</div>` + html;
+  else if (!aAlive && !bAlive) html = `<div class="ko-banner" style="background:rgba(50,30,10,0.15);border:1px solid var(--border);color:var(--ink-mid)">Both teams are defeated — mutual destruction!</div>` + html;
 
   document.getElementById('log').innerHTML = html;
 
-  document.getElementById('hp-section').style.display = 'block';
-  document.getElementById('a-bar').style.width   = Math.max(0,(state.a.hp/cfg.a.maxHP)*100)+'%';
-  document.getElementById('b-bar').style.width   = Math.max(0,(state.b.hp/cfg.b.maxHP)*100)+'%';
-  document.getElementById('a-en-bar').style.width = cfg.a.maxEN > 0 ? Math.max(0,(state.a.energy/cfg.a.maxEN)*100)+'%' : '0%';
-  document.getElementById('b-en-bar').style.width = cfg.b.maxEN > 0 ? Math.max(0,(state.b.energy/cfg.b.maxEN)*100)+'%' : '0%';
-  document.getElementById('a-hp-disp').textContent = state.a.hp + ' / ' + cfg.a.maxHP;
-  document.getElementById('b-hp-disp').textContent = state.b.hp + ' / ' + cfg.b.maxHP;
-  document.getElementById('a-en-disp').textContent = state.a.energy + ' / ' + cfg.a.maxEN;
-  document.getElementById('b-en-disp').textContent = state.b.energy + ' / ' + cfg.b.maxEN;
+  // Update HP tracker
+  renderTracker(states, cfgs);
 
+  // Stats cards
   document.getElementById('stats-section').style.display = 'block';
   document.getElementById('stats-cards').innerHTML = `
-    <div class="stat-card"><div class="stat-num num-atk">${stats.aDmg}</div><div class="stat-lbl">A total dmg</div></div>
-    <div class="stat-card"><div class="stat-num num-def">${stats.bDmg}</div><div class="stat-lbl">B total dmg</div></div>
-    <div class="stat-card"><div class="stat-num num-atk">${stats.aHits}</div><div class="stat-lbl">A hits</div></div>
-    <div class="stat-card"><div class="stat-num num-def">${stats.bHits}</div><div class="stat-lbl">B hits</div></div>
-    <div class="stat-card"><div class="stat-num num-neutral">${stats.bArm}</div><div class="stat-lbl">B armor stopped</div></div>
-    <div class="stat-card"><div class="stat-num num-neutral">${stats.aArm}</div><div class="stat-lbl">A armor stopped</div></div>
-    <div class="stat-card"><div class="stat-num num-energy">${stats.aEn}</div><div class="stat-lbl">A energy spent</div></div>
-    <div class="stat-card"><div class="stat-num num-energy">${stats.bEn}</div><div class="stat-lbl">B energy spent</div></div>
-    <div class="stat-card"><div class="stat-num num-atk">${stats.aHits>0?(stats.aDmg/stats.aHits).toFixed(1):'—'}</div><div class="stat-lbl">A avg/hit</div></div>
-    <div class="stat-card"><div class="stat-num num-def">${stats.bHits>0?(stats.bDmg/stats.bHits).toFixed(1):'—'}</div><div class="stat-lbl">B avg/hit</div></div>
+    <div class="stat-card"><div class="stat-num num-atk">${stats.a.dmg}</div><div class="stat-lbl">A total dmg</div></div>
+    <div class="stat-card"><div class="stat-num num-def">${stats.b.dmg}</div><div class="stat-lbl">B total dmg</div></div>
+    <div class="stat-card"><div class="stat-num num-atk">${stats.a.hits}</div><div class="stat-lbl">A hits</div></div>
+    <div class="stat-card"><div class="stat-num num-def">${stats.b.hits}</div><div class="stat-lbl">B hits</div></div>
+    <div class="stat-card"><div class="stat-num num-neutral">${stats.b.arm}</div><div class="stat-lbl">B armor stopped</div></div>
+    <div class="stat-card"><div class="stat-num num-neutral">${stats.a.arm}</div><div class="stat-lbl">A armor stopped</div></div>
+    <div class="stat-card"><div class="stat-num num-atk">${stats.a.hits>0?(stats.a.dmg/stats.a.hits).toFixed(1):'—'}</div><div class="stat-lbl">A avg/hit</div></div>
+    <div class="stat-card"><div class="stat-num num-def">${stats.b.hits>0?(stats.b.dmg/stats.b.hits).toFixed(1):'—'}</div><div class="stat-lbl">B avg/hit</div></div>
   `;
 }
 
-function clearLog() {
-  document.getElementById('log').innerHTML = '<div class="empty-state">Configure fighters above and roll the dice...</div>';
-  document.getElementById('stats-section').style.display = 'none';
-  document.getElementById('hp-section').style.display = 'none';
+function renderTracker(states, cfgs) {
+  const sec = document.getElementById('tracker-section');
+  sec.style.display = 'block';
+  ['a','b'].forEach(team => {
+    const div = document.getElementById(`tracker-${team}`);
+    div.innerHTML = teams[team].map(id => {
+      const cfg = cfgs[id], st = states[id];
+      const pct = Math.max(0, (st.hp / cfg.maxHP)*100);
+      const dead = st.hp <= 0 ? ' style="opacity:0.45"' : '';
+      return `<div class="hp-row"${dead}>
+        <div class="hp-name">${cfg.name}</div>
+        <div class="hp-track"><div class="hp-fill-${team}" style="width:${pct}%"></div></div>
+        <div class="hp-num hp-num-${team}">${st.hp}/${cfg.maxHP}</div>
+      </div>`;
+    }).join('');
+  });
 }
+
+function clearLog() {
+  document.getElementById('log').innerHTML = '<div class="empty-state">Configure fighters above and roll the dice…</div>';
+  document.getElementById('stats-section').style.display = 'none';
+  document.getElementById('tracker-section').style.display = 'none';
+}
+
+// =====================================================
+// INIT — seed one creature per team
+// =====================================================
+addCreature('a');
+addCreature('b');
 </script>
 </body>
 </html>
