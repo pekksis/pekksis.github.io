@@ -21,7 +21,7 @@
   .sheet-subtitle{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--rust);margin-top:3px;text-transform:uppercase;opacity:.7;}
 
   .strip-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--rust);margin-bottom:5px;opacity:.7;}
-  .attr-strip{display:flex;border:1px solid rgba(92,46,26,.25);background:rgba(92,46,26,.04);margin-bottom:16px;}
+  .attr-strip{display:flex;border:1px solid rgba(92,46,26,.25);background:rgba(92,46,26,.04);margin-bottom:22px;}
   .attr-cell{flex:1;display:flex;flex-direction:column;align-items:center;padding:6px 4px;border-right:1px solid rgba(92,46,26,.15);}
   .attr-cell:last-child{border-right:none;}
   .attr-abbr{font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--rust);text-transform:uppercase;}
@@ -29,9 +29,12 @@
 
   .fl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--rust);opacity:.8;}
   .fi{border:none;border-bottom:1px solid rgba(92,46,26,.4);background:transparent;font-family:'Crimson Text',serif;font-size:15px;color:var(--ink);padding:2px 0;outline:none;width:100%;}
-  .identity-row{margin-bottom:16px;}
+  .identity-row{margin:24px 0 18px;}
 
-  .sec{background:rgba(92,46,26,.04);border:1px solid rgba(92,46,26,.2);padding:11px 13px;margin-bottom:13px;position:relative;}
+  .sec{background:rgba(92,46,26,.04);border:1px solid rgba(92,46,26,.2);padding:12px 14px;margin-bottom:14px;position:relative;}
+  .sec-strain{margin-top:10px;}
+  .strain-injury-grid{display:grid;grid-template-columns:11fr 14fr;gap:24px;align-items:start;}
+  .strain-power-row{display:flex;gap:28px;align-items:flex-start;justify-content:center;}
   .sec:last-child{margin-bottom:0;}
   .st{font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blood);background:var(--parchment);padding:0 8px;position:absolute;top:-8px;left:14px;}
 
@@ -39,28 +42,31 @@
   .die-slot{display:flex;flex-direction:column;align-items:center;gap:5px;}
   .die-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--rust);opacity:.7;}
   .die-outline{position:relative;}
+  .die-outline-lg{width:100px;height:100px;}
+  .die-outline-lg svg{width:100%;height:100%;}
   .die-val{position:absolute;inset:0;font-family:'Cinzel',serif;font-weight:700;color:var(--blood);border:none;background:transparent;outline:none;width:100%;text-align:center;padding:0;display:flex;align-items:center;justify-content:center;}
+  .die-val-lg{font-size:30px;}
   .die-max-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(92,46,26,.45);}
   .die-max-val{font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--ink);width:28px;text-align:center;border:none;border-bottom:1px solid rgba(92,46,26,.3);background:transparent;outline:none;padding:0;}
 
   /* Injuries */
-  .injury-entry{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;margin-bottom:9px;}
+  .injury-entry{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;margin-bottom:12px;}
   .injury-entry:last-child{margin-bottom:0;}
   .ib{width:28px;height:28px;border:2px solid var(--rust);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:10px;color:var(--rust);font-weight:700;flex-shrink:0;}
   .ib.filled{background:var(--rust);color:var(--parchment);}
   .injury-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--rust);opacity:.6;}
   .injury-input{border:none;border-bottom:1px solid rgba(92,46,26,.3);background:transparent;font-family:'Crimson Text',serif;font-size:13px;color:var(--ink);padding:1px 0;outline:none;width:100%;}
-  .deaths-door{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(92,46,26,.25);}
+  .deaths-door{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(92,46,26,.25);}
   .deaths-door-icon{font-size:15px;color:var(--blood);}
   .deaths-door-text{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--blood);}
 
+  .divider{text-align:center;color:var(--rust);font-size:13px;letter-spacing:8px;margin:4px 0 14px;opacity:.5;}
+
   /* Techniques table */
   .tech-header{display:grid;grid-template-columns:100px 50px 1fr;gap:0;font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--rust);opacity:.7;padding:0 0 5px;border-bottom:1px solid rgba(92,46,26,.25);margin-bottom:2px;}
-  .tech-row{display:grid;grid-template-columns:100px 50px 1fr;gap:0;padding:5px 0;border-bottom:1px dashed rgba(92,46,26,.15);align-items:center;}
+  .tech-row{display:grid;grid-template-columns:100px 50px 1fr;gap:0;padding:12px 0;border-bottom:1px dashed rgba(92,46,26,.15);align-items:center;min-height:42px;}
   .tech-row:last-child{border-bottom:none;}
-  .tech-cell{border:none;background:transparent;font-family:'Crimson Text',serif;font-size:13px;color:var(--ink);padding:0 6px 0 0;outline:none;width:100%;}
-
-  .hint{font-size:10px;font-style:italic;color:var(--rust);margin-top:6px;opacity:.7;}
+  .tech-cell{border:none;background:transparent;font-family:'Crimson Text',serif;font-size:13px;color:var(--ink);padding:0 6px 0 0;outline:none;width:100%;line-height:1.6;}
 
   @media print{
     @page{size:A4 portrait;margin:0;}
@@ -69,9 +75,9 @@
     .sheet{width:210mm;max-width:210mm;min-height:297mm;height:297mm;border:none;box-shadow:none;margin:0;overflow:hidden;}
     .sheet-inner{padding:9mm 11mm 8mm;}
     .sheet-title{font-size:18px;letter-spacing:5px;}.sheet-subtitle{font-size:8px;}
-    .attr-strip{margin-bottom:10px;}.attr-cell{padding:4px 3px;}
-    .sec{margin-bottom:8px;padding:7px 10px;}
-    .tech-row{padding:3px 0;}.tech-cell{font-size:12px;}
+    .attr-strip{margin-bottom:12px;}.attr-cell{padding:4px 3px;}
+    .sec{margin-bottom:9px;padding:8px 10px;}
+    .tech-row{padding:8px 0;min-height:32px;}.tech-cell{font-size:12px;}
     input{border:none !important;border-bottom:1px solid rgba(92,46,26,.4) !important;background:transparent !important;-webkit-appearance:none;box-shadow:none;}
     .corner{display:none;}.sheet::before{display:none;}
   }
@@ -88,36 +94,32 @@
       <div class="sheet-subtitle">Battle Sheet</div>
     </div>
 
-    <div class="strip-label">Attribute Reference</div>
-    <div class="attr-strip" id="attr-strip"></div>
-
     <div class="identity-row">
       <div style="display:flex;flex-direction:column;gap:2px;"><div class="fl">Character Name</div><input class="fi" type="text"></div>
     </div>
 
-    <!-- Wounds & Injuries -->
-    <div class="sec">
-      <div class="st">Wounds &amp; Injuries</div>
-      <div style="height:8px"></div>
-      <div style="display:grid;grid-template-columns:1fr 2fr;gap:20px;align-items:start;">
+    <div class="strip-label">Attribute Reference</div>
+    <div class="attr-strip" id="attr-strip"></div>
 
-        <!-- Wounds hex + Power hex -->
-        <div style="display:flex;gap:20px;align-items:flex-start;">
+    <!-- Strain & Injuries -->
+    <div class="sec sec-strain" style="padding-bottom:16px;">
+      <div class="st">Strain &amp; Injuries</div>
+      <div style="height:8px"></div>
+      <div class="strain-injury-grid">
+
+        <!-- Strain + Power hex -->
+        <div class="strain-power-row">
           <div class="die-slot">
-            <div class="die-label">Wounds</div>
-            <div class="die-outline" style="width:80px;height:80px;">
-              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+            <div class="die-label">Strain</div>
+            <div class="die-outline die-outline-lg">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <polygon points="32,3 61,19 61,45 32,61 3,45 3,19" stroke="rgba(92,46,26,.5)" stroke-width="1.5" fill="none"/>
               </svg>
-              <input class="die-val" type="text" maxlength="2" style="font-size:24px;">
+              <input class="die-val die-val-lg" type="text" maxlength="2">
             </div>
             <div style="display:flex;gap:12px;margin-top:6px;">
               <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
                 <span class="die-max-label">Toughness</span>
-                <input class="die-max-val" type="text" maxlength="2">
-              </div>
-              <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-                <span class="die-max-label">Lethal</span>
                 <input class="die-max-val" type="text" maxlength="2">
               </div>
             </div>
@@ -125,15 +127,11 @@
 
           <div class="die-slot">
             <div class="die-label">Power</div>
-            <div class="die-outline" style="width:80px;height:80px;">
-              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+            <div class="die-outline die-outline-lg">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <polygon points="32,3 61,19 61,45 32,61 3,45 3,19" stroke="rgba(92,46,26,.5)" stroke-width="1.5" fill="none"/>
               </svg>
-              <input class="die-val" type="text" maxlength="2" style="font-size:24px;">
-            </div>
-            <div style="display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:6px;">
-              <span class="die-max-label">Max Power</span>
-              <input class="die-max-val" type="text" maxlength="2">
+              <input class="die-val die-val-lg" type="text" maxlength="2">
             </div>
           </div>
         </div>
@@ -155,18 +153,19 @@
             </div>
           </div>
           <div class="deaths-door">
-            <span class="deaths-door-icon">☠</span>
-            <span class="deaths-door-text">2 Injuries — Death's Door</span>
+            <span class="deaths-door-icon">↓</span>
+            <span class="deaths-door-text">Third Injury — Downed</span>
           </div>
-          <div class="hint">Major → +1 &nbsp;·&nbsp; Severe → +2 &nbsp;·&nbsp; Lethal → instant</div>
         </div>
       </div>
     </div>
 
+    <div class="divider">— ✦ —</div>
+
     <!-- Techniques -->
-    <div class="sec">
+    <div class="sec" style="padding-bottom:18px;">
       <div class="st">Techniques</div>
-      <div style="height:8px"></div>
+      <div style="height:10px"></div>
       <div class="tech-header">
         <span>Type</span><span>Power</span><span>Description</span>
       </div>
@@ -187,9 +186,9 @@ const SVG=`<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/sv
   cell.appendChild(inp);document.getElementById('attr-strip').appendChild(cell);
 });
 
-// Techniques — 10 rows with Type / Power / Description
+// Techniques — 7 rows with Type / Power / Description
 const tc=document.getElementById('tech-container');
-for(let i=0;i<10;i++){
+for(let i=0;i<7;i++){
   const row=document.createElement('div');row.className='tech-row';
   const type=document.createElement('input');type.className='tech-cell';type.type='text';
   const power=document.createElement('input');power.className='tech-cell';power.type='text';power.maxLength=3;
