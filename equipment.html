@@ -20,11 +20,12 @@
   .sheet-title{font-family:'Cinzel',serif;font-size:26px;font-weight:700;letter-spacing:8px;color:var(--rust);text-transform:uppercase;}
   .sheet-subtitle{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--gold);margin-top:3px;text-transform:uppercase;}
 
-  .identity-row{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin:24px 0 20px;}
+  .identity-row{margin:24px 0 20px;}
   .fl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
   .fi{border:none;border-bottom:1px solid var(--gold);background:transparent;font-family:'Crimson Text',serif;font-size:15px;color:var(--ink);padding:2px 0;outline:none;width:100%;}
 
   .sec{background:rgba(107,93,79,.04);border:1px solid rgba(107,93,79,.22);padding:12px 14px;margin-bottom:14px;position:relative;}
+  .sec-rucksack,.sec-trinkets,.sec-currency{margin-bottom:22px;}
   .sec:last-child{margin-bottom:0;}
   .st{font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rust);background:var(--parchment);padding:0 8px;position:absolute;top:-8px;left:14px;}
   .sec-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);opacity:.8;margin-bottom:6px;}
@@ -50,8 +51,6 @@
   .ruck-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
   .ruck-cell{border:1px solid rgba(107,93,79,.28);padding:8px 10px;min-height:50px;display:flex;flex-direction:column;justify-content:space-between;}
   .ruck-input{border:none;background:transparent;font-family:'Crimson Text',serif;font-size:14px;color:var(--ink);outline:none;width:100%;resize:none;line-height:1.4;}
-  .ruck-size{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(107,93,79,.4);text-align:right;margin-top:4px;}
-
   /* Trinkets */
   .trinkets-area{width:100%;background:transparent;border:none;font-family:'Crimson Text',serif;font-size:14px;color:var(--ink);padding:4px 0;resize:none;min-height:65px;outline:none;line-height:1.85;}
 
@@ -62,7 +61,6 @@
   .currency-input{font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--ink);width:56px;text-align:center;border:none;border-bottom:1.5px solid rgba(107,93,79,.4);background:transparent;outline:none;padding:0;}
 
   .divider{text-align:center;color:var(--gold);font-size:13px;letter-spacing:8px;margin:4px 0 14px;opacity:.5;}
-  .hint{font-size:10px;font-style:italic;color:var(--gold);margin-top:6px;opacity:.8;}
 
   @media print{
     @page{size:A4 portrait;margin:0;}
@@ -95,7 +93,6 @@
 
     <div class="identity-row">
       <div style="display:flex;flex-direction:column;gap:2px;"><div class="fl">Character Name</div><input class="fi" type="text"></div>
-      <div style="display:flex;flex-direction:column;gap:2px;"><div class="fl">Session / Date</div><input class="fi" type="text"></div>
     </div>
 
     <!-- Equipped -->
@@ -132,13 +129,13 @@
 
         <!-- Right: belt + back -->
         <div>
-          <div class="sec-label">Belt <span style="opacity:.5;font-style:italic;font-family:'Crimson Text',serif;text-transform:none;letter-spacing:0;font-size:10px;">potions, bombs, small items</span></div>
+          <div class="sec-label">Belt</div>
           <div class="small-slots">
             <div class="small-slot"><div class="small-box"><input class="small-input" type="text"></div></div>
             <div class="small-slot"><div class="small-box"><input class="small-input" type="text"></div></div>
             <div class="small-slot"><div class="small-box"><input class="small-input" type="text"></div></div>
           </div>
-          <div class="sec-label" style="margin-top:10px;">Back <span style="opacity:.5;font-style:italic;font-family:'Crimson Text',serif;text-transform:none;letter-spacing:0;font-size:10px;">weapon swaps, quiver, shield</span></div>
+          <div class="sec-label" style="margin-top:10px;">Back</div>
           <div class="small-slots">
             <div class="small-slot"><div class="small-box"><input class="small-input" type="text"></div></div>
             <div class="small-slot"><div class="small-box"><input class="small-input" type="text"></div></div>
@@ -151,26 +148,25 @@
     <div class="divider">— ✦ —</div>
 
     <!-- Rucksack -->
-    <div class="sec">
+    <div class="sec sec-rucksack">
       <div class="st">Rucksack</div>
       <div style="height:8px"></div>
       <div class="ruck-header">
         <div class="ruck-col-label">Slot A</div>
-        <div class="ruck-col-label">Slot B &nbsp;·&nbsp; size 1 only</div>
+        <div class="ruck-col-label">Slot B</div>
       </div>
       <div class="ruck-grid" id="ruck-grid"></div>
-      <div class="hint">Large items (size 2) fill both slots in a row &nbsp;·&nbsp; Small items (size 1) fit in either slot</div>
     </div>
 
     <!-- Trinkets -->
-    <div class="sec">
+    <div class="sec sec-trinkets">
       <div class="st">Trinkets &amp; Small Items</div>
       <div style="height:8px"></div>
       <textarea class="trinkets-area"></textarea>
     </div>
 
     <!-- Currency -->
-    <div class="sec">
+    <div class="sec sec-currency">
       <div class="st">Currency</div>
       <div style="height:8px"></div>
       <div class="currency-row">
@@ -190,10 +186,10 @@ const SVG=`<svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/sv
 const rg=document.getElementById('ruck-grid');
 for(let i=0;i<3;i++){
   const a=document.createElement('div');a.className='ruck-cell';
-  a.innerHTML=`<textarea class="ruck-input" rows="2"></textarea><div class="ruck-size">Size 1–2</div>`;
+  a.innerHTML=`<textarea class="ruck-input" rows="2"></textarea>`;
   const b=document.createElement('div');b.className='ruck-cell';
   b.style.borderLeft='none';
-  b.innerHTML=`<textarea class="ruck-input" rows="2"></textarea><div class="ruck-size">Size 1</div>`;
+  b.innerHTML=`<textarea class="ruck-input" rows="2"></textarea>`;
   rg.appendChild(a);rg.appendChild(b);
 }
 </script>
